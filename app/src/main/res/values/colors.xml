@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="Login_Action">#2196f3</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name = "transparent"> #9000 </color>
+
+    <!--ActionBar-->
+    <color name="ActionBar_Background">#2196f3</color>
+    <!--Login-->
+    <color name="Banner_Font">#FFFFFF</color>
+    <color name="Banner_Background">#2196F3</color>
+    <color name="Login_Boder">#e1e1e1</color>
+    <color name="Login_Outlook">#828795</color>
+    <color name="Login_Outlook_Account">#bdbdbd</color>
+    <color name="Login_Outlook_Password">#bdbdbd</color>
+    <!--Issue-->
+
+    <color name="Issue_Project">#212121</color>
+    <color name="Issue_Date">#b3b3b3</color>
+    <color name="Issue_Subject">#898a8e</color>
+    <color name="Issue_Count">#ffffff</color>
+
+    <!--Notification-->
+    <color name="Notification_Background">#f9f9f9</color>
+    <color name="Notification_ItemColor">#ffffff</color>
+    <color name="Notification_Border">#e1e1e1</color>
+    <color name="Notification_GroupTitle">#858591</color>
+    <color name="Notification_Author">#212121</color>
+    <color name="Notification_Date">#898a8e</color>
+    <color name="Notification_Title_Red">#fe1d00</color>
+    <color name="Notification_Title_Blue">#2196f3</color>
+    <color name="Notification_Content">#898795</color>
+
+    <!--projectinfo-->
+    <color name="ProjectInfo_Image_Background">#212121</color>
+    <color name="ProjectInfo_Font">#2196f3</color>
+    <color name="ProjectInfo_Name">#000000</color>
+    <color name="ProjectInfo_Rate">#000000</color>
+    <color name="ProjectInfo_Backgound">#FFFFFF</color>
+    <!--IssueInfo-->
+    <color name="IssueInfo_Background_Grey">#f9f9f9</color>
+    <color name="IssueInfo_Background_White">#ffffff</color>
+    <color name="IssueInfo_Banner">#858591</color>
+    <color name="IssueInfo_Author">#212121</color>
+    <color name="IssueInfo_Owner">#212121</color>
+    <color name="IssueInfo_Project">#2196f3</color>
+    <color name="IssueInfo_Date">#adb3ba</color>
+    <color name="IssueInfo_Content">#3b4048</color>
+
+    <!--WorkNoteList-->
+
+    <color name="WorkNote_Author">#212121</color>
+    <color name="WorkNote_Date">#adb3ba</color>
+    <color name="WorkNote_Content">#3b4048</color>
+
+    <!--MemberList-->
+
+
+    <color name="Member_Title">#858591</color>
+    <color name="Member_Name">#212121</color>
+    <color name="Member_Phone">#a0a4b0</color>
+
+    <!--Spec-->
+    <color name="Spec_Title">#6d6d6d</color>
+    <color name="Spec_Content">#828795</color>
+
+
+    <!--NewIssue-->
+    <color name="NewISsue_Subject">#a7abb7</color>
+    <color name="NewIssue_Attachment">#a7abb7</color>
+    <color name="NewIssue_Attachment_Background">#f8faf9</color>
+</resources>
+
+

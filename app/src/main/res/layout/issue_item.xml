@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="10dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="65dp"
+        android:paddingLeft="25dp"
+        android:layout_height="match_parent"
+        android:gravity="top">
+
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="41dp"
+            android:paddingTop="15dp"
+            android:id="@+id/Img_Priority"
+            android:src="@mipmap/projectlist_ic_issue_priop1" />
+
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="14dp">
+
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="15dp"
+            android:gravity="left|top">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/txt_Issue_Project_Name"
+                android:textColor="@color/Issue_Project"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left|top"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="22sp"
+                android:id="@+id/txt_Issue_Date"
+                android:textColor="@color/Issue_Date"
+                android:layout_gravity="center_horizontal"
+                android:gravity="right|top"
+                android:layout_toRightOf="@id/txt_Issue_Project_Name"
+                android:layout_alignParentRight="true"
+               />
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/txt_Issue_Subject"
+                android:textSize="28sp"
+                android:textColor="@color/Issue_Subject"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left|top"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/txt_Issue_WorkNoteCount"
+                android:paddingBottom="20dp"/>
+
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="22sp"
+                android:id="@+id/txt_Issue_WorkNoteCount"
+                android:textColor="@color/Issue_Count"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/circle_text"/>
+
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

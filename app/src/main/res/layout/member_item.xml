@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="41dp"
+        android:paddingLeft="24dp"
+        android:id="@+id/Img_Member"
+        android:src="@mipmap/photo"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_Member_Name"
+        android:layout_centerVertical="true"
+        android:textSize="31sp"
+        android:textColor="@color/Member_Name"
+        android:layout_toRightOf="@+id/Img_Member"
+        android:paddingLeft="10dp"
+        />
+    <ImageView
+        android:layout_width="19dp"
+        android:layout_height="15dp"
+        android:src="@mipmap/memberlist_ic_phone"
+        android:layout_centerVertical="true"
+        android:id="@+id/Img_Member_Phone"
+        android:paddingRight="4dp"
+        android:layout_toLeftOf="@+id/txt_Member_Phone"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_Member_Phone"
+        android:textSize="25sp"
+        android:textColor="@color/Member_Phone"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="27dp"
+        />
+</RelativeLayout>

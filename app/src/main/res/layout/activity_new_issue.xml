@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.yujhaochen.ims.NewIssue">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary">
+
+            <TextView
+                android:id="@+id/txt_NewIssue_ModelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/Banner_Font"
+                android:textSize="35sp"></TextView>
+
+            <TextView
+                android:id="@+id/txt_NewIssue_Finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingRight="14dp"
+                android:text="Done"
+                android:textColor="@color/Banner_Font"
+                android:textSize="35sp"></TextView>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/Img_IssueAuthor"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@mipmap/avatar_man" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txt_NewIssue_Author"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="@color/IssueInfo_Author"
+                            android:textSize="32sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/txt_NewIssue_Subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:hint="Please enter a issue subject"
+                    android:textColorHint="@color/NewISsue_Subject"
+                    android:textSize="28sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|top"
+            android:divider="#00000000" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/NewIssue_Attachment"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/NewIssue_Attachment_Background"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/Img_IssueInfo_AddPhoto"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@mipmap/workingnote_btn_camera" />
+
+        <ImageView
+            android:id="@+id/Img_IssueInfo_AddCamera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/Img_IssueInfo_Send"
+            android:layout_toRightOf="@+id/Img_IssueInfo_AddPhoto"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@mipmap/video_camera" />
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:paddingLeft="13dp"-->
+        <!--android:layout_toRightOf="@+id/Img_IssueInfo_AddPhoto"-->
+        <!--android:layout_toLeftOf="@+id/Img_IssueInfo_Send"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textSize="45sp"-->
+        <!--android:text="Photo"-->
+        <!--android:textColor="@color/NewIssue_Attachment"-->
+        <!--/>-->
+
+
+    </RelativeLayout>
+
+</LinearLayout>

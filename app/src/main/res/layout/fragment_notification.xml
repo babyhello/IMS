@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yujhaochen.ims.Notification"
+    android:background="@android:color/transparent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/refresh_layout">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_gravity="left|top" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

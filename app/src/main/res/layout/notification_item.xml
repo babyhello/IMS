@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="@drawable/linear_border_color">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|top"
+        android:paddingLeft="14dp">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="56dp"
+            android:paddingTop="8dp"
+            android:layout_height="match_parent"
+            android:gravity="top|left">
+
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:id="@+id/Img_Notification_Author"
+                android:src="@mipmap/avatar_man" />
+
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="30sp"
+                    android:id="@+id/txt_Notification_AuthorName"
+                    android:textColor="@color/Notification_Author"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="left|center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="19sp"
+                    android:id="@+id/txt_Notification_Date"
+                    android:textColor="@color/Notification_Date"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="14dp">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:paddingLeft="17dp"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:gravity="left">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="26sp"
+                android:id="@+id/txt_Notification_Title"
+                android:textColor="@color/Notification_Title_Red"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="3dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="26sp"
+                android:id="@+id/txt_Notification_Content"
+                android:textColor="@color/Notification_Content"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+</LinearLayout>

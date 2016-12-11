@@ -230,19 +230,70 @@ public class MainTab extends AppCompatActivity {
 
     }
 
-    private void Search_Project(String ProjectName) {
+    private void Search_Project(String QR_Content) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if(QR_Content.contains("Subject"))
+        {
+            Go_To_New_Issue(QR_Content);
+        }
+        else
+        {
+            RequestQueue mQueue = Volley.newRequestQueue(this);
 
-        String Path = GetServiceData.ServicePath + "/Find_Project_List_Search?ModelName=" + ProjectName;
+            String Path = GetServiceData.ServicePath + "/Find_Project_List_Search?ModelName=" + QR_Content;
 
-        GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
+            GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
 
-                Go_To_Project(result);
+                    Go_To_Project(result);
+                }
+            });
+        }
+    }
+
+    private void Go_To_New_Issue(String JsonString)
+    {
+        try
+        {
+            JSONObject QR_Object = new JSONObject(JsonString);
+
+            JSONArray ProjectArray = new JSONArray(QR_Object.getString("Key"));
+
+            if (ProjectArray.length() > 0 )
+            {
+                System.out.println("Length" + ProjectArray.length());
+
+                JSONObject ProjectData = ProjectArray.getJSONObject(0);
+
+                String Model_ID = String.valueOf(ProjectData.getInt("ModelID"));
+
+                String ModelName = ProjectData.getString("ModelName");
+
+                String Subject = ProjectData.getString("Subject");
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("ModelID", Model_ID);
+
+                bundle.putString("ModelName", ModelName);
+
+                bundle.putString("Subject", Subject);
+
+                Intent intent = new Intent(this,NewIssue.class);
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
             }
-        });
+
+        }
+        catch (JSONException ex)
+        {
+
+        }
+
+
     }
 
     private void Go_To_Project(JSONObject ModelID)

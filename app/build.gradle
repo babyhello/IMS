@@ -10,7 +10,7 @@ android {
         applicationId "com.example.yujhaochen.ims"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 7
+        versionCode 8
         versionName "3.0"
     }
     buildTypes {

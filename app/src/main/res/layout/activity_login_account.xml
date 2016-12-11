@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Your Outlook ID"
-                android:textSize="41sp"
+                android:textSize="30sp"
                 android:textColor="@color/Login_Outlook"
                 android:layout_gravity="center_horizontal" />
 
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_Login_Account"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:singleLine="true"
                 android:hint="Enter the Outlook ID"
                 android:layout_gravity="center_horizontal"

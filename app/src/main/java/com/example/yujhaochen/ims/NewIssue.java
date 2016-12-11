@@ -103,9 +103,18 @@ public class NewIssue extends Activity {
 
         ModelName = Bundle.getString("ModelName");
 
+
+
         TextView txt_NewIssue_Author = (TextView) findViewById(R.id.txt_NewIssue_Author);
 
         TextView txt_NewIssue_ModelName = (TextView) findViewById(R.id.txt_NewIssue_ModelName);
+
+        EditText txt_NewIssue_Subjectv = (EditText) findViewById(R.id.txt_NewIssue_Subject);
+
+        if (Bundle.getString("Subject") != null)
+        {
+            txt_NewIssue_Subjectv.setText(Bundle.getString("Subject"));
+        }
 
         txt_NewIssue_Author.setText(UserData.EName);
 

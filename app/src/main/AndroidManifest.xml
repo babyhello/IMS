@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.yujhaochen.ims"
-    android:versionCode="7"
+    android:versionCode="8"
     android:versionName="5">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+
+
     //自動對焦
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -30,12 +33,22 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name=".photo_gallery">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <service
+            android:name=".IMS_VpnService"
+            android:permission="android.permission.BIND_VPN_SERVICE" >
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+        <activity android:name=".VPN">
+
+        </activity>
+
+        <activity android:name=".photo_gallery">
+
+
         </activity>
         <activity android:name=".Welcome">
             <intent-filter>
@@ -48,8 +61,8 @@
             android:name=".MainTab"
             android:label="@string/title_activity_main_tab"
             android:screenOrientation="portrait"
-            tools:replace="screenOrientation"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            tools:replace="screenOrientation">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

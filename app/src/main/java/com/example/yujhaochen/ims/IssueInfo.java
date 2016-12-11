@@ -1,8 +1,16 @@
 package com.example.yujhaochen.ims;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,17 +31,26 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class IssueInfo extends Activity {
+    static final int REQUEST_VIDEO_CAPTURE = 1;
+
+    static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
+    private static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView lsv_main;
     private WorkNoteAdapter mListAdapter;
@@ -44,6 +61,9 @@ public class IssueInfo extends Activity {
     public ArrayList<Image> ImageViewList = new ArrayList<Image>();
     private String IssueID;
     private ProgressDialog pDialog;
+    private File ImageFile;
+
+    private File VideoFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +99,13 @@ public class IssueInfo extends Activity {
             }
         });
 
+        ImageView Img_IssueInfo_AddPhoto = (ImageView) findViewById(R.id.Img_IssueInfo_AddPhoto);
+
+        Img_IssueInfo_AddPhoto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                GoCamera();
+            }
+        });
 
         GetServiceData.GetUserPhoto(UserData.WorkID, Img_IssueAuthor);
 
@@ -115,6 +142,67 @@ public class IssueInfo extends Activity {
         setupUI(this.findViewById(android.R.id.content));
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        System.out.println(requestCode);
+
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+
+
+            if (VideoFile.exists()) {
+                System.out.println("Video Request" + requestCode);
+
+                AddVideoItem(VideoFile.getAbsolutePath());
+
+//                VideoView Vdo_Issue_File = (VideoView)findViewById(R.id.videoView);
+//
+//                Vdo_Issue_File.setVideoURI(Uri.parse(VideoFile.getAbsolutePath()));
+
+                // System.out.println("Video Path" + NewIssueFile_List.get(position).GetVideoPath());
+                VideoFile = null;
+            }
+
+        }
+        // 如果照片檔案存在
+        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            System.out.println("Image Request" + requestCode);
+            if (ImageFile.exists()) {
+
+                Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
+
+                Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
+
+                AddImageItem(minibm, ImageFile.getName(), ImageFile.getAbsolutePath());
+
+                ImageFile = null;
+            }
+
+
+        } else if (resultCode == RESULT_OK) {
+
+            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+            if (scanningResult != null) {
+                String scanContent = scanningResult.getContents();
+                String scanFormat = scanningResult.getFormatName();
+                System.out.println(scanContent);
+                System.out.println(scanFormat);
+
+            } else {
+
+
+
+
+
+            }
+
+
+        }
+
+    }
+
     private void GoToIssue_Gallery() {
 
 
@@ -136,6 +224,133 @@ public class IssueInfo extends Activity {
 
     }
 
+    private void GoCamera() {
+
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // 無權限，向使用者請求
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE
+            );
+
+            System.out.println("Storage");
+        } else {
+
+            permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{ Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
+                );
+
+            }
+            else
+            {
+                System.out.println("CAMERA");
+
+                Intent intentCamera =
+                        new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                // 照片檔案名稱
+                File pictureFile = configFileName("P", ".jpg");
+
+                ImageFile = pictureFile;
+
+                Uri uri = Uri.fromFile(pictureFile);
+                // 設定檔案名稱
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                // 啟動相機元件
+                startActivityForResult(intentCamera, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+
+
+    }
+
+    private void Upload_Issue_File(String F_Keyin, String F_Master_ID, String File) {
+
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        String Path = GetServiceData.ServicePath + "/Upload_Issue_File?F_Keyin=" + F_Keyin + "&F_Master_ID=" + F_Master_ID + "&F_Master_Table=C_Comment&File=" + File;
+
+        //System.out.println(File);
+
+        GetServiceData.SendRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+            @Override
+            public void onSendRequestSuccess(String result) {
+
+                //System.out.println("Test");
+            }
+
+        });
+    }
+
+    private File configFileName(String prefix, String extension) {
+
+        String fileName = FileUtil.getUniqueFileName();
+
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+
+        return new File(dir, prefix + fileName + extension);
+
+    }
+
+    private void UpdateIssueFile(String F_Keyin, String F_Master_ID) {
+
+        pDialog.setMessage("Uploading...");
+
+        pDialog.show();
+
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        NewIssueFile_List = mListAdapter.getAllitem();
+
+        List<UploadImage> UploadImage_List = new ArrayList<UploadImage>();
+
+        int i = 0;
+
+        for (NewIssueFile_Item FileItem : NewIssueFile_List) {
+
+            //UploadImage_List.add(i,new UploadImage(FileItem.GetImageBitMap(),FileItem.GetImageName()));
+
+            switch (FileItem.GetFileType())
+            {
+                case Image:
+                    Upload_Issue_File(F_Keyin, F_Master_ID, FileItem.GetImageName());
+
+                    File ImageFileUpload = new File(FileItem.GetImagePath());
+
+                    GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, ImageFileUpload, "");
+                    break;
+                case Video:
+
+                    File VideoFileUpload = new File(FileItem.GetVideoPath());
+
+                    Upload_Issue_File(F_Keyin, F_Master_ID, VideoFileUpload.getName());
+
+                    GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, VideoFileUpload, "");
+
+                    //System.out.println(VideoFileUpload.getName());
+                    break;
+            }
+
+            i++;
+
+        }
+
+        pDialog.hide();
+
+        GoIssueInfo(IssueID);
+
+    }
+
     private void C_Comment_Insert() {
 
         EditText txt_Comment = (EditText) findViewById(R.id.txt_Comment);
@@ -143,10 +358,6 @@ public class IssueInfo extends Activity {
         String WorkID = UserData.WorkID;
 
         String Comment = txt_Comment.getText().toString();
-
-
-
-
 
         if (Comment != "") {
 
@@ -178,20 +389,6 @@ public class IssueInfo extends Activity {
 
             },map);
 
-//            GetServiceData.SendRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
-//                @Override
-//                public void onSendRequestSuccess(String result) {
-//
-//                    System.out.println("Test");
-//
-//                    Find_Issue_Comment(IssueID);
-//
-//                    EditText txt_Comment = (EditText) findViewById(R.id.txt_Comment);
-//
-//                    txt_Comment.setText("");
-//                }
-//
-//            });
         }
 
 

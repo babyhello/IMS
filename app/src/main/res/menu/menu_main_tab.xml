@@ -2,9 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.yujhaochen.ims.MainTab">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+    <!--<item android:id="@+id/New_Issue"-->
+        <!--android:title="New Issue" />-->
+    <!--<item android:id="@+id/GallyToNewIssue"-->
+        <!--android:title="Gally To New Issue" />-->
+    <item android:id="@+id/QRCode"
+        android:title="QR Code"
+        android:actionLayout="@mipmap/btn_photo" />
+
 </menu>

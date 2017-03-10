@@ -2,6 +2,7 @@ package com.example.yujhaochen.ims;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,12 @@ public class IssueAdapter extends BaseAdapter {
 
     private List<Issue_Item> Issue_List;
 
-    public IssueAdapter(Context context, List<Issue_Item> Issue_List)
-    {
-        if (context != null)
-        {
+    private String AdapterType;
+
+    public IssueAdapter(Context context, List<Issue_Item> Issue_List, String AdapterType) {
+        this.AdapterType = AdapterType;
+
+        if (context != null) {
             mLayInf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
@@ -34,6 +37,7 @@ public class IssueAdapter extends BaseAdapter {
 
         this.Issue_List = Issue_List;
     }
+
     @Override
     public int getCount() {
         return Issue_List.size();
@@ -67,20 +71,37 @@ public class IssueAdapter extends BaseAdapter {
 //        GetServiceData.GetImageByImageLoad("http://172.16.111.114/File/SDQA/Code/Admin/10010670.jpg",Img_Priority);
         //Img_Priority.setImageResource(Integer.valueOf(Project_List.get(position).GetImage().toString()));
 
-        txt_Issue_Project_Name.setText(Issue_List.get(position).GetProjectName());
+        if (AdapterType.equals("MyIssue")) {
+
+            if (Issue_List.get(position).GetProjectName().toLowerCase().contains("ms-"))
+            {
+                txt_Issue_Project_Name.setText(Issue_List.get(position).GetProjectName());
+            }
+            else
+            {
+                txt_Issue_Project_Name.setText("MS-" + Issue_List.get(position).GetProjectName());
+            }
+
+        } else {
+            txt_Issue_Project_Name.setText("#" + Issue_List.get(position).GetID());
+        }
 
         txt_Issue_Date.setText(Issue_List.get(position).GetDate());
 
         txt_Issue_Subject.setText(Issue_List.get(position).GetSubject());
 
-        if(Issue_List.get(position).GetWorkNoteCount().equals("0"))
-        {
-            txt_Issue_WorkNoteCount.setVisibility(View.GONE);
+        if (Issue_List.get(position).GetRead().equals("0")) {
+            txt_Issue_WorkNoteCount.setText("N");
+
+            txt_Issue_WorkNoteCount.setTextColor(Color.parseColor("#ffffff"));
+        } else {
+            if (Issue_List.get(position).GetWorkNoteCount().equals("0")) {
+                txt_Issue_WorkNoteCount.setVisibility(View.GONE);
+            } else {
+                txt_Issue_WorkNoteCount.setText(Issue_List.get(position).GetWorkNoteCount());
+            }
         }
-        else
-        {
-            txt_Issue_WorkNoteCount.setText(Issue_List.get(position).GetWorkNoteCount());
-        }
+
 
         Img_Priority.setImageResource(AppClass.PriorityImage(Issue_List.get(position).GetPriority()));
 

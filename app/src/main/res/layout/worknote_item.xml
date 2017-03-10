@@ -6,15 +6,15 @@
     android:paddingBottom="10dp">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="65dp"
+        android:layout_width="45dp"
         android:layout_height="match_parent"
         android:paddingTop="5dp"
         android:gravity="top">
 
 
         <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:id="@+id/Img_WorkNote_Author"
             android:src="@mipmap/avatar_man" />
 
@@ -29,7 +29,6 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal" android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
             android:gravity="left|top"
             android:id="@+id/Rel_Top_Content">
             <TextView
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:paddingRight="10dp"
-                android:textSize="32sp"
+                android:textSize="20sp"
                 android:id="@+id/txt_WorkNote_Author"
                 android:textColor="@color/WorkNote_Author"
                 android:layout_gravity="center_horizontal"
@@ -48,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="21sp"
+                android:textSize="18sp"
                 android:id="@+id/txt_WorkNote_Date"
                 android:textColor="@color/WorkNote_Date"
                 android:layout_gravity="center_horizontal"
@@ -64,6 +63,17 @@
             android:paddingBottom="10dp"
             android:gravity="left|center_vertical"
             android:id="@+id/Rel_Bottom_Content">
+
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/Img_WorkNote"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/txt_Issue_WorkNoteCount" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

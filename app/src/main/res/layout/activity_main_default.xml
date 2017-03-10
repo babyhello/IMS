@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    tools:context="com.example.yujhaochen.ims.MainDefault">
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:id="@+id/btn_Camera"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Photo"
+        android:id="@+id/btn_Photo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="61dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:id="@+id/Btn_Search"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/Img_MSI_Logo"
+        android:src="@mipmap/logo_msi"
+        android:layout_above="@+id/IMG_MSI_Dragon"
+        android:layout_alignLeft="@+id/IMG_MSI_Dragon"
+        android:layout_alignStart="@+id/IMG_MSI_Dragon" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:id="@+id/Img_IMS_Logo"
+        android:src="@mipmap/logo_ims"
+        android:layout_above="@+id/IMG_MSI_Dragon"
+        android:layout_toRightOf="@+id/Img_MSI_Logo"
+        android:layout_toEndOf="@+id/Img_MSI_Logo" />
+
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="265dp"
+        android:id="@+id/IMG_MSI_Dragon"
+        android:src="@mipmap/logo_dragon"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/IMG_Search"
+        android:src="@mipmap/btn_viewissue"
+        android:layout_marginRight="42dp"
+        android:layout_marginEnd="42dp"
+        android:layout_alignTop="@+id/IMG_Camera"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/IMG_Camera"
+        android:src="@mipmap/btn_camera"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/Img_MSI_Logo"
+        android:layout_alignEnd="@+id/Img_MSI_Logo" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/IMG_Photo"
+        android:src="@mipmap/btn_photo"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/IMG_Search"
+        android:layout_alignLeft="@+id/IMG_Search"
+        android:layout_alignStart="@+id/IMG_Search" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/IMG_QR_Code"
+        android:src="@mipmap/btn_qrcode"
+        android:layout_alignTop="@+id/IMG_Photo"
+        android:layout_alignLeft="@+id/IMG_Camera"
+        android:layout_alignStart="@+id/IMG_Camera" />
+
+
+</RelativeLayout>

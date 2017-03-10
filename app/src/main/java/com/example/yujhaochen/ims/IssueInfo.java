@@ -1,24 +1,30 @@
 package com.example.yujhaochen.ims;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,6 +34,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.support.v4.app.ActivityCompat;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -44,7 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class IssueInfo extends Activity {
+public class IssueInfo extends AppCompatActivity {
     static final int REQUEST_VIDEO_CAPTURE = 1;
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -64,11 +73,21 @@ public class IssueInfo extends Activity {
     private File ImageFile;
 
     private File VideoFile;
+
+    private Animator mCurrentAnimator;
+
+    // The system "short" animation time duration, in milliseconds. This
+    // duration is ideal for subtle animations or animations that occur
+    // very frequently.
+    private int mShortAnimationDuration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_issue_info);
+
+        //getActionBar().hide();
 
         pDialog = new ProgressDialog(this);
         //View v = inflater.inflate(R.layout.fragment_my_issue, container, false);
@@ -87,7 +106,19 @@ public class IssueInfo extends Activity {
 
         Issue_File_List(IssueID);
 
-        //mRecyclerView = (RecyclerView) findViewById(R.id.Rcy_IssueFile);
+        String WorkID = UserData.WorkID;
+
+        if (!TextUtils.isEmpty(WorkID)) {
+            Insert_Issue_Read(IssueID, WorkID);
+        }
+
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.Rcy_IssueFile);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         ImageView Img_IssueAuthor = (ImageView) findViewById(R.id.Img_IssueAuthor);
 
@@ -107,8 +138,7 @@ public class IssueInfo extends Activity {
             }
         });
 
-        GetServiceData.GetUserPhoto(UserData.WorkID, Img_IssueAuthor);
-
+        GetServiceData.GetUserPhoto(this, UserData.WorkID, Img_IssueAuthor);
 
         RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
 
@@ -124,7 +154,7 @@ public class IssueInfo extends Activity {
             }
         });
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refresh_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -142,60 +172,34 @@ public class IssueInfo extends Activity {
         setupUI(this.findViewById(android.R.id.content));
     }
 
+    @Override
+    public void onResume() {
+        Issue_Get(IssueID);
+
+        Find_Issue_Comment(IssueID);
+
+        Issue_File_List(IssueID);
+
+        super.onResume();
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-        System.out.println(requestCode);
-
-        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-
-
-            if (VideoFile.exists()) {
-                System.out.println("Video Request" + requestCode);
-
-                AddVideoItem(VideoFile.getAbsolutePath());
-
-//                VideoView Vdo_Issue_File = (VideoView)findViewById(R.id.videoView);
-//
-//                Vdo_Issue_File.setVideoURI(Uri.parse(VideoFile.getAbsolutePath()));
-
-                // System.out.println("Video Path" + NewIssueFile_List.get(position).GetVideoPath());
-                VideoFile = null;
-            }
-
-        }
-        // 如果照片檔案存在
-        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-            System.out.println("Image Request" + requestCode);
             if (ImageFile.exists()) {
+
+                String WorkID = UserData.WorkID;
 
                 Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
 
                 Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
 
-                AddImageItem(minibm, ImageFile.getName(), ImageFile.getAbsolutePath());
+                UpdateIssueFile(WorkID, IssueID, ImageFile.getAbsolutePath(), ImageFile.getName());
+
+                Find_Issue_Comment(IssueID);
 
                 ImageFile = null;
-            }
-
-
-        } else if (resultCode == RESULT_OK) {
-
-            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-
-            if (scanningResult != null) {
-                String scanContent = scanningResult.getContents();
-                String scanFormat = scanningResult.getFormatName();
-                System.out.println(scanContent);
-                System.out.println(scanFormat);
-
-            } else {
-
-
-
-
-
             }
 
 
@@ -224,11 +228,27 @@ public class IssueInfo extends Activity {
 
     }
 
+    private void Insert_Issue_Read(String F_Master_ID, String F_Keyin) {
+
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        String Path = GetServiceData.ServicePath + "/Insert_Issue_Read_Advantage?F_Master_ID=" + F_Master_ID + "&F_Master_Table=" + "C_Issue" + "&F_Read=" + "1" + "&F_Keyin=" + F_Keyin;
+
+        //System.out.println(File);
+
+        GetServiceData.SendRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+            @Override
+            public void onSendRequestSuccess(String result) {
+
+                //System.out.println("Test");
+            }
+
+        });
+    }
+
     private void GoCamera() {
 
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-
 
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -247,12 +267,10 @@ public class IssueInfo extends Activity {
 
                 ActivityCompat.requestPermissions(
                         this,
-                        new String[]{ Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
+                        new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
                 );
 
-            }
-            else
-            {
+            } else {
                 System.out.println("CAMERA");
 
                 Intent intentCamera =
@@ -274,11 +292,11 @@ public class IssueInfo extends Activity {
 
     }
 
-    private void Upload_Issue_File(String F_Keyin, String F_Master_ID, String File) {
+    private void Upload_Comment_File(String F_Keyin, String F_Master_ID, String File) {
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
-        String Path = GetServiceData.ServicePath + "/Upload_Issue_File?F_Keyin=" + F_Keyin + "&F_Master_ID=" + F_Master_ID + "&F_Master_Table=C_Comment&File=" + File;
+        String Path = GetServiceData.ServicePath + "/Issue_Comment_File_Insert?F_Keyin=" + F_Keyin + "&F_Master_ID=" + F_Master_ID + "&File=" + File;
 
         //System.out.println(File);
 
@@ -302,7 +320,7 @@ public class IssueInfo extends Activity {
 
     }
 
-    private void UpdateIssueFile(String F_Keyin, String F_Master_ID) {
+    private void UpdateIssueFile(String F_Keyin, String F_Master_ID, String FilePath, String FileName) {
 
         pDialog.setMessage("Uploading...");
 
@@ -310,44 +328,11 @@ public class IssueInfo extends Activity {
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
-        NewIssueFile_List = mListAdapter.getAllitem();
+        Upload_Comment_File(F_Keyin, F_Master_ID, FileName);
 
-        List<UploadImage> UploadImage_List = new ArrayList<UploadImage>();
+        File ImageFileUpload = new File(FilePath);
 
-        int i = 0;
-
-        for (NewIssueFile_Item FileItem : NewIssueFile_List) {
-
-            //UploadImage_List.add(i,new UploadImage(FileItem.GetImageBitMap(),FileItem.GetImageName()));
-
-            switch (FileItem.GetFileType())
-            {
-                case Image:
-                    Upload_Issue_File(F_Keyin, F_Master_ID, FileItem.GetImageName());
-
-                    File ImageFileUpload = new File(FileItem.GetImagePath());
-
-                    GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, ImageFileUpload, "");
-                    break;
-                case Video:
-
-                    File VideoFileUpload = new File(FileItem.GetVideoPath());
-
-                    Upload_Issue_File(F_Keyin, F_Master_ID, VideoFileUpload.getName());
-
-                    GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, VideoFileUpload, "");
-
-                    //System.out.println(VideoFileUpload.getName());
-                    break;
-            }
-
-            i++;
-
-        }
-
-        pDialog.hide();
-
-        GoIssueInfo(IssueID);
+        GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, ImageFileUpload, "");
 
     }
 
@@ -359,12 +344,12 @@ public class IssueInfo extends Activity {
 
         String Comment = txt_Comment.getText().toString();
 
-        if (Comment != "") {
+        if (!TextUtils.isEmpty(Comment)) {
 
             Map<String, String> map = new HashMap<String, String>();
             map.put("F_Keyin", WorkID);
             map.put("F_Master_Table", "C_Issue");
-            map.put("F_Master_ID",IssueID);
+            map.put("F_Master_ID", IssueID);
             map.put("F_Comment", Comment);
 
             RequestQueue mQueue = Volley.newRequestQueue(this);
@@ -378,8 +363,6 @@ public class IssueInfo extends Activity {
                 @Override
                 public void onSendRequestSuccess(String result) {
 
-                    System.out.println("Test");
-
                     Find_Issue_Comment(IssueID);
 
                     EditText txt_Comment = (EditText) findViewById(R.id.txt_Comment);
@@ -387,7 +370,7 @@ public class IssueInfo extends Activity {
                     txt_Comment.setText("");
                 }
 
-            },map);
+            }, map);
 
         }
 
@@ -434,7 +417,7 @@ public class IssueInfo extends Activity {
 
     private void Issue_File_List(String Issue_ID) {
 
-        pDialog.setMessage("Downloading json...");
+        pDialog.setMessage("Loading...");
         pDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
@@ -457,61 +440,71 @@ public class IssueInfo extends Activity {
         try {
             IssueFile_List.clear();
 
-            JSONArray UserArray = new JSONArray(result.getString("Key"));
+            JSONArray IssueInfoFileArray = new JSONArray(result.getString("Key"));
 
-            if(UserArray.length() > 0 )
-            {
+            if (IssueInfoFileArray.length() > 0) {
                 RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
 
                 Top_Banner.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View arg0) {
 
-                        GoToIssue_Gallery();
+//                        GoToIssue_Gallery();
+
+                        LinearLayout RecycleView = (LinearLayout) findViewById(R.id.Lie_IssueFile);
+
+                        TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
+
+                        if (RecycleView.getVisibility() == View.VISIBLE) {
+                            RecycleView.setVisibility(View.GONE);
+
+
+                        } else {
+                            RecycleView.setVisibility(View.VISIBLE);
+
+                            //  TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
+
+
+                        }
+
+                        if (txt_IssueInfo_Gallery.getText().toString().contains("Hide")) {
+                            txt_IssueInfo_Gallery.setText("Show");
+                        } else {
+                            txt_IssueInfo_Gallery.setText("Hide");
+                        }
+
+
                     }
                 });
-            }
-            else
-            {
-                ImageView Img_IssueInfo_Gallery = (ImageView) findViewById(R.id.Img_IssueInfo_Gallery);
 
-                Img_IssueInfo_Gallery.setVisibility(View.GONE);
+                for (int i = 0; i < IssueInfoFileArray.length(); i++) {
+
+                    JSONObject IssueData = IssueInfoFileArray.getJSONObject(i);
+
+                    String F_DownloadFilePath = GetServiceData.ServicePath + "/Get_File?FileName=" + IssueData.getString("F_DownloadFilePath");
+
+                    IssueFile_List.add(i, new IssueFile_Item(F_DownloadFilePath, "", "", ""));
+
+                    System.out.println(F_DownloadFilePath);
+
+                }
+
+
+                mAdapter = new IssueFileAdapter(this, IssueFile_List);
+
+
+                mRecyclerView.setAdapter(mAdapter);
+
+            } else {
+                LinearLayout RecycleView = (LinearLayout) findViewById(R.id.Lie_IssueFile);
+
+                RecycleView.setVisibility(View.GONE);
+
+                TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
+
+                txt_IssueInfo_Gallery.setVisibility(View.GONE);
             }
 
-//            for (int i = 0; i < UserArray.length(); i++) {
-//
-//                JSONObject IssueData = UserArray.getJSONObject(i);
-//
-//                String F_DownloadFilePath = IssueData.getString("F_DownloadFilePath");
-//
-//                String F_FileName = IssueData.getString("F_FileName");
-//
-//                String F_CreateDate = IssueData.getString("F_CreateDate");
-//
-//                if(!(F_DownloadFilePath.contains("http://") || F_DownloadFilePath.contains("https://")))
-//                {
-//                    F_DownloadFilePath = "http:" + F_DownloadFilePath;
-//
-//                }
-//
-//                IssueFile_List.add(i, new IssueFile_Item(F_DownloadFilePath, "", "", ""));
-//
-//                //ImageView IV = new ImageView(this);
-//
-//                //GetServiceData.GetImageByImageLoad(F_DownloadFilePath, IV);
-//
-//
-//
-//                Image image = new Image();
-//                image.setName(F_FileName);
-//
-//                image.setSmall(F_DownloadFilePath);
-//                image.setMedium(F_DownloadFilePath);
-//                image.setLarge(F_DownloadFilePath);
-//                image.setTimestamp(F_CreateDate);
-//
-//                ImageViewList.add(i, image);
-//            }
 
         } catch (JSONException ex) {
 
@@ -561,6 +554,8 @@ public class IssueInfo extends Activity {
 
                 String F_Subject = IssueData.getString("F_Subject");
 
+                F_Subject = AppClass.stripHtml(F_Subject);
+
                 TextView txt_IssueInfo_Author = (TextView) findViewById(R.id.txt_IssueInfo_Author);
 
                 TextView txt_IssueInfo_Owner = (TextView) findViewById(R.id.txt_IssueInfo_Owner);
@@ -584,7 +579,7 @@ public class IssueInfo extends Activity {
 
                 txt_IssueInfo_Date.setText(F_CreateDate);
 
-                txt_IssueInfo_ProjectName.setText(F_ModelName);
+                txt_IssueInfo_ProjectName.setText("MS-" + F_ModelName);
 
                 txt_Issue_Subject.setText(F_Subject);
 
@@ -639,15 +634,20 @@ public class IssueInfo extends Activity {
 
                 String F_Owner_en = IssueData.getString("F_Owner_en");
 
-                String F_CreateDate = AppClass.ConvertDateString(IssueData.getString("F_CreateDate"));
+                String F_CreateDate = AppClass.ConvertLongDateString(IssueData.getString("F_CreateDate"));
 
                 String F_SeqNo = String.valueOf(IssueData.getInt("F_SeqNo"));
 
                 String F_Comment = IssueData.getString("F_Comment");
 
-                WorkNote_List.add(i, new WorkNote_Item(F_Owner_en, F_Keyin, F_CreateDate, F_Comment, "", ""));
-            }
+                F_Comment = AppClass.stripHtml(F_Comment);
 
+                String CommentFile = IssueData.getString("Comment_File");
+
+                System.out.print("SHowMessage" + CommentFile + "FileNAme");
+                Log.v("test", CommentFile);
+                WorkNote_List.add(i, new WorkNote_Item(F_Owner_en, F_Keyin, F_CreateDate, F_Comment, "", CommentFile));
+            }
 
             // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入
             mListAdapter = new WorkNoteAdapter(this, WorkNote_List);
@@ -660,4 +660,5 @@ public class IssueInfo extends Activity {
 
 
     }
+
 }

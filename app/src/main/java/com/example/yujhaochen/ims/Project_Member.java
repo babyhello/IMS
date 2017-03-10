@@ -2,6 +2,7 @@ package com.example.yujhaochen.ims;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,13 +34,11 @@ public class Project_Member extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_member);
 
-
         //View v = inflater.inflate(R.layout.fragment_my_issue, container, false);
         //宣告 ListView 元件
         lsv_main = (ListView) findViewById(R.id.listView);
 
         lsv_main.setOnItemClickListener(listViewOnItemClickListener);
-
 
         Bundle bundle = this.getIntent().getExtras();
 
@@ -100,10 +99,14 @@ public class Project_Member extends AppCompatActivity {
 
             GroupItem = GroupItem();
 
+
+
             mListAdapter = new MemberAdapter(this, Mappingitem());
 
             //設定 ListView 的 Adapter
             lsv_main.setAdapter(mListAdapter);
+
+            lsv_main.setEmptyView(findViewById(R.id.emptyview));
         } catch (JSONException ex) {
 
         }
@@ -120,8 +123,6 @@ public class Project_Member extends AppCompatActivity {
 
             i++;
 
-            System.out.println(d.GetTitle());
-
             for (Member_Item e : Member_List) {
 
                 if (e.GetTitle().matches(d.GetTitle())) {
@@ -136,6 +137,7 @@ public class Project_Member extends AppCompatActivity {
     }
 
     private List<Member_Item> GroupItem() {
+
         GroupItem.clear();
 
         int i = 0;
@@ -143,6 +145,7 @@ public class Project_Member extends AppCompatActivity {
         for (Member_Item d : Member_List) {
 
             if (!CheckRepeat(GroupItem, d.GetTitle())) {
+
                 GroupItem.add(i, new Member_Item(d.GetTitle(), "", "", "", "", true));
 
                 i++;

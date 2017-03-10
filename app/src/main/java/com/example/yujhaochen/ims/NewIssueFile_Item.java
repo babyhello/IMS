@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 public class NewIssueFile_Item {
 
     public enum FileType {
+
         Image(0),
         Video(1),
         Voice(2);

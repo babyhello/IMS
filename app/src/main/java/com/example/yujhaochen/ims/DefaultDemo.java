@@ -11,5 +11,11 @@ public class DefaultDemo extends AppCompatActivity {
         setContentView(R.layout.activity_default_demo);
 
 
+        IssueVideoPlay IssueVideoPlay = (IssueVideoPlay)findViewById(R.id.IssueVideoPlayGo);
+
+        //IssueVideoPlay.VideoURL = GetServiceData.ServicePath + "/Get_File?FileName=" + "//172.16.111.114/File/VSS/Code/IMS/P20170223154210.mp4";
+
+
+
     }
 }

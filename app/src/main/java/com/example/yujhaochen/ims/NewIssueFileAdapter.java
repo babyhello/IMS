@@ -21,9 +21,12 @@ public class NewIssueFileAdapter extends BaseAdapter {
 
     private List<NewIssueFile_Item> NewIssueFile_List;
 
+    private Context mContext;
+
     public NewIssueFileAdapter(Context context, List<NewIssueFile_Item> NewIssueFile_List) {
         mLayInf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        mContext = context;
         this.NewIssueFile_List = NewIssueFile_List;
     }
 
@@ -51,14 +54,26 @@ public class NewIssueFileAdapter extends BaseAdapter {
 
         View v = mLayInf.inflate(R.layout.newissuefile_item, parent, false);
 
-
-
+        ImageView Img_Issue_File = (ImageView) v.findViewById(R.id.Img_Issue_File);
 
         switch (NewIssueFile_List.get(position).GetFileType()) {
             case Image:
-                ImageView Img_Issue_File = (ImageView) v.findViewById(R.id.Img_Issue_File);
+
 
                 Img_Issue_File.setImageBitmap(NewIssueFile_List.get(position).GetImageBitMap());
+
+                break;
+            case Voice:
+
+                v = mLayInf.inflate(R.layout.newissuefile_voice, parent, false);
+
+                IssueVoicePlay IssueVoicePlay = (IssueVoicePlay) v.findViewById(R.id.IssueVoicePlay);
+
+                IssueVoicePlay.fileName = NewIssueFile_List.get(position).GetVoicePath();
+
+                IssueVoicePlay.mcontext = mContext;
+
+                IssueVoicePlay.SetVoicePath(NewIssueFile_List.get(position).GetVoicePath());
 
                 break;
             case Video:

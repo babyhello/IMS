@@ -53,7 +53,7 @@ public class NotificationAdapter extends BaseAdapter {
         TextView txt_Notification_Date = (TextView) v.findViewById(R.id.txt_Notification_Date);
         TextView txt_Notification_AuthorName = (TextView) v.findViewById(R.id.txt_Notification_AuthorName);
 
-        GetServiceData.GetUserPhoto(Notification_List.get(position).GetAuthor_WorkID(),Img_Notification_Author);
+//        GetServiceData.GetUserPhoto(Notification_List.get(position).GetAuthor_WorkID(),Img_Notification_Author);
 
         txt_Notification_Title.setText(Notification_List.get(position).GetTitle());
         txt_Notification_Content.setText(Notification_List.get(position).GetContent());

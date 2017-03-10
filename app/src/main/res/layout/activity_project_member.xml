@@ -13,4 +13,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_gravity="left|top" />
+
+    <include
+        android:id="@+id/emptyview"
+        layout="@layout/listview_empty_item"/>
 </RelativeLayout>

@@ -17,7 +17,9 @@ public class Notification_Item {
 
     String Image;
 
-    public Notification_Item(String Author_WorkID,String Author_Name,String Date,String Title,String Content ,String Image)
+    String F_Master_ID;
+
+    public Notification_Item(String Author_WorkID,String Author_Name,String Date,String Title,String Content ,String Image,String F_Master_ID)
     {
         this.Author_WorkID = Author_WorkID;
 
@@ -30,6 +32,8 @@ public class Notification_Item {
         this.Content = Content;
 
         this.Image = Image;
+
+        this.F_Master_ID = F_Master_ID;
     }
 
     public String GetAuthor_WorkID()
@@ -60,5 +64,10 @@ public class Notification_Item {
     public String GetImage()
     {
         return this.Image;
+    }
+
+    public String Get_F_Master_ID()
+    {
+        return this.F_Master_ID;
     }
 }

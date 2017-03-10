@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ProjectList_Favorit">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation = "horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="left"
+        >
+        <TextView
+            android:id = "@+id/group_tv"
+            android:layout_width = "match_parent"
+            android:layout_height = "match_parent"
+            android:paddingLeft = "60px"
+            android:paddingRight="30px"
+            android:paddingTop = "10px"
+            android:paddingBottom = "10px"
+            android:gravity="left"
+            android:textSize = "22sp"/>
+    </LinearLayout>
+</LinearLayout>

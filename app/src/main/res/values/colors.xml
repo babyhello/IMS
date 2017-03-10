@@ -11,7 +11,7 @@
     <color name="ActionBar_Background">#2196f3</color>
     <!--Login-->
     <color name="Banner_Font">#FFFFFF</color>
-    <color name="Banner_Background">#2196F3</color>
+    <color name="Banner_Background">#2196f3</color>
     <color name="Login_Boder">#e1e1e1</color>
     <color name="Login_Outlook">#828795</color>
     <color name="Login_Outlook_Account">#bdbdbd</color>
@@ -40,6 +40,11 @@
     <color name="ProjectInfo_Name">#000000</color>
     <color name="ProjectInfo_Rate">#000000</color>
     <color name="ProjectInfo_Backgound">#FFFFFF</color>
+    <color name="ProjectInfo_Background_Grey">#e6e4e4</color>
+
+    <color name="ProjectInfo_TextColor">#727272</color>
+    <color name="ProjectInfo_NumberColor">#2196f3</color>
+    <color name="ProjectInfo_WarningColor">#B50000</color>
     <!--IssueInfo-->
     <color name="IssueInfo_Background_Grey">#f9f9f9</color>
     <color name="IssueInfo_Background_White">#ffffff</color>
@@ -72,6 +77,15 @@
     <color name="NewISsue_Subject">#a7abb7</color>
     <color name="NewIssue_Attachment">#a7abb7</color>
     <color name="NewIssue_Attachment_Background">#f8faf9</color>
+
+    <!--SpeedSend Text-->
+    <color name="Speed_Send_Background">#2196F3</color>
+
+    <color name="Issue_Read">#ff5c72</color>
+
+    <!--Project List-->
+    <color name="ProjectList_Favorit">#f3f3f3</color>
+
 </resources>
 
 

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/Banner_Font"
-                android:textSize="35sp"></TextView>
+                android:textSize="30sp"></TextView>
 
             <TextView
                 android:id="@+id/txt_NewIssue_Finish"
@@ -34,7 +34,7 @@
                 android:paddingRight="14dp"
                 android:text="Done"
                 android:textColor="@color/Banner_Font"
-                android:textSize="35sp"></TextView>
+                android:textSize="25sp"></TextView>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
@@ -132,6 +132,7 @@
         android:orientation="vertical"
         android:paddingLeft="7dp"
         android:paddingRight="7dp">
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
@@ -140,34 +141,120 @@
             android:divider="#00000000" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/NewIssue_Attachment"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/NewIssue_Attachment_Background"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/Img_IssueInfo_AddPhoto"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:src="@mipmap/workingnote_btn_camera" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/Lnl_Picture">
 
-        <ImageView
-            android:id="@+id/Img_IssueInfo_AddCamera"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:layout_toLeftOf="@+id/Img_IssueInfo_Send"
-            android:layout_toRightOf="@+id/Img_IssueInfo_AddPhoto"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:src="@mipmap/video_camera" />
+            <ImageView
+                android:id="@+id/Img_IssueInfo_AddPhoto"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@mipmap/workingnote_btn_camera">
 
+            </ImageView>
+
+
+            <TextView
+                android:text="Picture"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_Pictire" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/Lnl_Camera">
+
+            <ImageView
+                android:id="@+id/Img_IssueInfo_AddCamera"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@mipmap/video_camera" />
+
+            <TextView
+                android:text="Camera"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_Camera" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/Lnl_Photo">
+
+            <ImageView
+                android:id="@+id/Img_NewIssueByPhoto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@mipmap/btn_newissue_photoupload" />
+
+            <TextView
+                android:text="Photo"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_NewIssueByPhoto" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/Lnl_Microphone">
+
+            <ImageView
+                android:id="@+id/Img_IssueInfo_AddVoice"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@mipmap/btn_microphone_gray" />
+
+            <TextView
+                android:text="Microphone"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_Microphone" />
+        </LinearLayout>
+
+
+
+
+        />
         <!--<TextView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
@@ -182,6 +269,6 @@
         <!--/>-->
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

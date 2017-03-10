@@ -12,4 +12,24 @@
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/photo" />
+
+    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        android:id="@+id/Video_IssueFile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"/>
+
+    <com.example.yujhaochen.ims.IssueVoicePlay
+    android:id="@+id/IssueVoicePlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_margin="5dp"
+    android:scaleType="centerCrop">
+
+</com.example.yujhaochen.ims.IssueVoicePlay>
 </RelativeLayout>

@@ -19,11 +19,15 @@ public class MemberAdapter extends BaseAdapter {
 
     private List<Member_Item> Member_List;
 
+    private Context mcontext;
+
     public MemberAdapter(Context context, List<Member_Item> Member_List)
     {
         mLayInf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         this.Member_List = Member_List;
+
+        mcontext = context;
     }
     @Override
     public int getCount() {
@@ -67,7 +71,7 @@ public class MemberAdapter extends BaseAdapter {
             TextView txt_Member_Phone = (TextView) v.findViewById(R.id.txt_Member_Phone);
             //Img_ProjectImage.setImageResource(Integer.valueOf(Project_List.get(position).GetImage().toString()));
 
-            GetServiceData.GetUserPhoto(Member_List.get(position).GetWorkID(),Img_Member);
+            GetServiceData.GetUserPhoto(mcontext,Member_List.get(position).GetWorkID(),Img_Member);
 
             txt_Member_Name.setText(Member_List.get(position).GetName());
 

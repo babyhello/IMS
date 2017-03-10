@@ -14,7 +14,11 @@ public class Issue_Item {
 
     String WorkNoteCount;
 
-    public Issue_Item(String ID,String ProjectName,String Subject,String Date,String Priority,String WorkNoteCount)
+    String Read;
+
+
+
+    public Issue_Item(String ID,String ProjectName,String Subject,String Date,String Priority,String WorkNoteCount,String Read)
     {
        this.ID = ID;
 
@@ -27,6 +31,10 @@ public class Issue_Item {
         this.Priority = Priority;
 
         this.WorkNoteCount = WorkNoteCount;
+
+        this.Read = Read;
+
+
 
     }
 
@@ -59,4 +67,11 @@ public class Issue_Item {
     {
         return this.WorkNoteCount;
     }
+
+    public String GetRead()
+    {
+        return this.Read;
+    }
+
+
 }

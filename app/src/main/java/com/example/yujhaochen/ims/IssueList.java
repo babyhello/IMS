@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,6 +39,7 @@ public class IssueList extends Activity {
 
     private ProgressDialog pDialog;
 
+    private Boolean flag_loading = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +56,21 @@ public class IssueList extends Activity {
         ModelID = Bundle.getString("ModelID");
 
         ModelName = Bundle.getString("ModelName");
+        String WorkID = UserData.WorkID;
 
-        Find_Issue_List(ModelID);
+        if (!TextUtils.isEmpty(WorkID)  )
+        {
+            Find_Issue_List(ModelID,WorkID);
+        }
 
-        ImageView Img_New_Issue= (ImageView)findViewById(R.id.Img_New_Issue);
+
+
 
         TextView txt_IssueList_ModelName= (TextView)findViewById(R.id.txt_IssueList_ModelName);
 
         txt_IssueList_ModelName.setText(ModelName);
+
+        ImageView Img_New_Issue= (ImageView)findViewById(R.id.Img_New_Issue);
 
         Img_New_Issue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +87,29 @@ public class IssueList extends Activity {
             public void onRefresh() {
                 mSwipeRefreshLayout.setRefreshing(false);
 
+                String WorkID = UserData.WorkID;
 
-                Find_Issue_List(ModelID);
+                if (!TextUtils.isEmpty(WorkID)  )
+                {
+                    Find_Issue_List(ModelID,WorkID);
+                }
+
             }
         });
 
+    }
+
+    @Override
+    public void onResume()
+    {
+        String WorkID = UserData.WorkID;
+
+        if (!TextUtils.isEmpty(WorkID)  )
+        {
+            Find_Issue_List(ModelID,WorkID);
+        }
+
+        super.onResume();
     }
 
     private void NewIssue()
@@ -101,7 +130,7 @@ public class IssueList extends Activity {
 
     }
 
-    private void Find_Issue_List(String PM_ID) {
+    private void Find_Issue_List(String PM_ID,String F_Keyin) {
 
         pDialog.setMessage("Loading...");
 
@@ -109,7 +138,7 @@ public class IssueList extends Activity {
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
-        String Path = GetServiceData.ServicePath + "/Find_Issue_List?PM_ID=" + PM_ID;
+        String Path = GetServiceData.ServicePath + "/Find_Issue_List_Advantage?PM_ID=" + PM_ID +"&F_Keyin=" + F_Keyin;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
             @Override
@@ -156,14 +185,16 @@ public class IssueList extends Activity {
 
                 String CommentRead = String.valueOf(IssueData.getInt("CommentRead"));
 
-                Issue_List.add(i,new Issue_Item("00" + F_SeqNo,ModelName,F_Subject,F_CreateDate,F_Priority,CommentRead));
+                Issue_List.add(i,new Issue_Item("00" + F_SeqNo,ModelName,F_Subject,F_CreateDate,F_Priority,CommentRead,Read));
             }
 
             // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入
-            mListAdapter = new IssueAdapter(this, Issue_List);
+            mListAdapter = new IssueAdapter(this, Issue_List,"ProjectList");
 
             //設定 ListView 的 Adapter
             lsv_main.setAdapter(mListAdapter);
+
+
         }
         catch (JSONException ex)
         {

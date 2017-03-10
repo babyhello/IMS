@@ -162,7 +162,7 @@ public class photo_gallery extends FragmentActivity {
 
                 JSONObject IssueData = UserArray.getJSONObject(i);
 
-                String F_DownloadFilePath = IssueData.getString("F_DownloadFilePath");
+                String F_DownloadFilePath = GetServiceData.ServicePath + "/Get_File?FileName=" + IssueData.getString("F_DownloadFilePath");
 
                 String F_FileName = IssueData.getString("F_FileName");
 

@@ -14,18 +14,17 @@ public class testview extends AppCompatActivity {
 
         UserDB UserDB = new UserDB(getApplicationContext());
 
-        UserData UserData = new UserData("Markycchen","a22835518","10015667","陳俞兆","設計品質驗證三部三課","2842","Markycchen");
+        UserData UserData = new UserData("Markycchen","a22835518","10015667","陳俞兆","設計品質驗證三部三課","2842","Markycchen","");
 
         UserDB.insert(UserData);
 
         Button button = (Button) findViewById(R.id.button);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
-
                 GetData();
-
 
             }
         });

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.yujhaochen.ims.VideoRecord">
+    >
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <com.example.yujhaochen.ims.VideoPreview
+            android:id="@+id/videorecordview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.yujhaochen.ims.VideoPreview>
+
+        <Button
+            android:id="@+id/switch_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="switch camera"
+            android:textSize="14sp" />
+
+
+
+        <Button
+            android:id="@+id/operation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="Start"
+            android:layout_marginBottom="20dp" />
+
+
+        <Button
+            android:id="@+id/TakePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:text="Picture"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/Btn_Finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="Finish"
+            android:layout_marginBottom="20dp" />
+    </FrameLayout>
+
+
+</RelativeLayout>

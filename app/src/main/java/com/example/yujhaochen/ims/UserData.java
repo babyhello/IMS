@@ -19,13 +19,15 @@ public class UserData {
 
     public static String EName;
 
+    public static String LastTab;
+
     public UserData()
     {
 
 
     }
 
-    public UserData(String Account,String Password,String WorkID,String Name,String Dept,String Phone,String EName)
+    public UserData(String Account,String Password,String WorkID,String Name,String Dept,String Phone,String EName,String LastTab)
     {
         this.Account = Account;
 
@@ -40,6 +42,8 @@ public class UserData {
         this.Phone = Phone;
 
         this.EName = EName;
+
+        this.LastTab = LastTab;
     }
 
 }

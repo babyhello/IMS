@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="35sp"
+                android:textSize="30sp"
                 android:textColor="@color/Banner_Font"
                 android:layout_gravity="left"
                 android:id="@+id/txt_IssueList_ModelName"></TextView>
@@ -33,7 +33,7 @@
                 android:id="@+id/Img_New_Issue"
                 android:layout_gravity="right"
 
-                android:background="@mipmap/newissue_btn" />
+                android:background="@mipmap/btn_newissue" />
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

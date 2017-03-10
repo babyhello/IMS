@@ -1,7 +1,9 @@
 package com.example.yujhaochen.ims;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -34,6 +36,8 @@ public class ProjectSpec extends AppCompatActivity {
         lsv_main = (ListView)findViewById(R.id.listView);
 
         lsv_main.setOnItemClickListener(listViewOnItemClickListener);
+
+
 
         Bundle bundle = this.getIntent().getExtras();
 
@@ -95,7 +99,7 @@ public class ProjectSpec extends AppCompatActivity {
 
                 String F_FieldName = ModelData.getString("F_FieldName");
 
-                String F_FieldValue = ModelData.getString("F_FieldValue");
+                String F_FieldValue = ModelData.getString("F_SpecData").replace("<br>","\n");
 
                 Spec_List.add(i,new Spec_Item(F_FieldName,F_FieldValue));
             }
@@ -103,6 +107,8 @@ public class ProjectSpec extends AppCompatActivity {
             // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入
             mListAdapter = new SpecAdapter(this, Spec_List);
 
+
+            lsv_main.setEmptyView(findViewById(R.id.emptyview));
             //設定 ListView 的 Adapter
             lsv_main.setAdapter(mListAdapter);
         }

@@ -214,13 +214,15 @@ public class MyIssue extends Fragment {
 
                 String CommentRead = String.valueOf(ModelData.getInt("CommentRead"));
 
-                Issue_List.add(i, new Issue_Item(F_SeqNo, Model, F_Subject, F_CreateDate, F_Priority, CommentRead));
+                String Read = String.valueOf(ModelData.getInt("Read"));
+
+                Issue_List.add(i, new Issue_Item(F_SeqNo, Model, F_Subject, F_CreateDate, F_Priority, CommentRead,Read));
 
             }
 
             if (Issue_List.size() > 0)
             {  // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入
-                mListAdapter = new IssueAdapter(getActivity(), Issue_List);
+                mListAdapter = new IssueAdapter(getActivity(), Issue_List,"MyIssue");
 
                 //設定 ListView 的 Adapter
                 lsv_main.setAdapter(mListAdapter);

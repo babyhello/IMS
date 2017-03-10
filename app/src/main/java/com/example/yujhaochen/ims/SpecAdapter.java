@@ -25,6 +25,10 @@ public class SpecAdapter extends BaseAdapter {
 
         this.Spec_List = Spec_List;
     }
+
+
+
+
     @Override
     public int getCount() {
         return Spec_List.size();

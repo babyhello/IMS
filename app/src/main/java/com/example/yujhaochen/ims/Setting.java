@@ -105,10 +105,27 @@ public class Setting extends Fragment implements SeekBar.OnSeekBarChangeListener
         mSeekBar.setMax(EXTRA_TEXT.length());
         mSeekBar.setOnSeekBarChangeListener(this);
 
-        GetBaseContext = getContext();
+    //DemoText.setVisibility(View.GONE);
+    mSeekBar.setVisibility(View.GONE);
 
-        return v;
-    }
+    GetBaseContext = getContext();
+
+
+    String VersionExplain = "" +
+            "(Ver 19.0) 20170306 Update \n" + "fixed project spec and member empty data" +
+            "\n" +
+            "\n" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "(Ver 18.0) 20170303 Update \n update notification function";
+
+    DemoText.setText(VersionExplain);
+
+    return v;
+}
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

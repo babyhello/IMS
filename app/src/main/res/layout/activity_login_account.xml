@@ -40,17 +40,46 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="200dp"
             android:gravity="center"
             >
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="center"
+                >
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/Img_MSI_Logo"
+                        android:src="@mipmap/logo_msi"
+                         />
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/Img_IMS_Logo"
+                        android:src="@mipmap/logo_ims"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/Img_MSI_Logo"
+                        android:layout_toEndOf="@+id/Img_MSI_Logo" />
+                </RelativeLayout>
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Your Outlook ID"
-                android:textSize="30sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/Login_Outlook"
                 android:layout_gravity="center_horizontal" />
 
@@ -78,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_Login_Account"
-                android:textSize="28sp"
+                android:textSize="@dimen/text_size_medium"
                 android:singleLine="true"
                 android:hint="Enter the Outlook ID"
                 android:layout_gravity="center_horizontal"
@@ -112,7 +141,7 @@
                 android:layout_height="50dp"
                 android:text="Next"
 
-                android:textSize="35sp"
+                android:textSize="@dimen/text_size_xlarge"
                 android:layout_marginLeft="74dp"
                 android:layout_marginRight="74dp"
                 android:id="@+id/Btn_Login_Account"

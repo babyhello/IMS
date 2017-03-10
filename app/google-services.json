@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "62869529198",
+    "firebase_url": "https://imsapp-256cd.firebaseio.com",
+    "project_id": "imsapp-256cd",
+    "storage_bucket": "imsapp-256cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62869529198:android:5b5a0e00b4646ba2",
+        "android_client_info": {
+          "package_name": "com.example.yujhaochen.ims"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62869529198-1hnjsrvf4e5m2flqce0j9brk69e06618.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.yujhaochen.ims",
+            "certificate_hash": "226da324931729bde7f27fd83d196357b150b2d8"
+          }
+        },
+        {
+          "client_id": "62869529198-g768941vadufpcf9hnm65p3jje75ma0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC68NnNdECkCtNkXO9AmzGToGnXc9sG82g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62869529198-g768941vadufpcf9hnm65p3jje75ma0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

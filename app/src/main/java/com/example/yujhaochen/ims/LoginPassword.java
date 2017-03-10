@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -67,7 +68,7 @@ public class LoginPassword extends Activity {
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
-        String Path = GetServiceData.ServicePath + "/Authenticate?OutlookID=" + Account + "&OutlookPassword=" + Password;
+        String Path = GetServiceData.ServicePath + "/AuthenticateWTSC?OutlookID=" + Account + "&OutlookPassword=" + Password;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
             @Override
@@ -86,7 +87,7 @@ public class LoginPassword extends Activity {
                 }
                 else
                 {
-                    AppClass.AlertMessage("Validation Account",getBaseContext());
+                    AppClass.AlertMessage("Wrong Outlook ID or Password!!",LoginPassword.this);
 
                 }
 
@@ -119,14 +120,16 @@ public class LoginPassword extends Activity {
 
                     String Dept = UserArray.getJSONObject(0).getString("DeptName");
 
-                    UserDataClass = new UserData(Account, Password, WorkID, Name, Phone, Dept,Account);
+                    String LastTab = "";
+
+                    UserDataClass = new UserData(Account, Password, WorkID, Name, Phone, Dept,Account,LastTab);
 
 
 
 
                 }
 
-                if (UserDataClass.Account != "") {
+                if (!TextUtils.isEmpty(UserDataClass.Account)) {
                     Validate = true;
 
                 }
@@ -134,7 +137,7 @@ public class LoginPassword extends Activity {
 
 
         } catch (JSONException ex) {
-            AppClass.AlertMessage(ex.getMessage(),getBaseContext());
+            AppClass.AlertMessage("Wrong Outlook ID or Password!!",LoginPassword.this);
         }
 
 

@@ -31,6 +31,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 //import org.apache.http.HttpResponse;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -63,7 +64,7 @@ import java.util.Map;
 public class GetServiceData {
 
     //正式機
-    public static String ServicePath = "http://172.16.98.4/IMSApp/IMS_App_Service.asmx";
+    public static String ServicePath = "http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx";
 
     //測試機
     //public static String ServicePath = "http://172.16.111.111:200/IMS_App_Service.asmx";
@@ -222,7 +223,7 @@ public class GetServiceData {
 
 
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(Img,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+                R.mipmap.progress_image, R.mipmap.progress_image);
 
         imageLoader.get(Url, listener);
     }
@@ -231,32 +232,35 @@ public class GetServiceData {
 
     public static void GetImageByImageLoad(String Url, final ImageView Img,int DefaultImage,int ErrorImage) {
 
+
+        Url = ServicePath + "/Get_File?FileName=" + Url;
+
         if(!(Url.contains("http://") || Url.contains("https://")))
         {
             Url = "http:" + Url;
 
         }
 
-        try
-        {
-
-            String ReplaceURL = Url.substring(Url.lastIndexOf('/') + 1,Url.length());
-
-            String EncodeURL = "";
-
-            if (ReplaceURL != "")
-            {
-                EncodeURL = URLEncoder.encode(ReplaceURL,"utf-8");
-            }
-
-            Url = Url.replace(ReplaceURL,EncodeURL);
-
-
-        }
-        catch (IOException e)
-        {
-            System.out.print(e);
-        }
+//        try
+//        {
+//
+//            String ReplaceURL = Url.substring(Url.lastIndexOf('/') + 1,Url.length());
+//
+//            String EncodeURL = "";
+//
+//            if (ReplaceURL != "")
+//            {
+//                EncodeURL = URLEncoder.encode(ReplaceURL,"utf-8");
+//            }
+//
+//            Url = Url.replace(ReplaceURL,EncodeURL);
+//
+//
+//        }
+//        catch (IOException e)
+//        {
+//            System.out.print(e);
+//        }
 
 
 
@@ -283,32 +287,14 @@ public class GetServiceData {
         imageLoader.get(Url, listener);
     }
 
-    public static void GetUserPhoto(String WorkID,final ImageView Img) {
+    public static void GetUserPhoto(Context mcontext,String WorkID,final ImageView Img) {
 
-        String Url = "http://172.16.111.114/File/SDQA/Code/Admin/" + WorkID + ".jpg";
-
-        RequestQueue mQueue = AppController.getInstance().getRequestQueue();
-
-
-        ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache() {
-            @Override
-            public void putBitmap(String url, Bitmap bitmap) {
-
-                Img.setImageBitmap(bitmap);
-
-            }
-
-            @Override
-            public Bitmap getBitmap(String url) {
-                return null;
-            }
-        });
-
-
-        ImageLoader.ImageListener listener = ImageLoader.getImageListener(Img,
-                R.mipmap.avatar_man, R.mipmap.avatar_man);
-
-        imageLoader.get(Url, listener);
+        Glide.with(mcontext)
+                .load(GetServiceData.ServicePath + "/Get_File?FileName=" + "//172.16.111.114/File/SDQA/Code/Admin/" + WorkID + ".jpg")
+                .centerCrop()
+                .placeholder(R.mipmap.avatar_man)
+                .crossFade()
+                .into(Img);
 
     }
 
@@ -337,11 +323,13 @@ public class GetServiceData {
                         System.out.println("TestJsonObj");
                         System.out.println(error);
                     }
+
+
                 },
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Success?"+response);
+
                     }
                 },file,"");
 

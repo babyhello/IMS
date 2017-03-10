@@ -1,6 +1,7 @@
 package com.example.yujhaochen.ims;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,15 +9,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.journeyapps.barcodescanner.ViewfinderView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,11 +53,14 @@ public class Project extends Fragment {
     private ListView lsv_main;
     private ProjectAdapter mListAdapter;
 
+    private Boolean flag_loading;
     List<Project_Item> Project_List = new ArrayList<Project_Item>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ProgressDialog pDialog;
 
     private OnFragmentInteractionListener mListener;
 
@@ -95,15 +104,50 @@ public class Project extends Fragment {
         }
     };
 
+
+
     private void GoToProjectInfo(Project_Item Project_Item)
     {
+        if (!UserData.WorkID.matches(""))
+        {
 
-        ProjectInfo.Project_Item = Project_Item;
+        Insert_Forcus_Data(UserData.WorkID,"",Project_Item.ModelID);
 
-        Intent intent = new Intent(getActivity(), ProjectInfo.class);
+        }
 
-        startActivity(intent);
+    ProjectInfo.Project_Item = Project_Item;
+
+    Intent intent = new Intent(getActivity(), ProjectInfo.class);
+
+    startActivity(intent);
     }
+
+    private void Insert_Forcus_Data(String F_Keyin,String F_Owner,String F_PM_ID) {
+
+        RequestQueue mQueue = Volley.newRequestQueue(getActivity());
+
+        String Path = GetServiceData.ServicePath + "/Insert_Focus_Model" + "?F_Keyin=" + F_Keyin + "&F_Owner=" + F_Owner + "&F_PM_ID=" + F_PM_ID;
+
+        GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                //PMData_Mapping(result);
+            }
+        });
+
+    }
+    @Override
+    public void onResume()
+    {
+        if (!UserData.WorkID.matches(""))
+        {
+            GetPM_Data(UserData.WorkID);
+        }
+
+        super.onResume();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +157,24 @@ public class Project extends Fragment {
         }
     }
 
+    private void NewIssue(Project_Item Project_Item) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("ModelID", Project_Item.GetModelID());
+
+        bundle.putString("ModelName", Project_Item.GetName());
+
+        Intent intent = new Intent();
+
+        intent = new Intent(getContext(), NewIssue.class);
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,7 +182,45 @@ public class Project extends Fragment {
         //宣告 ListView 元件
         lsv_main = (ListView)v.findViewById(R.id.listView);
 
-        lsv_main.setOnItemClickListener(listViewOnItemClickListener);
+        //lsv_main.setOnItemClickListener(listViewOnItemClickListener);
+
+//        lsv_main.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int index, long l) {
+//
+//                NewIssue(Project_List.get(index ));
+//
+//                return false;
+//            }
+//        });
+
+        flag_loading = false;
+        ProgressBar footer = new ProgressBar(getContext());
+        lsv_main.addFooterView(footer);
+
+        lsv_main.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+
+            }
+
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+               Log.w("firstVisibleItem",String.valueOf(firstVisibleItem));
+                Log.w("visibleItemCount",String.valueOf(visibleItemCount));
+                Log.w("totalItemCount",String.valueOf(totalItemCount));
+                if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
+                {
+                    if(flag_loading == false)
+                    {
+                        flag_loading = true;
+                        //additems();
+                    }
+                }
+            }
+        });
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh_layout);
 
@@ -135,6 +235,8 @@ public class Project extends Fragment {
                 }
             }
         });
+
+        //System.out.println(UserData.WorkID);
 
         if (!UserData.WorkID.matches(""))
         {
@@ -189,9 +291,28 @@ public class Project extends Fragment {
 
                 String ModelPic = ModelData.getString("ModelPic");
 
-                String CloseRate = String.valueOf(ModelData.getDouble("CloseRate"));
+                //String CloseRate = String.valueOf(ModelData.getDouble("CloseRate"));
 
-                Project_List.add(i,new Project_Item(ModelID,ModelName,ModelPic,CloseRate));
+                String Model_Focus = ModelData.getString("Model_Focus");
+
+                String Read = String.valueOf(ModelData.getInt("Read"));
+
+                Boolean Model_Focus_Type = false;
+
+                System.out.print("Model_Focus");
+
+                if (Model_Focus.contains("NoFavorit"))
+                {
+                    Model_Focus_Type = false;
+                }
+                else
+                {
+                    Model_Focus_Type = true;
+                }
+
+                //Model_Focus_Type = false;
+
+                Project_List.add(i,new Project_Item(ModelID,ModelName,ModelPic,"",Model_Focus_Type,Read));
             }
 
 
@@ -206,11 +327,12 @@ public class Project extends Fragment {
         }
         catch (JSONException ex)
         {
-            
+//            Toast.makeText(Project.this,ex.getMessage(), Toast.LENGTH_LONG).show();
+            Log.w("Error",ex.toString());
         }
-        
-       
-        
+
+
+
     }
     
     // TODO: Rename method, update argument and hook method into UI event

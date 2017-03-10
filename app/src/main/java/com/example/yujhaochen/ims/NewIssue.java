@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -34,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,12 +68,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 
 public class NewIssue extends Activity {
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
+
+    static final int REQUEST_Voice_CAPTURE = 3;
+
+    static final int REQUEST_Photo_CAPTURE = 4;
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
@@ -95,6 +104,10 @@ public class NewIssue extends Activity {
 
     private File VideoFile;
 
+    private File VoiceFile;
+
+    private int FileProcessCount = 0;
+
     private void initData() {
 
         Bundle Bundle = this.getIntent().getExtras();
@@ -104,15 +117,13 @@ public class NewIssue extends Activity {
         ModelName = Bundle.getString("ModelName");
 
 
-
         TextView txt_NewIssue_Author = (TextView) findViewById(R.id.txt_NewIssue_Author);
 
         TextView txt_NewIssue_ModelName = (TextView) findViewById(R.id.txt_NewIssue_ModelName);
 
         EditText txt_NewIssue_Subjectv = (EditText) findViewById(R.id.txt_NewIssue_Subject);
 
-        if (Bundle.getString("Subject") != null)
-        {
+        if (Bundle.getString("Subject") != null) {
             txt_NewIssue_Subjectv.setText(Bundle.getString("Subject"));
         }
 
@@ -125,6 +136,9 @@ public class NewIssue extends Activity {
     }
 
     private void GoIssueInfo(String IssueID) {
+
+        this.finish();
+
         Bundle bundle = new Bundle();
 
         bundle.putString("IssueID", IssueID);
@@ -174,10 +188,15 @@ public class NewIssue extends Activity {
 //            }
 //        });
 
+        LinearLayout Lnl_Picture = (LinearLayout) findViewById(R.id.Lnl_Picture);
+        LinearLayout Lnl_Camera = (LinearLayout) findViewById(R.id.Lnl_Camera);
+        LinearLayout Lnl_Microphone = (LinearLayout) findViewById(R.id.Lnl_Microphone);
+        LinearLayout Lnl_Photo = (LinearLayout) findViewById(R.id.Lnl_Photo);
 
-        ImageView Img_IssueInfo_AddPhoto = (ImageView) findViewById(R.id.Img_IssueInfo_AddPhoto);
 
-        Img_IssueInfo_AddPhoto.setOnClickListener(new View.OnClickListener() {
+
+
+        Lnl_Picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
@@ -186,9 +205,8 @@ public class NewIssue extends Activity {
 
             }
         });
-        ImageView Img_IssueInfo_AddCamera = (ImageView) findViewById(R.id.Img_IssueInfo_AddCamera);
 
-        Img_IssueInfo_AddCamera.setOnClickListener(new View.OnClickListener() {
+        Lnl_Camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
@@ -197,6 +215,80 @@ public class NewIssue extends Activity {
             }
         });
 
+        Lnl_Photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 建立 "選擇檔案 Action" 的 Intent
+                Intent intent = new Intent( Intent.ACTION_PICK );
+
+                // 過濾檔案格式
+                intent.setType( "image/*" );
+
+                // 建立 "檔案選擇器" 的 Intent  (第二個參數: 選擇器的標題)
+                Intent destIntent = Intent.createChooser( intent, "Choose Photo" );
+
+                // 切換到檔案選擇器 (它的處理結果, 會觸發 onActivityResult 事件)
+                startActivityForResult( destIntent, REQUEST_Photo_CAPTURE );
+
+            }
+        });
+
+        Lnl_Microphone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                VoiceFile = configFileName("P", ".3gp");
+
+                Intent recordIntent = new Intent(NewIssue.this, IssueVoiceRecord.class);
+
+                recordIntent.putExtra("fileName", VoiceFile.getAbsolutePath());
+
+                startActivityForResult(recordIntent, REQUEST_Voice_CAPTURE);
+
+            }
+        });
+//
+//        ImageView Img_IssueInfo_AddPhoto = (ImageView) findViewById(R.id.Img_IssueInfo_AddPhoto);
+//
+//        Img_IssueInfo_AddPhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                //新增照片
+//                GoCamera();
+//
+//            }
+//        });
+//        ImageView Img_IssueInfo_AddCamera = (ImageView) findViewById(R.id.Img_IssueInfo_AddCamera);
+//
+//        Img_IssueInfo_AddCamera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                dispatchTakeVideoIntent();
+//
+//            }
+//        });
+//
+//
+//
+//        ImageView Img_IssueInfo_AddVoice = (ImageView) findViewById(R.id.Img_IssueInfo_AddVoice);
+//
+//        Img_IssueInfo_AddVoice.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                VoiceFile = configFileName("P", ".3gp");
+//
+//                Intent recordIntent = new Intent(NewIssue.this, IssueVoiceRecord.class);
+//
+//                recordIntent.putExtra("fileName", VoiceFile.getAbsolutePath());
+//
+//                startActivityForResult(recordIntent, REQUEST_Voice_CAPTURE);
+//
+//            }
+//        });
 
         TextView txt_NewIssue_Finish = (TextView) findViewById(R.id.txt_NewIssue_Finish);
 
@@ -254,6 +346,12 @@ public class NewIssue extends Activity {
         setupUI(this.findViewById(android.R.id.content));
 
 
+//        // Check if no view has focus:
+//        View view = this.getCurrentFocus();
+//        if (view != null) {
+//            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
     }
 
 
@@ -283,6 +381,8 @@ public class NewIssue extends Activity {
                     }
                 } catch (JSONException ex) {
 
+                    Log.w("New Issue EXception",ex.toString());
+
                 }
 
             }
@@ -292,6 +392,8 @@ public class NewIssue extends Activity {
 
     private void UpdateIssue(final String IssueID, final String ModelID) {
 
+
+
         EditText txt_NewIssue_Subject = (EditText) findViewById(R.id.txt_NewIssue_Subject);
 
         String WorkID = UserData.WorkID;
@@ -299,9 +401,12 @@ public class NewIssue extends Activity {
         String Subject = txt_NewIssue_Subject.getText().toString();
 
 
-        if (Subject != "") {
 
+        if (!TextUtils.isEmpty(Subject)) {
 
+            pDialog.setMessage("Uploading...");
+
+            pDialog.show();
 
             RequestQueue mQueue = Volley.newRequestQueue(this);
 
@@ -319,12 +424,16 @@ public class NewIssue extends Activity {
 
                     UpdateIssueFile(UserData.WorkID, IssueID);  //更新附件
 
-                    pDialog.hide();
+
                 }
 
             }, map);
 
 
+        }
+        else
+        {
+            AppClass.AlertMessage("Please Keyin Subject",NewIssue.this);
         }
 
 
@@ -362,9 +471,7 @@ public class NewIssue extends Activity {
 
     private void UpdateIssueFile(String F_Keyin, String F_Master_ID) {
 
-        pDialog.setMessage("Uploading...");
 
-        pDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
@@ -374,39 +481,91 @@ public class NewIssue extends Activity {
 
         int i = 0;
 
-        for (NewIssueFile_Item FileItem : NewIssueFile_List) {
+        if (NewIssueFile_List.size() == 0)
+        {
+            pDialog.hide();
 
-            //UploadImage_List.add(i,new UploadImage(FileItem.GetImageBitMap(),FileItem.GetImageName()));
+            GoIssueInfo(IssueID);
+        }
+        else
+        {
+            for (NewIssueFile_Item FileItem : NewIssueFile_List) {
 
-           switch (FileItem.GetFileType())
-           {
-               case Image:
-                   Upload_Issue_File(F_Keyin, F_Master_ID, FileItem.GetImageName());
+                File _IssueFile;
 
-                   File ImageFileUpload = new File(FileItem.GetImagePath());
 
-                   GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, ImageFileUpload, "");
-                   break;
-               case Video:
 
-                   File VideoFileUpload = new File(FileItem.GetVideoPath());
+                switch (FileItem.GetFileType()) {
+                    case Image:
 
-                   Upload_Issue_File(F_Keyin, F_Master_ID, VideoFileUpload.getName());
+                        Log.w("FileType",FileItem.GetFileType().toString());
+                        Upload_Issue_File(F_Keyin, F_Master_ID, FileItem.GetImageName());
 
-                   GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, VideoFileUpload, "");
+                        _IssueFile = new File(FileItem.GetImagePath());
 
-                   //System.out.println(VideoFileUpload.getName());
-                   break;
-           }
+                        UploadIssueFile_File(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, _IssueFile, "");
+                        break;
+                    case Video:
+                        File VideoFileUpload = new File(FileItem.GetVideoPath());
 
-            i++;
+                        Upload_Issue_File(F_Keyin, F_Master_ID, VideoFileUpload.getName());
 
+                        UploadIssueFile_File(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, VideoFileUpload, "");
+
+                        break;
+                    case Voice:
+                        _IssueFile = new File(FileItem.GetVoicePath());
+
+                        Upload_Issue_File(F_Keyin, F_Master_ID, _IssueFile.getName());
+
+                        UploadIssueFile_File(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart", mQueue, _IssueFile, "");
+                        break;
+
+                }
+
+                i++;
+
+            }
         }
 
-        pDialog.hide();
 
-        GoIssueInfo(IssueID);
 
+
+    }
+
+
+    public void UploadIssueFile_File(String UPLOAD_URL, RequestQueue mQueue, File file, String stringPart){
+
+        MultipartRequest MultiPart = new MultipartRequest(UPLOAD_URL,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+
+
+                },
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                FileProcessCount ++;
+
+                Log.w("FileProcessCount",String.valueOf(FileProcessCount));
+
+                Log.w("mListAdapter",String.valueOf(mListAdapter.getCount()));
+                if (FileProcessCount == mListAdapter.getCount() )
+                {
+                    pDialog.hide();
+
+                    GoIssueInfo(IssueID);
+                }
+
+            }
+        },file,"");
+
+
+        mQueue.add(MultiPart);
     }
 
     private void Upload_Issue_File(String F_Keyin, String F_Master_ID, String File) {
@@ -415,13 +574,12 @@ public class NewIssue extends Activity {
 
         String Path = GetServiceData.ServicePath + "/Upload_Issue_File?F_Keyin=" + F_Keyin + "&F_Master_ID=" + F_Master_ID + "&F_Master_Table=C_Issue&File=" + File;
 
-        System.out.println(File);
 
         GetServiceData.SendRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
             @Override
             public void onSendRequestSuccess(String result) {
 
-                //System.out.println("Test");
+
             }
 
         });
@@ -483,7 +641,7 @@ public class NewIssue extends Activity {
 
     private void AddImageItem(Bitmap Image, String ImageName, String ImagePath) {
 
-        mListAdapter.addItem(new NewIssueFile_Item(Image, ImageName, ImagePath, "", "",NewIssueFile_Item.FileType.Image));
+        mListAdapter.addItem(new NewIssueFile_Item(Image, ImageName, ImagePath, "", "", NewIssueFile_Item.FileType.Image));
 
         mListAdapter.notifyDataSetChanged();
 
@@ -491,7 +649,15 @@ public class NewIssue extends Activity {
 
     private void AddVideoItem(String VideoPath) {
 
-        mListAdapter.addItem(new NewIssueFile_Item(null, "", "", VideoPath, "",NewIssueFile_Item.FileType.Video));
+        mListAdapter.addItem(new NewIssueFile_Item(null, "", "", VideoPath, "", NewIssueFile_Item.FileType.Video));
+
+        mListAdapter.notifyDataSetChanged();
+
+    }
+
+    private void AddVoiceItem(String VoicePath) {
+
+        mListAdapter.addItem(new NewIssueFile_Item(null, "", "", "", VoicePath, NewIssueFile_Item.FileType.Voice));
 
         mListAdapter.notifyDataSetChanged();
 
@@ -501,9 +667,6 @@ public class NewIssue extends Activity {
 
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-
-
-
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // 無權限，向使用者請求
             ActivityCompat.requestPermissions(
@@ -511,7 +674,7 @@ public class NewIssue extends Activity {
                     new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE
             );
 
-            System.out.println("Storage");
+
         } else {
 
             permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -520,12 +683,10 @@ public class NewIssue extends Activity {
 
                 ActivityCompat.requestPermissions(
                         this,
-                        new String[]{ Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
+                        new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
                 );
 
-            }
-            else
-            {
+            } else {
                 System.out.println("CAMERA");
 
                 Intent intentCamera =
@@ -577,7 +738,6 @@ public class NewIssue extends Activity {
 
 
             if (VideoFile.exists()) {
-                System.out.println("Video Request" + requestCode);
 
                 AddVideoItem(VideoFile.getAbsolutePath());
 
@@ -593,7 +753,7 @@ public class NewIssue extends Activity {
         // 如果照片檔案存在
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            System.out.println("Image Request" + requestCode);
+
             if (ImageFile.exists()) {
 
                 Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
@@ -606,7 +766,73 @@ public class NewIssue extends Activity {
             }
 
 
-        } else if (resultCode == RESULT_OK) {
+        }
+        else if (requestCode == REQUEST_Voice_CAPTURE && resultCode == RESULT_OK) {
+
+            System.out.println("Voice Request" + requestCode);
+            if (VoiceFile.exists()) {
+
+                AddVoiceItem(VoiceFile.getAbsolutePath());
+
+                VoiceFile = null;
+            }
+
+
+        }
+        else if (requestCode == REQUEST_Photo_CAPTURE && resultCode == RESULT_OK)
+        {
+
+            Uri uri = data.getData();
+            //抽象資料的接口
+            ContentResolver cr = this.getContentResolver();
+            try {
+                //由抽象資料接口轉換圖檔路徑為Bitmap
+                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+
+                File MyNewFile = configFileName("P", ".jpg");
+
+
+
+                FileOutputStream out = null;
+
+                try {
+
+
+                    out = new FileOutputStream(MyNewFile);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out); // bmp is your Bitmap instance
+                    ImageFile = MyNewFile;
+
+                    if (ImageFile.exists()) {
+
+                        Log.w("HavePhtoto","HavePhtoto");
+
+                        Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
+
+                        Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
+
+                        AddImageItem(minibm, ImageFile.getName(), ImageFile.getAbsolutePath());
+
+                        ImageFile = null;
+                    }
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) {
+                            out.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                Log.e("Exception", e.getMessage(), e);
+            }
+        }
+        else if (resultCode == RESULT_OK) {
 
             IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
@@ -617,9 +843,6 @@ public class NewIssue extends Activity {
                 System.out.println(scanFormat);
 
             } else {
-
-
-
 
 
             }
@@ -670,12 +893,10 @@ public class NewIssue extends Activity {
 
                 ActivityCompat.requestPermissions(
                         this,
-                        new String[]{ Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
+                        new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE
                 );
 
-            }
-            else
-            {
+            } else {
 
                 Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
@@ -692,7 +913,6 @@ public class NewIssue extends Activity {
                     startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
                 }
             }
-
 
 
         }

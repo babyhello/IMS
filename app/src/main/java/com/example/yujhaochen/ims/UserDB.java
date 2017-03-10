@@ -26,7 +26,7 @@ public class UserDB {
     public static final String Dept_COLUMN = "_Dept";
     public static final String Phone_COLUMN = "_Phone";
     public static final String EName_COLUMN = "_EName";
-
+    public static final String LastTab_COLUMN = "_LastTab";
     // 使用上面宣告的變數建立表格的SQL指令
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "( " +
 
@@ -46,7 +46,9 @@ public class UserDB {
 
             "_Phone VARCHAR(20)," +
 
-            "_EName VARCHAR(50)" +
+            "_EName VARCHAR(50)," +
+
+            "_LastTab VARCHAR(50)" +
             ");";
 
 
@@ -80,7 +82,7 @@ public class UserDB {
         cv.put(Dept_COLUMN, item.Dept);
         cv.put(Phone_COLUMN, item.Phone);
         cv.put(EName_COLUMN, item.EName);
-
+        cv.put(LastTab_COLUMN, item.LastTab);
         // 新增一筆資料並取得編號
         // 第一個參數是表格名稱
         // 第二個參數是沒有指定欄位值的預設值
@@ -108,10 +110,27 @@ public class UserDB {
         cv.put(Dept_COLUMN, item.Dept);
         cv.put(Phone_COLUMN, item.Phone);
         cv.put(EName_COLUMN, item.EName);
-
+        cv.put(LastTab_COLUMN, item.LastTab);
         // 設定修改資料的條件為編號
         // 格式為「欄位名稱＝資料」
         String where = "_WorkID" + "=" + item.WorkID;
+
+        // 執行修改資料並回傳修改的資料數量是否成功
+        return db.update(TABLE_NAME, cv, where, null) > 0;
+    }
+
+    // 修改參數指定的物件
+    public boolean UpdateLastTab(String TabName,String WorkID) {
+        // 建立準備修改資料的ContentValues物件
+        ContentValues cv = new ContentValues();
+
+        // 加入ContentValues物件包裝的修改資料
+        // 第一個參數是欄位名稱， 第二個參數是欄位的資料
+
+        cv.put(LastTab_COLUMN, TabName);
+        // 設定修改資料的條件為編號
+        // 格式為「欄位名稱＝資料」
+        String where = "_WorkID" + "=" + WorkID;
 
         // 執行修改資料並回傳修改的資料數量是否成功
         return db.update(TABLE_NAME, cv, where, null) > 0;
@@ -146,7 +165,7 @@ public class UserDB {
         // 使用編號為查詢條件
         String where = "_WorkID" + "=" + WorkID;
         // 執行查詢
-        Cursor result = db.rawQuery("SELECT _fontsize,_Account,_Password,_WorkID,_Name,_Dept,_Phone,_EName FROM "+ TABLE_NAME + where, null);
+        Cursor result = db.rawQuery("SELECT _fontsize,_Account,_Password,_WorkID,_Name,_Dept,_Phone,_EName,_LastTab FROM "+ TABLE_NAME + where, null);
 
         // 如果有查詢結果
         if (result.moveToFirst()) {
@@ -174,8 +193,9 @@ public class UserDB {
         String Dept = cursor.getString(cursor.getColumnIndex("_Dept"));
         String Phone = cursor.getString(cursor.getColumnIndex("_Phone"));
         String EName = cursor.getString(cursor.getColumnIndex("_EName"));
+        String LastTab = cursor.getString(cursor.getColumnIndex("_LastTab"));
 
-        UserData result = new UserData(Account,Password,WorkID,Name,Dept,Phone,EName);
+        UserData result = new UserData(Account,Password,WorkID,Name,Dept,Phone,EName,LastTab);
         // 回傳結果
         return result;
     }

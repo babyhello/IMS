@@ -13,11 +13,11 @@ public class Project_Item {
 
     String CloseRate;
 
-    Boolean FocusType;
+    String FocusType;
 
     String Read;
 
-    public Project_Item(String ModelID,String Name,String Image,String CloseRate,Boolean FocusType,String Read)
+    public Project_Item(String ModelID,String Name,String Image,String CloseRate,String FocusType,String Read)
     {
         this.Image = Image;
 
@@ -53,7 +53,7 @@ public class Project_Item {
         return this.CloseRate;
     }
 
-    public Boolean GetFocusType()
+    public String GetFocusType()
     {
         return this.FocusType;
     }

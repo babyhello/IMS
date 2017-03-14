@@ -111,15 +111,15 @@ public class Setting extends Fragment implements SeekBar.OnSeekBarChangeListener
     GetBaseContext = getContext();
 
 
-    String VersionExplain = "" +
+    String VersionExplain =  "(Ver 21.0) 20170315 Update \n" + "Project List Show All and Add filter function" +
+            "\n" +
+            "\n" +
+            "(Ver 20.0) 20170308 Update \n" + "fixed QRCode Vertical Issue" +
+            "\n" +
+            "\n" +
             "(Ver 19.0) 20170306 Update \n" + "fixed project spec and member empty data" +
             "\n" +
             "\n" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
             "(Ver 18.0) 20170303 Update \n update notification function";
 
     DemoText.setText(VersionExplain);

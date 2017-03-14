@@ -2,11 +2,13 @@ package com.example.yujhaochen.ims;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -24,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -55,6 +59,8 @@ public class project_expandtable extends Fragment {
 
     private List<Project_Item> NotFocus_Project_List = new ArrayList<Project_Item>();
 
+    private List<Project_Item> Top_Project_List = new ArrayList<Project_Item>();
+
     private ArrayList<List<Project_Item>> ProjectGroup_List = new ArrayList<List<Project_Item>>();
 
     private Context ProjectContext;
@@ -72,6 +78,8 @@ public class project_expandtable extends Fragment {
     private boolean flag_loading = false;
 
     private ProgressDialog pDialog;
+
+    private int SortType = 0 ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,6 +162,46 @@ public class project_expandtable extends Fragment {
         return v;
     }
 
+    public void Project_Sort()
+    {
+
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProjectContext);
+        //builderSingle.setIcon(R.drawable.ic_launcher);
+        //builderSingle.setTitle("Sort");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ProjectContext, android.R.layout.select_dialog_singlechoice);
+
+        arrayAdapter.add("Default");
+
+        arrayAdapter.add("Latest Activities");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setSingleChoiceItems(arrayAdapter,SortType, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                SortType = which;
+
+                if (!UserData.WorkID.matches("")) {
+                    GetPM_Data(UserData.WorkID, "1", "25");
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+
+
+        builderSingle.show();
+    }
+
     @Override
     public void onResume() {
         if (!UserData.WorkID.matches("")) {
@@ -178,7 +226,17 @@ public class project_expandtable extends Fragment {
 
         RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
 
-        String Path = GetServiceData.ServicePath + "/Find_Project_List_By_Start_End?WorkID=" + WorkID + "&Start=" + Start + "&End=" + End;
+        String Path = "";
+
+        if (SortType == 0)
+        {
+            Path = GetServiceData.ServicePath + "/Find_Project_List_By_Start_End?WorkID=" + WorkID + "&Start=" + Start + "&End=" + End;
+        }
+        else
+        {
+            Path = GetServiceData.ServicePath + "/Find_Project_LastActive?WorkID=" + WorkID + "&Start=" + Start + "&End=" + End;
+        }
+
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
             @Override
@@ -201,7 +259,16 @@ public class project_expandtable extends Fragment {
 
         RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
 
-        String Path = GetServiceData.ServicePath + "/Find_Project_List_By_Start_End?WorkID=" + WorkID + "&Start=" + Start + "&End=" + End;
+        String Path = "";
+
+        if (SortType == 0)
+        {
+            Path = GetServiceData.ServicePath + "/Find_Project_List_By_Start_End?WorkID=" + WorkID + "&Start=" + Start + "&End=" + End;
+        }
+        else
+        {
+            Path = GetServiceData.ServicePath + "/Find_Project_LastActive?WorkID=" + WorkID + "&Start=" + Start + "&End=" + End;
+        }
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
             @Override
@@ -220,24 +287,13 @@ public class project_expandtable extends Fragment {
 
                         String ModelPic = ModelData.getString("ModelPic");
 
-                        //String CloseRate = String.valueOf(ModelData.getDouble("CloseRate"));
-
                         String Model_Focus = ModelData.getString("Model_Focus");
 
                         String Read = String.valueOf(ModelData.getInt("Read"));
 
                         Boolean Model_Focus_Type = false;
 
-                        //System.out.print("Model_Focus");
-
-                        if (Model_Focus.contains("NoFavorit")) {
-                            Model_Focus_Type = false;
-                        } else {
-                            Model_Focus_Type = true;
-                        }
-
-                        //Model_Focus_Type = false;
-                        viewAdapter.addItem(1, new Project_Item(ModelID, ModelName, ModelPic, "", Model_Focus_Type, Read));
+                        viewAdapter.addItem(1, new Project_Item(ModelID, ModelName, ModelPic, "", Model_Focus, Read));
 
                         viewAdapter.notifyDataSetChanged();
 
@@ -267,6 +323,8 @@ public class project_expandtable extends Fragment {
         try {
             Project_List.clear();
 
+            Top_Project_List.clear();
+
             Focus_Project_List.clear();
 
             NotFocus_Project_List.clear();
@@ -292,34 +350,33 @@ public class project_expandtable extends Fragment {
 
                 String Read = String.valueOf(ModelData.getInt("Read"));
 
-                Boolean Model_Focus_Type = false;
-
-                //System.out.print("Model_Focus");
-
-                if (Model_Focus.contains("NoFavorit")) {
-                    Model_Focus_Type = false;
-                } else {
-                    Model_Focus_Type = true;
-                }
-
-                //Model_Focus_Type = false;
-
-                Project_List.add(i, new Project_Item(ModelID, ModelName, ModelPic, "", Model_Focus_Type, Read));
+                Project_List.add(i, new Project_Item(ModelID, ModelName, ModelPic, "", Model_Focus, Read));
             }
 
 
             for (Project_Item e : Project_List) {
 
-                if (e.GetFocusType()) {
+                if (e.GetFocusType().equals("Favorit")) {
                     Focus_Project_List.add(e);
-                } else {
+                }
+                else if(e.GetFocusType().equals("Default"))
+                {
+                    Top_Project_List.add(e);
+                }
+                else {
                     NotFocus_Project_List.add(e);
                 }
             }
 
+            Log.w("NotFocus_Project_List", String.valueOf(NotFocus_Project_List.size()));
+
+            ProjectGroup_List.add(Top_Project_List);
+
             ProjectGroup_List.add(Focus_Project_List);
 
             ProjectGroup_List.add(NotFocus_Project_List);
+
+            GroupItem.add("Top");
 
             GroupItem.add("Favorit");
 
@@ -555,11 +612,18 @@ public class project_expandtable extends Fragment {
 
         public void addItem(int GroupPosition, Project_Item Project_Item) {
 
-            if (GroupPosition == 0) {
+
+            Log.w("FavoritType",Project_Item.GetFocusType());
+
+            if (Project_Item.GetFocusType().equals("Favorit"))
+            {
                 Focus_Project_List.add(Project_Item);
-            } else {
+            }
+            else
+            {
                 NotFocus_Project_List.add(Project_Item);
             }
+
         }
 
     }

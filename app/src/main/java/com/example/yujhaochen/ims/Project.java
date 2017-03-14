@@ -299,20 +299,7 @@ public class Project extends Fragment {
 
                 Boolean Model_Focus_Type = false;
 
-                System.out.print("Model_Focus");
-
-                if (Model_Focus.contains("NoFavorit"))
-                {
-                    Model_Focus_Type = false;
-                }
-                else
-                {
-                    Model_Focus_Type = true;
-                }
-
-                //Model_Focus_Type = false;
-
-                Project_List.add(i,new Project_Item(ModelID,ModelName,ModelPic,"",Model_Focus_Type,Read));
+                Project_List.add(i,new Project_Item(ModelID,ModelName,ModelPic,"",Model_Focus,Read));
             }
 
 

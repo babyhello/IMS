@@ -54,6 +54,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainTab extends AppCompatActivity {
 
@@ -634,147 +636,6 @@ public class MainTab extends AppCompatActivity {
         out.close();
     }
 
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (resultCode == RESULT_OK) {
-//
-//            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-//
-//            if (scanningResult != null) {
-//                String scanContent = scanningResult.getContents();
-//                String scanFormat = scanningResult.getFormatName();
-//
-//                //System.out.println(scanContent);
-//                Search_Project(scanContent);
-//
-//            }
-//        }
-//
-//    }
-
-//    private void Search_Project(String QR_Content) {
-//
-//        if(QR_Content.contains("Subject"))
-//        {
-//            Go_To_New_Issue(QR_Content);
-//        }
-//        else
-//        {
-//            RequestQueue mQueue = Volley.newRequestQueue(this);
-//
-//            String Path = GetServiceData.ServicePath + "/Find_Project_List_Search?ModelName=" + QR_Content;
-//
-//            GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
-//                @Override
-//                public void onSuccess(JSONObject result) {
-//
-//                    Go_To_Project(result);
-//                }
-//            });
-//        }
-//    }
-//
-//    private void Go_To_New_Issue(String JsonString)
-//    {
-//        try
-//        {
-//            JSONObject QR_Object = new JSONObject(JsonString);
-//
-//            JSONArray ProjectArray = new JSONArray(QR_Object.getString("Key"));
-//
-//            if (ProjectArray.length() > 0 )
-//            {
-//                System.out.println("Length" + ProjectArray.length());
-//
-//                JSONObject ProjectData = ProjectArray.getJSONObject(0);
-//
-//                String Model_ID = String.valueOf(ProjectData.getInt("ModelID"));
-//
-//                String ModelName = ProjectData.getString("ModelName");
-//
-//                String Subject = ProjectData.getString("Subject");
-//
-//                Bundle bundle = new Bundle();
-//
-//                bundle.putString("ModelID", Model_ID);
-//
-//                bundle.putString("ModelName", ModelName);
-//
-//                bundle.putString("Subject", Subject);
-//
-//                Intent intent = new Intent(this,NewIssue.class);
-//
-//                intent.putExtras(bundle);
-//
-//                startActivity(intent);
-//            }
-//
-//        }
-//        catch (JSONException ex)
-//        {
-//
-//        }
-//
-//
-//    }
-//
-//    private void Go_To_Project(JSONObject ModelID)
-//    {
-//        try
-//        {
-//            JSONArray ProjectArray = new JSONArray(ModelID.getString("Key"));
-//
-//            if (ProjectArray.length() > 0 )
-//            {
-//                System.out.println("Length" + ProjectArray.length());
-//
-//                JSONObject ProjectData = ProjectArray.getJSONObject(0);
-//
-//                String Model_ID = String.valueOf(ProjectData.getInt("ModelID"));
-//
-//                String ModelName = ProjectData.getString("ModelName");
-//
-//                Bundle bundle = new Bundle();
-//
-//                bundle.putString("ModelID", Model_ID);
-//
-//                bundle.putString("ModelName", ModelName);
-//
-//                Intent intent = new Intent(this,IssueList.class);
-//
-//                intent.putExtras(bundle);
-//
-//                startActivity(intent);
-//            }
-//            else
-//            {
-//                AlertDialog.Builder MyAlertDialog = new AlertDialog.Builder(this);
-//
-//                MyAlertDialog.setMessage("Project Was Not Found!!!");
-//
-//                MyAlertDialog.show();
-//            }
-//
-//        }
-//        catch (JSONException ex)
-//        {
-//
-//        }
-//
-//
-////        Bundle bundle = new Bundle();
-////
-////        bundle.putString("ModelID", scanContent);
-////
-////        bundle.putString("ModelName", Project_Item.GetName());
-////
-////        Intent intent = new Intent();
-////
-////        intent.putExtras(bundle);
-////
-////        startActivity(intent);
-//    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -863,7 +724,18 @@ public class MainTab extends AppCompatActivity {
                 break;
             case R.id.ProjectSort:
 
-                AppClass.AlertMessage("Sort",mcontext);
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+                MenuInflater inflater = getMenuInflater();
+
+                int tab = tabLayout.getSelectedTabPosition();
+
+                project_expandtable a = (project_expandtable) mSectionsPagerAdapter.getFragment(tab);
+
+                if (a != null)
+                {
+                    a.Project_Sort();
+                }
 
             default:
                 return false;
@@ -930,6 +802,8 @@ public class MainTab extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private FragmentManager mFragmentManager;
+        private Map<Integer, String> mFragmentTags;
         private int[] imageResId = {
                 R.mipmap.btn_tab_projec_nor,
                 R.mipmap.btn_tab_issue_nor,
@@ -937,8 +811,22 @@ public class MainTab extends AppCompatActivity {
                 R.mipmap.btn_tab_projec_nor
         };
 
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Object obj = super.instantiateItem(container, position);
+            if (obj instanceof Fragment) {
+                // record the fragment tag here.
+                Fragment f = (Fragment) obj;
+                String tag = f.getTag();
+                mFragmentTags.put(position, tag);
+            }
+            return obj;
+        }
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragmentTags = new HashMap<Integer, String>();
+            mFragmentManager = fm;
         }
 
         @Override
@@ -949,6 +837,7 @@ public class MainTab extends AppCompatActivity {
             switch (position) {
                 case 0:
                     project_expandtable Project = new project_expandtable();
+
                     return Project.newInstance("0", "0");
                 case 1:
                     MyIssue MyIssue = new MyIssue();
@@ -971,17 +860,14 @@ public class MainTab extends AppCompatActivity {
             return 4;
         }
 
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//
-//            Drawable image = ContextCompat.getDrawable(getApplicationContext(), imageResId[position]);
-//            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-//            SpannableString sb = new SpannableString(" ");
-//            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-//            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-//            return sb;
-//        }
+
+        public Fragment getFragment(int position) {
+            String tag = mFragmentTags.get(position);
+            if (tag == null)
+                return null;
+            return mFragmentManager.findFragmentByTag(tag);
+        }
+
     }
 
 

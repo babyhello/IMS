@@ -72,10 +72,8 @@ public class ProjectAdapter extends BaseAdapter {
 
         View v = new View(ProjectContext);
         //如果專案是Focus的
-        if (Project_List.get(position).GetFocusType())
+        if (Project_List.get(position).GetFocusType().contains("Favorit"))
         {
-
-            ///AppClass.makeTextAndShow(ProjectContext,"Focus??",2);
 
             v = mLayInf.inflate(R.layout.project_item_focus, parent, false);
         }

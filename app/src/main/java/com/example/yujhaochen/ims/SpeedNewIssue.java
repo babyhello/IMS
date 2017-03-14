@@ -413,26 +413,11 @@ public class SpeedNewIssue extends AppCompatActivity {
 
                 String ModelPic = ModelData.getString("ModelPic");
 
-                //String CloseRate = String.valueOf(ModelData.getDouble("CloseRate"));
-
                 String Model_Focus = ModelData.getString("Model_Focus");
 
                 String Read = String.valueOf(ModelData.getDouble("Read"));
 
-                Boolean Model_Focus_Type = false;
-
-//                if (Model_Focus.contains("NoFocus"))
-//                {
-//                    Model_Focus_Type = false;
-//                }
-//                else
-//                {
-//                    Model_Focus_Type = true;
-//                }
-//
-//                Model_Focus_Type = false;
-
-                Project_List.add(i,new Project_Item(ModelID,ModelName,ModelPic,"",Model_Focus_Type,"0"));
+                Project_List.add(i,new Project_Item(ModelID,ModelName,ModelPic,"",Model_Focus,"0"));
             }
 
 

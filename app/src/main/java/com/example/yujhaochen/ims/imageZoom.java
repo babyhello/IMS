@@ -1,6 +1,7 @@
 package com.example.yujhaochen.ims;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -15,15 +16,20 @@ public class imageZoom extends Activity {
 
 
     //public static Bitmap ImageSource = null;
-
+    private ProgressDialog pDialog;
     public static String ImagePath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
+        pDialog = new ProgressDialog(imageZoom.this);
         setContentView(R.layout.activity_image_zoom);
 
         final MyZoomImageView Img_WorkNote = (MyZoomImageView)findViewById(R.id.ImageViewZoom);
+
+        pDialog.setTitle("Loading...");
+
+        pDialog.show();
 
         Glide
                 .with(imageZoom.this)
@@ -35,6 +41,7 @@ public class imageZoom extends Activity {
 
                         Img_WorkNote.setImageBitmap(resource);
 
+                        pDialog.hide();
                     }
                 });
 

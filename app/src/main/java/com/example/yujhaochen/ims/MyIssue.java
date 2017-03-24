@@ -216,7 +216,11 @@ public class MyIssue extends Fragment {
 
                 String Read = String.valueOf(ModelData.getInt("Read"));
 
-                Issue_List.add(i, new Issue_Item(F_SeqNo, Model, F_Subject, F_CreateDate, F_Priority, CommentRead,Read));
+                String F_Owner = String.valueOf(ModelData.getString("F_Owner"));
+
+                String Status_Display = String.valueOf(ModelData.getString("Status_Display"));
+
+                Issue_List.add(i, new Issue_Item(F_SeqNo, Model, F_Subject, F_CreateDate, F_Priority, CommentRead, Read, F_Owner, Status_Display));
 
             }
 

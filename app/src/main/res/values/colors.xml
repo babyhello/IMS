@@ -22,6 +22,7 @@
     <color name="Issue_Date">#b3b3b3</color>
     <color name="Issue_Subject">#898a8e</color>
     <color name="Issue_Count">#ffffff</color>
+    <color name="Issue_Status">#a7abb7</color>
 
     <!--Notification-->
     <color name="Notification_Background">#f9f9f9</color>

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="80dp">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="105dp"
         android:paddingLeft="25dp"
@@ -14,7 +15,7 @@
             android:layout_height="60dp"
             android:id="@+id/Img_ProjectImage"
             android:background="@drawable/circle_text"
-
+            android:src="@mipmap/project_default"
             />
     </LinearLayout>
 
@@ -24,16 +25,17 @@
         android:layout_height="match_parent"
         android:gravity="left|center_vertical"
         android:paddingLeft="14dp">
+
         <TextView
+            android:id="@+id/txt_Project_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/txt_Project_Name"
-            android:textColor="@color/Login_Outlook"
-            android:textSize="32sp"
             android:layout_gravity="center_horizontal"
             android:layout_toLeftOf="@+id/txt_Issue_WorkNoteCount"
-            android:layout_toStartOf="@+id/txt_Issue_WorkNoteCount" />
+            android:layout_toStartOf="@+id/txt_Issue_WorkNoteCount"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/Login_Outlook"
+            android:textSize="@dimen/text_size_medium" />
 
         <TextView
             android:layout_width="8dp"

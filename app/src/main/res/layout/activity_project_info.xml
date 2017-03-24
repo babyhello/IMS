@@ -54,21 +54,21 @@
                         android:id="@+id/txt_ProjectInfo_Name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="4.5"
+                        android:gravity="center_horizontal"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/ProjectInfo_Name"
-                        android:textSize="30sp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="4.5"/>
+                        android:textSize="@dimen/text_size_medium" />
 
                     <TextView
+                        android:id="@+id/txt_Model_MarketName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/txt_Model_MarketName"
-                        android:textSize="22sp"
                         android:layout_below="@+id/txt_ProjectInfo_Name"
+                        android:layout_weight="4.5"
                         android:gravity="center_horizontal"
-                        android:layout_weight="4.5"/>
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!--<LinearLayout-->
                         <!--android:orientation="vertical"-->
@@ -84,25 +84,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/Img_Project_Pic_Large"
+                        android:src="@mipmap/logo_dragon"
                         android:layout_weight="1"
                         />
 
-                    <SeekBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/seekBar"
-                        android:layout_weight="4.5" />
+                    <!---->
 
-                    <ImageView
-                        android:id="@+id/Img_ProjectInfo"
+                    <!--<ImageView-->
+                    <!--android:id="@+id/Img_ProjectInfo"-->
 
-                        android:background="@mipmap/logo_msi"
+                    <!--android:background="@mipmap/logo_msi"-->
 
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_width="85dp"
-                        android:layout_height="100dp"
-                        android:visibility="gone" />
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_width="85dp"-->
+                    <!--android:layout_height="100dp"-->
+                    <!--android:visibility="gone" />-->
 
                 </LinearLayout>
 
@@ -417,11 +414,11 @@
                     android:id="@+id/txt_New_Issue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="top|center_horizontal"
                     android:text="New Issue"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/ProjectInfo_Font"
-                    android:gravity="top|center_horizontal"
-                    android:textSize="@dimen/text_size_xsmall" />
+                    android:textSize="@dimen/text_size_xxsmall" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

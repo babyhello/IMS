@@ -1,5 +1,6 @@
 package com.example.yujhaochen.ims;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,13 +28,15 @@ public class Project_Member extends AppCompatActivity {
     private ListView lsv_main;
     private MemberAdapter mListAdapter;
 
+    private ProgressDialog pDialog;
+
     String ModelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_member);
-
+        pDialog = new ProgressDialog(Project_Member.this);
         //View v = inflater.inflate(R.layout.fragment_my_issue, container, false);
         //宣告 ListView 元件
         lsv_main = (ListView) findViewById(R.id.listView);
@@ -51,6 +54,8 @@ public class Project_Member extends AppCompatActivity {
         }
 
         setTitle(ModelName);
+
+
     }
 
     private AdapterView.OnItemClickListener listViewOnItemClickListener
@@ -64,6 +69,10 @@ public class Project_Member extends AppCompatActivity {
 
     private void GetPM_MemberData(String PM_ID) {
 
+        pDialog.setTitle("Loading...");
+
+        pDialog.show();
+
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
         String Path = GetServiceData.ServicePath + "/Find_Model_Member_List?PM_ID=" + PM_ID;
@@ -72,6 +81,8 @@ public class Project_Member extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 MemberDataMapping(result);
+
+                pDialog.hide();
             }
         });
 
@@ -125,7 +136,11 @@ public class Project_Member extends AppCompatActivity {
 
             for (Member_Item e : Member_List) {
 
-                if (e.GetTitle().matches(d.GetTitle())) {
+                if (e.GetTitle().equals(d.GetTitle())) {
+
+
+
+
                     NewMemberList.add(i, e);
 
                     i++;

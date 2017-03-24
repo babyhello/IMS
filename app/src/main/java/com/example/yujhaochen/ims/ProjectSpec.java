@@ -1,5 +1,6 @@
 package com.example.yujhaochen.ims;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,13 +24,13 @@ public class ProjectSpec extends AppCompatActivity {
     List<Spec_Item> Spec_List = new ArrayList<Spec_Item>();
     private ListView lsv_main;
     private SpecAdapter mListAdapter;
-
+    private ProgressDialog pDialog;
     String ModelName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_spec);
-
+        pDialog = new ProgressDialog(ProjectSpec.this);
 
         //View v = inflater.inflate(R.layout.fragment_my_issue, container, false);
         //宣告 ListView 元件
@@ -52,6 +53,7 @@ public class ProjectSpec extends AppCompatActivity {
 
         setTitle(ModelName);
 
+
     }
 
     private AdapterView.OnItemClickListener listViewOnItemClickListener
@@ -71,6 +73,10 @@ public class ProjectSpec extends AppCompatActivity {
 
     private void GetPM_SpecData(String PM_ID) {
 
+        pDialog.setTitle("Loading...");
+
+        pDialog.show();
+
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
         String Path = GetServiceData.ServicePath + "/Find_Model_Spec?PM_ID=" + PM_ID;
@@ -80,6 +86,8 @@ public class ProjectSpec extends AppCompatActivity {
             public void onSuccess(JSONObject result) {
 
                 SpecDataMapping(result);
+
+                pDialog.hide();
             }
         });
 

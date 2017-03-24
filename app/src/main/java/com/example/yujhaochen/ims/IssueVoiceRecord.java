@@ -1,11 +1,17 @@
 package com.example.yujhaochen.ims;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -138,39 +144,53 @@ public class IssueVoiceRecord extends Activity {
 
         // 開始錄音
         public void start() {
-            if (recorder == null) {
-                // 建立錄音用的MediaRecorder物件
-                recorder = new MediaRecorder();
-                // 設定錄音來源為麥克風，必須在setOutputFormat方法之前呼叫
-                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                // 設定輸出格式為3GP壓縮格式，必須在setAudioSource方法之後，
-                // 在prepare方法之前呼叫
-                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                // 設定錄音的編碼方式，必須在setOutputFormat方法之後，
-                // 在prepare方法之前呼叫
-                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                // 設定輸出的檔案名稱，必須在setOutputFormat方法之後，
-                // 在prepare方法之前呼叫
-                recorder.setOutputFile(output);
 
-                try {
-                    // 準備執行錄音工作，必須在所有設定之後呼叫
-                    recorder.prepare();
-                }
-                catch (IOException e) {
-                    Log.d("RecordActivity", e.toString());
-                }
+            int permission = ActivityCompat.checkSelfPermission(IssueVoiceRecord.this, Manifest.permission.RECORD_AUDIO);
 
-                try {
-                    // 開始錄音
-                    recorder.start();
-                }
-                catch (IllegalStateException e) {
-                    Log.d("recorder", e.toString());
-                }
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 無權限，向使用者請求
+                ActivityCompat.requestPermissions(
+                        IssueVoiceRecord.this,
+                        new String[]{Manifest.permission.RECORD_AUDIO}, 1
+                );
 
-                mEMA = 0.0;
+
+            } else {
+
+                if (recorder == null) {
+                    // 建立錄音用的MediaRecorder物件
+                    recorder = new MediaRecorder();
+                    // 設定錄音來源為麥克風，必須在setOutputFormat方法之前呼叫
+                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    // 設定輸出格式為3GP壓縮格式，必須在setAudioSource方法之後，
+                    // 在prepare方法之前呼叫
+                    recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                    // 設定錄音的編碼方式，必須在setOutputFormat方法之後，
+                    // 在prepare方法之前呼叫
+                    recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    // 設定輸出的檔案名稱，必須在setOutputFormat方法之後，
+                    // 在prepare方法之前呼叫
+                    recorder.setOutputFile(output);
+
+                    try {
+                        // 準備執行錄音工作，必須在所有設定之後呼叫
+                        recorder.prepare();
+                    } catch (IOException e) {
+                        Log.d("RecordActivity", e.toString());
+                    }
+
+                    try {
+                        // 開始錄音
+                        recorder.start();
+                    } catch (IllegalStateException e) {
+                        Log.d("recorder", e.toString());
+                    }
+
+                    mEMA = 0.0;
+                }
             }
+
+
         }
 
         // 停止錄音

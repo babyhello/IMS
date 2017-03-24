@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.yujhaochen.ims.MainTab">
 
-    <item android:id="@+id/ProjectSort"
-        android:title="Project Sort" />
+    <item
+        android:id="@+id/CloseIssue"
+        android:title="Close Issue" />
 </menu>

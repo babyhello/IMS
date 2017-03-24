@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -166,6 +167,34 @@ public class NewIssue extends Activity {
     }
 
     @Override
+    public void onResume() {
+
+
+        super.onResume();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Discard this issue ?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -238,13 +267,26 @@ public class NewIssue extends Activity {
             @Override
             public void onClick(View arg0) {
 
-                VoiceFile = configFileName("P", ".3gp");
+                int permission = ActivityCompat.checkSelfPermission(NewIssue.this, Manifest.permission.RECORD_AUDIO);
 
-                Intent recordIntent = new Intent(NewIssue.this, IssueVoiceRecord.class);
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    // 無權限，向使用者請求
+                    ActivityCompat.requestPermissions(
+                            NewIssue.this,
+                            new String[]{Manifest.permission.RECORD_AUDIO}, 1
+                    );
 
-                recordIntent.putExtra("fileName", VoiceFile.getAbsolutePath());
 
-                startActivityForResult(recordIntent, REQUEST_Voice_CAPTURE);
+                } else {
+                    VoiceFile = configFileName("P", ".3gp");
+
+                    Intent recordIntent = new Intent(NewIssue.this, IssueVoiceRecord.class);
+
+                    recordIntent.putExtra("fileName", VoiceFile.getAbsolutePath());
+
+                    startActivityForResult(recordIntent, REQUEST_Voice_CAPTURE);
+
+                }
 
             }
         });
@@ -311,9 +353,12 @@ public class NewIssue extends Activity {
         lsv_main.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                String NewPosition = String.valueOf(position + 1);
+
                 new AlertDialog.Builder(NewIssue.this)
                         .setTitle("want to delele?")
-                        .setMessage("Want to delete " + position + " item?")
+                        .setMessage("Want to delete " + NewPosition + " item?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

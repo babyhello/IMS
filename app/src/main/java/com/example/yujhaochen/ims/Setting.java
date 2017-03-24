@@ -111,7 +111,39 @@ public class Setting extends Fragment implements SeekBar.OnSeekBarChangeListener
     GetBaseContext = getContext();
 
 
-    String VersionExplain =  "(Ver 21.0) 20170315 Update \n" + "Project List Show All and Add filter function" +
+        String VersionExplain =
+                "(Ver 24.0) 20170324 Update \n" + " 1. Edit Close Issue Style" +
+                        "\n 2. Issue List Add Issue Author" +
+                        "\n 3. Issue Info Add Issue Author & Owner" +
+                        "\n 4. Issue List & My Issue (Read Count) Center" +
+                        "\n 5. Fix Share Photo Subject MaxLength to 80" +
+                        "\n 6. Issue Status Close Change Background Color" +
+                        "\n 7. Fix Project Load More Hide" +
+                        "\n" +
+                        "\n" +
+
+
+                        "(Ver 23.0) 20170323 Update \n" + " 1. Fix New Issue Subject Max Length" +
+                        "\n 2. Fix Font Size" +
+                        "\n 3. Fix Setting Scroll Error" +
+                        "\n 4. Add Issue Close Function" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 22.0) 20170321 Update \n" + " 1. Fix Microphone Authority" +
+                        "\n 2. Fix Project Font Size" +
+                        "\n 3. Fix Project Collapse Error" +
+                        "\n 4. Fix Project Sort Message" +
+                        "\n 5. Fix Project Project Member Lost Issue" +
+                        "\n 6. Fix Project Spec and Member No Data Issue" +
+                        "\n 7. Fix NewIssue Remove Item Alert Number Message Issue" +
+                        "\n 8. Fix Project Member ext. Overlap Issue" +
+                        "\n 9. Fix Issue List Back to Project List ReLoad Issue" +
+                        "\n 10. Fix New Issue Touch Back Button Alert Message" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 21.0) 20170315 Update \n" + "Project List Show All and Add filter function" +
             "\n" +
             "\n" +
             "(Ver 20.0) 20170308 Update \n" + "fixed QRCode Vertical Issue" +

@@ -16,9 +16,12 @@ public class Issue_Item {
 
     String Read;
 
+    String Author;
+
+    String IssueStatus;
 
 
-    public Issue_Item(String ID,String ProjectName,String Subject,String Date,String Priority,String WorkNoteCount,String Read)
+    public Issue_Item(String ID, String ProjectName, String Subject, String Date, String Priority, String WorkNoteCount, String Read, String Author, String IssueStatus)
     {
        this.ID = ID;
 
@@ -34,7 +37,9 @@ public class Issue_Item {
 
         this.Read = Read;
 
+        this.Author = Author;
 
+        this.IssueStatus = IssueStatus;
 
     }
 
@@ -73,5 +78,11 @@ public class Issue_Item {
         return this.Read;
     }
 
+    public String GetAuthor() {
+        return this.Author;
+    }
 
+    public String GetIssueStatus() {
+        return this.IssueStatus;
+    }
 }

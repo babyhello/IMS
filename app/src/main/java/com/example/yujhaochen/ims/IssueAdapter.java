@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -26,6 +27,8 @@ public class IssueAdapter extends BaseAdapter {
 
     private String AdapterType;
 
+    private Context mContext;
+
     public IssueAdapter(Context context, List<Issue_Item> Issue_List, String AdapterType) {
         this.AdapterType = AdapterType;
 
@@ -33,7 +36,7 @@ public class IssueAdapter extends BaseAdapter {
             mLayInf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
-        //mLayInf = ;
+        mContext = context;
 
         this.Issue_List = Issue_List;
     }
@@ -68,6 +71,8 @@ public class IssueAdapter extends BaseAdapter {
 
         TextView txt_Issue_WorkNoteCount = (TextView) v.findViewById(R.id.txt_Issue_WorkNoteCount);
 
+        TextView IssueList_Author = (TextView) v.findViewById(R.id.IssueList_Author);
+
 //        GetServiceData.GetImageByImageLoad("http://172.16.111.114/File/SDQA/Code/Admin/10010670.jpg",Img_Priority);
         //Img_Priority.setImageResource(Integer.valueOf(Project_List.get(position).GetImage().toString()));
 
@@ -90,6 +95,8 @@ public class IssueAdapter extends BaseAdapter {
 
         txt_Issue_Subject.setText(Issue_List.get(position).GetSubject());
 
+        IssueList_Author.setText(Issue_List.get(position).GetAuthor());
+
         if (Issue_List.get(position).GetRead().equals("0")) {
             txt_Issue_WorkNoteCount.setText("N");
 
@@ -104,6 +111,12 @@ public class IssueAdapter extends BaseAdapter {
 
 
         Img_Priority.setImageResource(AppClass.PriorityImage(Issue_List.get(position).GetPriority()));
+
+        LinearLayout IssueList_Background = (LinearLayout) v.findViewById(R.id.IssueList_Background);
+
+        if (Issue_List.get(position).GetIssueStatus().equals("3")) {
+            IssueList_Background.setBackgroundColor(mContext.getResources().getColor(R.color.Issue_Status));
+        }
 
         return v;
     }

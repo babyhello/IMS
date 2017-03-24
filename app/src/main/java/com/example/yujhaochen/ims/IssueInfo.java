@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,13 +15,19 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +44,7 @@ import android.widget.TextView;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -76,6 +84,12 @@ public class IssueInfo extends AppCompatActivity {
 
     private Animator mCurrentAnimator;
 
+    private Menu mMenu;
+
+    private String Status_Display = "";
+
+    private String Author = "";
+
     // The system "short" animation time duration, in milliseconds. This
     // duration is ideal for subtle animations or animations that occur
     // very frequently.
@@ -85,8 +99,13 @@ public class IssueInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_issue_info);
 
+        setContentView(R.layout.activity_issue_info);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setTitle("My Title");
         //getActionBar().hide();
 
         pDialog = new ProgressDialog(this);
@@ -140,19 +159,11 @@ public class IssueInfo extends AppCompatActivity {
 
         GetServiceData.GetUserPhoto(this, UserData.WorkID, Img_IssueAuthor);
 
-        RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
 
         TextView txt_IssueInfo_No = (TextView) findViewById(R.id.txt_IssueInfo_No);
 
         txt_IssueInfo_No.setText("#" + IssueID);
 
-        Top_Banner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-                GoToIssue_Gallery();
-            }
-        });
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
 
@@ -170,6 +181,16 @@ public class IssueInfo extends AppCompatActivity {
         });
 
         setupUI(this.findViewById(android.R.id.content));
+
+//        RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
+//
+//        Top_Banner.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                GoToIssue_Gallery();
+//            }
+//        });
     }
 
     @Override
@@ -417,8 +438,8 @@ public class IssueInfo extends AppCompatActivity {
 
     private void Issue_File_List(String Issue_ID) {
 
-        pDialog.setMessage("Loading...");
-        pDialog.show();
+//        pDialog.setMessage("Loading...");
+//        pDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
@@ -428,7 +449,7 @@ public class IssueInfo extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject result) {
 
-                pDialog.hide();
+//                pDialog.hide();
 
                 IssueInfoFile_ListMapping(result);
             }
@@ -443,39 +464,41 @@ public class IssueInfo extends AppCompatActivity {
             JSONArray IssueInfoFileArray = new JSONArray(result.getString("Key"));
 
             if (IssueInfoFileArray.length() > 0) {
-                RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
-
-                Top_Banner.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-
-//                        GoToIssue_Gallery();
-
-                        LinearLayout RecycleView = (LinearLayout) findViewById(R.id.Lie_IssueFile);
-
-                        TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
-
-                        if (RecycleView.getVisibility() == View.VISIBLE) {
-                            RecycleView.setVisibility(View.GONE);
 
 
-                        } else {
-                            RecycleView.setVisibility(View.VISIBLE);
-
-                            //  TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
-
-
-                        }
-
-                        if (txt_IssueInfo_Gallery.getText().toString().contains("Hide")) {
-                            txt_IssueInfo_Gallery.setText("Show");
-                        } else {
-                            txt_IssueInfo_Gallery.setText("Hide");
-                        }
-
-
-                    }
-                });
+//                RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
+//
+//                Top_Banner.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View arg0) {
+//
+////                        GoToIssue_Gallery();
+//
+//                        LinearLayout RecycleView = (LinearLayout) findViewById(R.id.Lie_IssueFile);
+//
+//                        TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
+//
+//                        if (RecycleView.getVisibility() == View.VISIBLE) {
+//                            RecycleView.setVisibility(View.GONE);
+//
+//
+//                        } else {
+//                            RecycleView.setVisibility(View.VISIBLE);
+//
+//                            //  TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
+//
+//
+//                        }
+//
+//                        if (txt_IssueInfo_Gallery.getText().toString().contains("Hide")) {
+//                            txt_IssueInfo_Gallery.setText("Show");
+//                        } else {
+//                            txt_IssueInfo_Gallery.setText("Hide");
+//                        }
+//
+//
+//                    }
+//                });
 
                 for (int i = 0; i < IssueInfoFileArray.length(); i++) {
 
@@ -500,9 +523,9 @@ public class IssueInfo extends AppCompatActivity {
 
                 RecycleView.setVisibility(View.GONE);
 
-                TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
+                //TextView txt_IssueInfo_Gallery = (TextView) findViewById(R.id.txt_IssueInfo_Gallery);
 
-                txt_IssueInfo_Gallery.setVisibility(View.GONE);
+                //txt_IssueInfo_Gallery.setVisibility(View.GONE);
             }
 
 
@@ -530,6 +553,7 @@ public class IssueInfo extends AppCompatActivity {
 
     }
 
+
     private void IssueInfoMapping(JSONObject result) {
         try {
             WorkNote_List.clear();
@@ -550,9 +574,13 @@ public class IssueInfo extends AppCompatActivity {
 
                 String F_Priority = IssueData.getString("F_Priority");
 
+                Status_Display = IssueData.getString("F_Status_Display");
+
                 String F_CreateDate = AppClass.ConvertDateString(IssueData.getString("F_CreateDate"));
 
                 String F_Subject = IssueData.getString("F_Subject");
+
+                Author = IssueData.getString("F_Keyin");
 
                 F_Subject = AppClass.stripHtml(F_Subject);
 
@@ -560,7 +588,7 @@ public class IssueInfo extends AppCompatActivity {
 
                 TextView txt_IssueInfo_Owner = (TextView) findViewById(R.id.txt_IssueInfo_Owner);
 
-                TextView txt_IssueInfo_ProjectName = (TextView) findViewById(R.id.txt_IssueInfo_ProjectName);
+                //TextView txt_IssueInfo_ProjectName = (TextView) findViewById(R.id.txt_IssueInfo_ProjectName);
 
                 ImageView Img_IssuePriority = (ImageView) findViewById(R.id.Img_IssuePriority);
 
@@ -579,11 +607,18 @@ public class IssueInfo extends AppCompatActivity {
 
                 txt_IssueInfo_Date.setText(F_CreateDate);
 
-                txt_IssueInfo_ProjectName.setText("MS-" + F_ModelName);
+                //txt_IssueInfo_ProjectName.setText("MS-" + F_ModelName);
+
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+                toolbar.setTitle("MS-" + F_ModelName);
 
                 txt_Issue_Subject.setText(F_Subject);
 
                 Img_IssuePriority.setImageResource(AppClass.PriorityImage(F_Priority));
+
+
+                this.invalidateOptionsMenu();
 
             }
         } catch (JSONException ex) {
@@ -595,9 +630,9 @@ public class IssueInfo extends AppCompatActivity {
 
     private void Find_Issue_Comment(String Issue_ID) {
 
-        pDialog.setMessage("Loading...");
-
-        pDialog.show();
+//        pDialog.setMessage("Loading...");
+//
+//        pDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
@@ -609,7 +644,7 @@ public class IssueInfo extends AppCompatActivity {
 
                 IssueCommentMapping(result);
 
-                pDialog.hide();
+                //pDialog.hide();
             }
         });
 
@@ -656,6 +691,89 @@ public class IssueInfo extends AppCompatActivity {
             lsv_main.setAdapter(mListAdapter);
         } catch (JSONException ex) {
 
+        }
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        mMenu = menu;
+
+
+        if (!Status_Display.equals("3") && Author.equals(UserData.WorkID)) {
+            getMenuInflater().inflate(R.menu.menu_issue, menu);
+        }
+
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.CloseIssue) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(
+                    IssueInfo.this);
+            alert.setTitle("Close Issue!!");
+            alert.setMessage("Are you sure to close issue");
+            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Log.w("IssueID", IssueID);
+
+                    Close_Issue(IssueID);
+
+                }
+            });
+            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            alert.show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void Close_Issue(final String IssueID) {
+
+
+        if (!TextUtils.isEmpty(IssueID)) {
+
+
+            RequestQueue mQueue = Volley.newRequestQueue(this);
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("IssueNo", IssueID);
+
+            String Path = GetServiceData.ServicePath + "/Close_Issue";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+                    AppClass.AlertMessage("Close Issue Success", IssueInfo.this);
+                }
+
+            }, map);
+
+
+        } else {
+            AppClass.AlertMessage("Close Issue Error", IssueInfo.this);
         }
 
 

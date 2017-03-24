@@ -156,22 +156,26 @@ public class GetServiceData {
                 });
     }
 
-    public static String encodeURIComponent(String s) {
-        String result;
+    public static String encodeURIComponent(String Url) {
 
         try {
-            result = URLEncoder.encode(s, "UTF-8")
-                    .replaceAll("\\+", "%20")
-                    .replaceAll("\\%21", "!")
-                    .replaceAll("\\%27", "'")
-                    .replaceAll("\\%28", "(")
-                    .replaceAll("\\%29", ")")
-                    .replaceAll("\\%7E", "~");
-        } catch (UnsupportedEncodingException e) {
-            result = s;
+
+            String ReplaceURL = Url.substring(Url.lastIndexOf('/') + 1, Url.length());
+
+
+            String EncodeURL = "";
+
+            if (ReplaceURL != "") {
+                EncodeURL = URLEncoder.encode(ReplaceURL, "utf-8");
+            }
+
+            Url = Url.replace(ReplaceURL, EncodeURL);
+
+        } catch (IOException e) {
+            System.out.print(e);
         }
 
-        return result;
+        return Url;
     }
 
     public static void GetImageByImageLoad(String Url, final ImageView Img) {

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -81,6 +83,10 @@ public class project_expandtable extends Fragment {
 
     private int SortType = 0 ;
 
+    public static boolean ResumeFlag = false;
+
+    private boolean Lsv_Collspan = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +125,8 @@ public class project_expandtable extends Fragment {
 
                 if (!UserData.WorkID.matches("")) {
                     GetPM_Data(UserData.WorkID, "1", "25");
+
+                    Log.w("ReloadData", "GetPMDAtat ReFresh");
                 }
             }
         });
@@ -126,6 +134,8 @@ public class project_expandtable extends Fragment {
 
         if (!UserData.WorkID.matches("")) {
             GetPM_Data(UserData.WorkID, "1", "25");
+
+            Log.w("ReloadData", "GetPMDAtatInit");
         }
 
         DisplayMetrics metrics = new DisplayMetrics();
@@ -134,6 +144,17 @@ public class project_expandtable extends Fragment {
 
 
         elv = (ExpandableListView) v.findViewById(R.id.mExpandableListView);
+
+        elv.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+
+                Lsv_Collspan = true;
+
+                //elv.collapseGroup(groupPosition);
+            }
+        });
+
 
         elv.setIndicatorBounds(metrics.widthPixels - GetDipsFromPixel(35), metrics.widthPixels - GetDipsFromPixel(5));
 
@@ -148,11 +169,22 @@ public class project_expandtable extends Fragment {
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
 
-                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-                    if (flag_loading == false) {
-                        flag_loading = true;
 
-                        Add_Item(UserData.WorkID, String.valueOf(totalItemCount + 1), String.valueOf(totalItemCount + visibleItemCount + 1));
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+
+                    if (flag_loading == false) {
+
+                        if (Lsv_Collspan) {
+                            Lsv_Collspan = false;
+                        } else {
+                            flag_loading = true;
+
+                            Add_Item(UserData.WorkID, String.valueOf(totalItemCount + 1), String.valueOf(totalItemCount + visibleItemCount + 1));
+
+                            Lsv_Collspan = false;
+                        }
+
+
                     }
                 }
             }
@@ -191,6 +223,8 @@ public class project_expandtable extends Fragment {
 
                 if (!UserData.WorkID.matches("")) {
                     GetPM_Data(UserData.WorkID, "1", "25");
+
+                    Log.w("ReloadData", "GetPMDAtat Sort");
                 }
 
                 dialog.dismiss();
@@ -204,9 +238,18 @@ public class project_expandtable extends Fragment {
 
     @Override
     public void onResume() {
-        if (!UserData.WorkID.matches("")) {
-            GetPM_Data(UserData.WorkID, "1", "25");
-        }
+
+//        if (ResumeFlag)
+//        {
+//            if (!UserData.WorkID.matches("")) {
+//                GetPM_Data(UserData.WorkID, "1", "25");
+//
+//                Log.w("ReloadData","GetPMDAtat Resume");
+//            }
+//            ResumeFlag = false;
+//        }
+
+
 
         super.onResume();
     }
@@ -220,9 +263,10 @@ public class project_expandtable extends Fragment {
 
     private void GetPM_Data(String WorkID, String Start, String End) {
 
-        pDialog.setTitle("Loading...");
 
-        pDialog.show();
+//        pDialog.setTitle("Loading...");
+//
+//        pDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
 
@@ -245,7 +289,7 @@ public class project_expandtable extends Fragment {
 
                 PMData_Mapping(result);
 
-                pDialog.hide();
+                // pDialog.hide();
             }
         });
 
@@ -253,9 +297,9 @@ public class project_expandtable extends Fragment {
 
     private void Add_Item(String WorkID, String Start, String End) {
 
-        pDialog.setTitle("Load More...");
+        //Toast.makeText(getContext(),"Load More",1).show();
 
-        pDialog.show();
+
 
         RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
 
@@ -310,7 +354,7 @@ public class project_expandtable extends Fragment {
                 }
 
 
-                pDialog.hide();
+                //pDialog.hide();
 
 
             }
@@ -453,6 +497,8 @@ public class project_expandtable extends Fragment {
                     Intent intent = new Intent(context, ProjectInfo.class);
 
                     context.startActivity(intent);
+
+                    ResumeFlag = true;
                 }
             });
 
@@ -504,20 +550,34 @@ public class project_expandtable extends Fragment {
             }
 
 
+            String ProjectImagePath = GetServiceData.ServicePath + "/Get_File?FileName=" + Project_Item.GetImage();
+
+            Log.w("ProjectImagePath", ProjectImagePath);
+
             Glide.with(context)
-                    .load(GetServiceData.ServicePath + "/Get_File?FileName=" + Project_Item.GetImage())
+                    .load(ProjectImagePath)
                     .asBitmap()
+                    .placeholder(R.mipmap.logo_dragon)
+                    .error(R.mipmap.logo_dragon)
                     .into(new SimpleTarget<Bitmap>(300, 300) {
+
+                        @Override
+                        public void onLoadStarted(Drawable placeholder) {
+                            Img_ProjectImage.setImageDrawable(placeholder);
+                        }
+
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                            //Img_ProjectImage.setImageBitmap(AppClass.roundCornerImage(bitmap,30));
+
+
                             BitmapDrawable ob = new BitmapDrawable(getResources(), AppClass.roundCornerImage(bitmap, 150));
-                            //Img_ProjectImage.setBackground(ob);
+
                             Img_ProjectImage.setImageBitmap(ob.getBitmap());
                         }
                     });
 
             txt_Project_Name.setText(Project_Item.GetName());
+
 
             return v;
         }

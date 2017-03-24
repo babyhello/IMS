@@ -66,7 +66,6 @@ public class ProjectInfo extends Activity {
 
         }
 
-        SeekBar SeekBara = (SeekBar)findViewById(R.id.seekBar);
 
         final ImageView Img_Star = (ImageView) findViewById(R.id.Img_Star);
 
@@ -76,7 +75,10 @@ public class ProjectInfo extends Activity {
 
                 if (UserData.WorkID != "")
                 {
+                    project_expandtable.ResumeFlag = true;
+
                     FavoritClick(UserData.WorkID,"",Project_Item.ModelID);
+
 
                     if (Img_Star.getDrawable().getConstantState() == getResources().getDrawable( R.mipmap.btn_star_nor).getConstantState())
                     {
@@ -170,7 +172,7 @@ public class ProjectInfo extends Activity {
 
                 String MarketName = IssueData.getString("MarketName");
 
-                final ImageView Img_ProjectInfo = (ImageView) findViewById(R.id.Img_ProjectInfo);
+                //final ImageView Img_ProjectInfo = (ImageView) findViewById(R.id.Img_ProjectInfo);
 
                 final ImageView Img_Project_Pic_Large = (ImageView) findViewById(R.id.Img_Project_Pic_Large);
 
@@ -238,12 +240,12 @@ public class ProjectInfo extends Activity {
 
                                     //BitmapDrawable ob = new BitmapDrawable(getResources(), AppClass.roundCornerImage(bitmap,0));
                                     //Img_ProjectInfo.setBackground(ob);
-                                    //Img_Project_Pic_Large.setImageBitmap(ob.getBitmap());
+
                                     BitmapDrawable ob = new BitmapDrawable(getResources(),bitmap);
-                                    Img_Project_Pic_Large.setBackground(ob);
+                                    Img_Project_Pic_Large.setImageBitmap(ob.getBitmap());
+                                    //Img_Project_Pic_Large.setBackground(ob);
                                     //Rel_Project_Layout.setBackground(ob);
 
-                                    Log.w("PrintMessage","PrintMessage");
 
                                 }
                             });

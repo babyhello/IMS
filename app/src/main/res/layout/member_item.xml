@@ -40,6 +40,6 @@
         android:textColor="@color/Member_Phone"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:paddingRight="27dp"
+        android:paddingRight="10dp"
         />
 </RelativeLayout>

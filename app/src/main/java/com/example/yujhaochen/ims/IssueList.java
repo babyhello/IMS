@@ -102,12 +102,12 @@ public class IssueList extends Activity {
     @Override
     public void onResume()
     {
-        String WorkID = UserData.WorkID;
-
-        if (!TextUtils.isEmpty(WorkID)  )
-        {
-            Find_Issue_List(ModelID,WorkID);
-        }
+//        String WorkID = UserData.WorkID;
+//
+//        if (!TextUtils.isEmpty(WorkID)  )
+//        {
+//            Find_Issue_List(ModelID,WorkID);
+//        }
 
         super.onResume();
     }
@@ -132,9 +132,9 @@ public class IssueList extends Activity {
 
     private void Find_Issue_List(String PM_ID,String F_Keyin) {
 
-        pDialog.setMessage("Loading...");
-
-        pDialog.show();
+//        pDialog.setMessage("Loading...");
+//
+//        pDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
@@ -145,7 +145,7 @@ public class IssueList extends Activity {
             public void onSuccess(JSONObject result) {
                 IssueDataMapping(result);
 
-                pDialog.hide();
+                //pDialog.hide();
             }
         });
 
@@ -185,7 +185,8 @@ public class IssueList extends Activity {
 
                 String CommentRead = String.valueOf(IssueData.getInt("CommentRead"));
 
-                Issue_List.add(i,new Issue_Item("00" + F_SeqNo,ModelName,F_Subject,F_CreateDate,F_Priority,CommentRead,Read));
+
+                Issue_List.add(i, new Issue_Item("00" + F_SeqNo, ModelName, F_Subject, F_CreateDate, F_Priority, CommentRead, Read, Issue_Author, F_Status_Display));
             }
 
             // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入

@@ -35,7 +35,7 @@ public class UpdateManager extends Activity{
 
     private Context mContext;
     //提示語
-    private String updateMsg = "New Version 24";
+    private String updateMsg = "New Version Update!!";
 
     //返回的安裝包url
     private String apkUrl = "http://wtsc.msi.com.tw/Code/IMS.apk";

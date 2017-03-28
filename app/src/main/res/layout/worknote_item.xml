@@ -75,16 +75,16 @@
                 android:layout_toLeftOf="@+id/txt_Issue_WorkNoteCount" />
 
             <TextView
+                android:id="@+id/txt_WorkNote_Content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/txt_WorkNote_Content"
-                android:textSize="23sp"
-                android:textColor="@color/WorkNote_Content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="left|top"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/txt_Issue_WorkNoteCount"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_toLeftOf="@+id/txt_Issue_WorkNoteCount"
+                android:gravity="left|top"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/WorkNote_Content"
+                android:textSize="@dimen/text_size_medium" />
         </RelativeLayout>
 
     </LinearLayout>

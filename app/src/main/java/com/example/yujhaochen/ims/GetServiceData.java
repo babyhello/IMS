@@ -71,7 +71,7 @@ public class GetServiceData {
 
     public static void getString(String Url, RequestQueue mQueue, final VolleyCallback callback) {
 
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, Url, null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, Url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

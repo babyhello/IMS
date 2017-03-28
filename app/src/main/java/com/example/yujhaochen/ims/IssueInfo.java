@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,6 +78,7 @@ public class IssueInfo extends AppCompatActivity {
     private IssueFileAdapter mAdapter;
     public ArrayList<Image> ImageViewList = new ArrayList<Image>();
     private String IssueID;
+    private String ModelID;
     private ProgressDialog pDialog;
     private File ImageFile;
 
@@ -118,6 +120,7 @@ public class IssueInfo extends AppCompatActivity {
         Bundle Bundle = this.getIntent().getExtras();
 
         IssueID = Bundle.getString("IssueID");
+
 
         Issue_Get(IssueID);
 
@@ -182,6 +185,7 @@ public class IssueInfo extends AppCompatActivity {
 
         setupUI(this.findViewById(android.R.id.content));
 
+
 //        RelativeLayout Top_Banner = (RelativeLayout) findViewById(R.id.Top_Banner);
 //
 //        Top_Banner.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +195,8 @@ public class IssueInfo extends AppCompatActivity {
 //                GoToIssue_Gallery();
 //            }
 //        });
+
+
     }
 
     @Override
@@ -582,6 +588,8 @@ public class IssueInfo extends AppCompatActivity {
 
                 Author = IssueData.getString("F_Keyin");
 
+                ModelID = IssueData.getString("F_PM_ID");
+
                 F_Subject = AppClass.stripHtml(F_Subject);
 
                 TextView txt_IssueInfo_Author = (TextView) findViewById(R.id.txt_IssueInfo_Author);
@@ -627,6 +635,89 @@ public class IssueInfo extends AppCompatActivity {
 
 
     }
+
+    public void IssuePriorityChange() {
+        List<List_Item> PriorityList = new ArrayList<List_Item>();
+
+        PriorityList.add(0, new List_Item("Critical (P1)", "1"));
+
+        PriorityList.add(1, new List_Item("Major (P2)", "2"));
+
+        PriorityList.add(2, new List_Item("Minor (P3)", "3"));
+
+        Alert_Search_Dialog DataDialog = new Alert_Search_Dialog(IssueInfo.this, "Select Issue Priority", PriorityList);
+
+        DataDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+                Alert_Search_Dialog DataDialog = (Alert_Search_Dialog) dialog;
+
+                if (!TextUtils.isEmpty(DataDialog.SelectValue)) {
+                    Change_Issue_Priority(IssueID, DataDialog.SelectValue);
+                }
+
+            }
+        });
+
+        DataDialog.show();
+    }
+
+    public void IssueOwnerChange(String PM_ID) {
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        String Path = GetServiceData.ServicePath + "/Find_Model_Member?PM_ID=" + PM_ID;
+
+        GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                try {
+
+                    List<List_Item> Member_List = new ArrayList<List_Item>();
+
+                    JSONArray UserArray = new JSONArray(result.getString("Key"));
+
+                    for (int i = 0; i < UserArray.length(); i++) {
+                        JSONObject ModelData = UserArray.getJSONObject(i);
+
+                        String MemberName = ModelData.getString("FullName");
+
+                        String WorkID = ModelData.getString("F_ID");
+
+                        Member_List.add(i, new List_Item(MemberName, WorkID));
+                    }
+
+                    Alert_Search_Dialog DataDialog = new Alert_Search_Dialog(IssueInfo.this, "Select Issue Owner", Member_List);
+
+
+                    DataDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+
+                            Alert_Search_Dialog DataDialog = (Alert_Search_Dialog) dialog;
+
+                            if (!TextUtils.isEmpty(DataDialog.SelectValue)) {
+                                Change_Issue_Owner(IssueID, DataDialog.SelectValue);
+                            }
+
+
+                        }
+                    });
+
+                    DataDialog.show();
+
+                } catch (JSONException ex) {
+
+                }
+            }
+        });
+
+
+    }
+
+
+
 
     private void Find_Issue_Comment(String Issue_ID) {
 
@@ -743,11 +834,78 @@ public class IssueInfo extends AppCompatActivity {
             });
 
             alert.show();
+        } else if (id == R.id.IssueOwner) {
+            IssueOwnerChange(ModelID);
+        } else if (id == R.id.IssuePriotiry) {
+            IssuePriorityChange();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void Change_Issue_Owner(final String IssueID, final String WorkID) {
+
+
+        if (!TextUtils.isEmpty(IssueID) && !TextUtils.isEmpty(WorkID)) {
+
+            RequestQueue mQueue = Volley.newRequestQueue(this);
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("IssueID", IssueID);
+            map.put("WorkID", WorkID);
+
+            String Path = GetServiceData.ServicePath + "/Change_Issue_Owner";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+                    Issue_Get(IssueID);
+
+                    AppClass.AlertMessage("Change Owner Success", IssueInfo.this);
+                }
+
+            }, map);
+
+
+        } else {
+            AppClass.AlertMessage("Change Owner Error", IssueInfo.this);
+        }
+
+
+    }
+
+    private void Change_Issue_Priority(final String IssueID, final String Priority) {
+
+
+        if (!TextUtils.isEmpty(IssueID) && !TextUtils.isEmpty(Priority)) {
+
+            RequestQueue mQueue = Volley.newRequestQueue(this);
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("IssueID", IssueID);
+            map.put("Priority", Priority);
+
+            String Path = GetServiceData.ServicePath + "/Change_Issue_Priority";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+                    Issue_Get(IssueID);
+
+                    AppClass.AlertMessage("Change Priority Success", IssueInfo.this);
+                }
+
+            }, map);
+
+
+        } else {
+            AppClass.AlertMessage("Change Priority Error", IssueInfo.this);
+        }
+
+
+    }
 
     private void Close_Issue(final String IssueID) {
 

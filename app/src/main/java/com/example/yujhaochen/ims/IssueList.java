@@ -223,6 +223,7 @@ public class IssueList extends Activity {
         Bundle bundle = new Bundle();
 
         bundle.putString("IssueID", IssueID);
+
         // 建立啟動另一個Activity元件需要的Intent物件
         // 建構式的第一個參數：「this」
         // 建構式的第二個參數：「Activity元件類別名稱.class」

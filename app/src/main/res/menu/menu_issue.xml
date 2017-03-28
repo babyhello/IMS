@@ -6,4 +6,12 @@
     <item
         android:id="@+id/CloseIssue"
         android:title="Close Issue" />
+
+    <item
+        android:id="@+id/IssueOwner"
+        android:title="Change Owner" />
+
+    <item
+        android:id="@+id/IssuePriotiry"
+        android:title="Change Priotiry" />
 </menu>

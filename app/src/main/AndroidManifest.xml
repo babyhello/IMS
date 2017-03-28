@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.yujhaochen.ims"
-    android:versionCode="24"
-    android:versionName="24">
+    android:versionCode="26"
+    android:versionName="26">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -28,11 +28,11 @@
     <application
         android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@mipmap/ims_app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:debuggable="true">
+        android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -43,16 +43,17 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!--<receiver-->
-            <!--android:name="com.google.android.gms.gcm.GcmReceiver"-->
-            <!--android:exported="true"-->
-            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+        <!-- <receiver -->
+        <!-- android:name="com.google.android.gms.gcm.GcmReceiver" -->
+        <!-- android:exported="true" -->
+        <!-- android:permission="com.google.android.c2dm.permission.SEND"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
 
-                <!--<category android:name="com.tom.stock" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+
+        <!-- <category android:name="com.tom.stock" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
         <service
             android:name=".IMS_VpnService"
@@ -100,21 +101,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CustomScannerActivity"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden">
-        </activity>
-        <activity android:name=".CaptureActivityPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity
+            android:name=".CaptureActivityPortrait"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
             android:name=".MainDefault"
             android:windowSoftInputMode="adjustPan" />
@@ -246,7 +244,9 @@
         </activity>
         <!-- <activity android:name=".IssueVideoPlay" /> -->
 
-        <!--<activity android:name=".CustomSacnnerActivity"></activity>-->
+
+        <!-- <activity android:name=".CustomSacnnerActivity"></activity> -->
+        <activity android:name=".Alert_Search_Dialog"></activity>
     </application>
 
 </manifest>

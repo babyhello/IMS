@@ -44,6 +44,8 @@ public class ProjectAdapter extends BaseAdapter {
 
     private Context ProjectContext;
 
+    private RequestQueue mQueue;
+
     public ProjectAdapter(Context context, List<Project_Item> Project_List)
     {
         mLayInf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -201,8 +203,10 @@ public class ProjectAdapter extends BaseAdapter {
 
     private void Insert_Forcus_Data(String F_Keyin,String F_Owner,String F_PM_ID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(ProjectContext);
+        }
         String Path = GetServiceData.ServicePath + "/Insert_Focus_Model" + "?F_Keyin=" + F_Keyin + "&F_Owner=" + F_Owner + "&F_PM_ID=" + F_PM_ID;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {

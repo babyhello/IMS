@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IssueList extends Activity {
+public class IssueList extends AppCompatActivity {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     List<Issue_Item> Issue_List = new ArrayList<Issue_Item>();
@@ -40,6 +41,8 @@ public class IssueList extends Activity {
     private ProgressDialog pDialog;
 
     private Boolean flag_loading = false;
+
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +67,9 @@ public class IssueList extends Activity {
         }
 
 
-
-
-        TextView txt_IssueList_ModelName= (TextView)findViewById(R.id.txt_IssueList_ModelName);
-
-        txt_IssueList_ModelName.setText(ModelName);
+//        TextView txt_IssueList_ModelName= (TextView)findViewById(R.id.txt_IssueList_ModelName);
+//
+//        txt_IssueList_ModelName.setText(ModelName);
 
         ImageView Img_New_Issue= (ImageView)findViewById(R.id.Img_New_Issue);
 
@@ -96,6 +97,11 @@ public class IssueList extends Activity {
 
             }
         });
+
+        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(ModelName);
+
 
     }
 
@@ -136,7 +142,9 @@ public class IssueList extends Activity {
 //
 //        pDialog.show();
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Find_Issue_List_Advantage?PM_ID=" + PM_ID +"&F_Keyin=" + F_Keyin;
 
@@ -185,8 +193,9 @@ public class IssueList extends Activity {
 
                 String CommentRead = String.valueOf(IssueData.getInt("CommentRead"));
 
+                F_Subject = F_Subject.replace("\n", "");
 
-                Issue_List.add(i, new Issue_Item("00" + F_SeqNo, ModelName, F_Subject, F_CreateDate, F_Priority, CommentRead, Read, Issue_Author, F_Status_Display));
+                Issue_List.add(i, new Issue_Item(F_SeqNo, ModelName, F_Subject, F_CreateDate, F_Priority, CommentRead, Read, Issue_Author, F_Status_Display));
             }
 
             // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入

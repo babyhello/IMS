@@ -3,6 +3,8 @@ package com.example.yujhaochen.ims;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -38,7 +42,7 @@ public class IssueFileAdapter extends RecyclerView.Adapter<IssueFileAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImg;
-        JCVideoPlayerStandard jcVideoPlayerStandard;
+        IssueVideoPlay mIssueVideoPlay;
         IssueVoicePlay mIssueVoicePlay;
 
         public ViewHolder(View LayoutView) {
@@ -46,7 +50,7 @@ public class IssueFileAdapter extends RecyclerView.Adapter<IssueFileAdapter.View
 
             mImg = (ImageView) LayoutView.findViewById(R.id.Img_IssueFile_Image);
 
-            jcVideoPlayerStandard = (JCVideoPlayerStandard) LayoutView.findViewById(R.id.Video_IssueFile);
+            mIssueVideoPlay = (IssueVideoPlay) LayoutView.findViewById(R.id.IssueVideoPlay);
 
             mIssueVoicePlay = (IssueVoicePlay) LayoutView.findViewById(R.id.IssueVoicePlay);
 
@@ -78,25 +82,37 @@ public class IssueFileAdapter extends RecyclerView.Adapter<IssueFileAdapter.View
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
+
         if (mDatas.get(i).GetImage().toLowerCase().contains(".mp4")) {
 
-            Log.w("GetImage",mDatas.get(i).GetImage());
+            final String VideoPath = mDatas.get(i).GetImage();
 
-            viewHolder.jcVideoPlayerStandard.setUp(mDatas.get(i).GetImage()
-                    , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "");
-
-            viewHolder.jcVideoPlayerStandard.setVisibility(View.VISIBLE);
-            viewHolder.mImg.setVisibility(View.GONE);
+            viewHolder.mIssueVideoPlay.setVisibility(View.VISIBLE);
             viewHolder.mIssueVoicePlay.setVisibility(View.GONE);
+            viewHolder.mImg.setVisibility(View.GONE);
+
+            viewHolder.mIssueVideoPlay.SetVideoPath(mDatas.get(i).GetImage());
+            viewHolder.mIssueVideoPlay.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(mContext, play_video.class);
+
+                    Bundle intentBundle = new Bundle();
+
+                    intentBundle.putString("VideoUrl", VideoPath);
+
+                    intent.putExtras(intentBundle);
+
+                    mContext.startActivity(intent);
+
+                }
+            });
         }
         else if(mDatas.get(i).GetImage().toLowerCase().contains(".3gp"))
         {
-
-            viewHolder.jcVideoPlayerStandard.setVisibility(View.GONE);
+            viewHolder.mIssueVideoPlay.setVisibility(View.GONE);
             viewHolder.mImg.setVisibility(View.GONE);
             viewHolder.mIssueVoicePlay.setVisibility(View.VISIBLE);
-
-            Log.w("ServicePath",mDatas.get(i).GetImage());
 
             viewHolder.mIssueVoicePlay.fileName = mDatas.get(i).GetImage();
 
@@ -106,18 +122,40 @@ public class IssueFileAdapter extends RecyclerView.Adapter<IssueFileAdapter.View
         }
         else  {
 
-            final String Imagepath = mDatas.get(i).GetImage();
 
-            viewHolder.jcVideoPlayerStandard.setVisibility(View.GONE);
+            String _ImagePath = mDatas.get(i).GetImage();
+
+            if (_ImagePath.toLowerCase().contains("img")) {
+                _ImagePath = GetServiceData.getUrlFromImgTag(_ImagePath);
+            }
+
+            final String Imagepath = _ImagePath;
+
+
+            viewHolder.mIssueVideoPlay.setVisibility(View.GONE);
             viewHolder.mIssueVoicePlay.setVisibility(View.GONE);
             viewHolder.mImg.setVisibility(View.VISIBLE);
 
-            Glide.with(mContext)
+
+            Glide
+                    .with(mContext)
                     .load(mDatas.get(i).GetImage())
-                    .centerCrop()
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.mipmap.progress_image)
-                    .crossFade()
-                    .into(viewHolder.mImg);
+                    .into(new SimpleTarget<Bitmap>(100, 100) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+
+                            viewHolder.mImg.setImageBitmap(resource);
+
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+//                            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

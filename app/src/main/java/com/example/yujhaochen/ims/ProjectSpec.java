@@ -26,6 +26,7 @@ public class ProjectSpec extends AppCompatActivity {
     private SpecAdapter mListAdapter;
     private ProgressDialog pDialog;
     String ModelName;
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +78,10 @@ public class ProjectSpec extends AppCompatActivity {
 
         pDialog.show();
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Find_Model_Spec?PM_ID=" + PM_ID;
 
@@ -101,24 +105,30 @@ public class ProjectSpec extends AppCompatActivity {
 
             JSONArray UserArray = new JSONArray(result.getString("Key"));
 
-            for (int i = 0;i< UserArray.length();i++)
-            {
-                JSONObject ModelData =  UserArray.getJSONObject(i);
+            if (UserArray.length() > 0) {
 
-                String F_FieldName = ModelData.getString("F_FieldName");
+                for (int i = 0; i < UserArray.length(); i++) {
+                    JSONObject ModelData = UserArray.getJSONObject(i);
 
-                String F_FieldValue = ModelData.getString("F_SpecData").replace("<br>","\n");
+                    String F_FieldName = ModelData.getString("F_FieldName");
 
-                Spec_List.add(i,new Spec_Item(F_FieldName,F_FieldValue));
+                    String F_FieldValue = ModelData.getString("F_SpecData").replace("<br>", "\n");
+
+                    Spec_List.add(i, new Spec_Item(F_FieldName, F_FieldValue));
+                }
+
+                // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入
+                mListAdapter = new SpecAdapter(this, Spec_List);
+
+
+                lsv_main.setEmptyView(findViewById(R.id.emptyview));
+                //設定 ListView 的 Adapter
+                lsv_main.setAdapter(mListAdapter);
+            } else {
+                lsv_main.setEmptyView(findViewById(R.id.empty));
             }
 
-            // ListView 中所需之資料參數可透過修改 Adapter 的建構子傳入
-            mListAdapter = new SpecAdapter(this, Spec_List);
 
-
-            lsv_main.setEmptyView(findViewById(R.id.emptyview));
-            //設定 ListView 的 Adapter
-            lsv_main.setAdapter(mListAdapter);
         }
         catch (JSONException ex)
         {

@@ -11,10 +11,12 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.*;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -28,10 +30,11 @@ public class IssueVideoPlay extends RelativeLayout {
 
     // Declare variables
     ProgressDialog pDialog;
-    android.widget.VideoView IssueVideoView;
+
+    TextView txt_Video_Name;
 
     // Insert your Video URL
-    public String VideoURL = "http://172.16.111.114/File/VSS/Code/IMS/P20170223154210.mp4";
+    public String VideoURL;
 
     LayoutInflater mInflater;
 
@@ -45,7 +48,7 @@ public class IssueVideoPlay extends RelativeLayout {
         super(context);
         mcontext = context;
         mInflater = LayoutInflater.from(context);
-        init();
+        //init();
 
     }
 
@@ -53,63 +56,31 @@ public class IssueVideoPlay extends RelativeLayout {
         super(context, attrs, defStyle);
         mcontext = context;
         mInflater = LayoutInflater.from(context);
-        init();
+        //init();
     }
 
     public IssueVideoPlay(Context context, AttributeSet attrs) {
         super(context, attrs);
         mcontext = context;
         mInflater = LayoutInflater.from(context);
-        init();
+        //init();
     }
 
-    public void SetVoicePath(String VoicePath) {
+    public void SetVideoPath(String VideoPath) {
 
-        fileName = VoicePath;
+        View v = mInflater.inflate(R.layout.activity_issue_video_play, this, true);
 
+        txt_Video_Name = (TextView) v.findViewById(R.id.txt_Video_Name);
 
+        if (!TextUtils.isEmpty(VideoPath)) {
+            txt_Video_Name.setText(VideoPath.substring(VideoPath.lastIndexOf('/') + 1));
+        }
     }
 
     public void init() {
 
         View v = mInflater.inflate(R.layout.activity_issue_video_play, this, true);
 
-        IssueVideoView = (android.widget.VideoView) v.findViewById(R.id.IssueVideoView);
-
-        // Create a progressbar
-        pDialog = new ProgressDialog(mcontext);
-        // Set progressbar title
-        pDialog.setTitle("Android Video Streaming Tutorial");
-        // Set progressbar message
-        pDialog.setMessage("Buffering...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        // Show progressbar
-        pDialog.show();
-
-        try {
-            // Start the MediaController
-            MediaController mediacontroller = new MediaController(
-                    mcontext);
-            mediacontroller.setAnchorView(IssueVideoView);
-            // Get the URL from String VideoURL
-            Uri video = Uri.parse(VideoURL);
-            IssueVideoView.setMediaController(mediacontroller);
-            IssueVideoView.setVideoURI(video);
-
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-        }
-
-        IssueVideoView.requestFocus();
-        IssueVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            // Close the progress bar and play the video
-            public void onPrepared(MediaPlayer mp) {
-                pDialog.dismiss();
-                IssueVideoView.start();
-            }
-        });
     }
 
 

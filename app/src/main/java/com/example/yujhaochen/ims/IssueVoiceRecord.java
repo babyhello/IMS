@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
@@ -30,6 +31,8 @@ public class IssueVoiceRecord extends Activity {
 
     private String fileName;
 
+    private Button record_ok;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +44,8 @@ public class IssueVoiceRecord extends Activity {
         Intent intent = getIntent();
 
         fileName = intent.getStringExtra("fileName");
-//        fileName = configFileName("p",".3GP").getAbsolutePath();
-//
-//        Log.w("FileName",fileName);
+
+        record_ok = (Button) findViewById(R.id.record_ok);
     }
 
     private File configFileName(String prefix, String extension) {
@@ -60,10 +62,19 @@ public class IssueVoiceRecord extends Activity {
         if (isRecording) {
             // 停止錄音
             myRecoder.stop();
+
+            isRecording = !isRecording;
         }
 
         // 確定
         if (view.getId() == R.id.record_ok) {
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Log.d("RecordActivity", e.toString());
+            }
+
             Intent result = getIntent();
             setResult(Activity.RESULT_OK, result);
         }
@@ -84,6 +95,8 @@ public class IssueVoiceRecord extends Activity {
 
         // 開始錄音
         if (isRecording) {
+
+            //record_ok.setVisibility(View.INVISIBLE);
             // 設定按鈕圖示為錄音中
             record_button.setImageResource(R.mipmap.btn_microphone);
             // 建立錄音物件
@@ -101,6 +114,9 @@ public class IssueVoiceRecord extends Activity {
             record_volumn.setProgress(0);
             // 停止錄音
             myRecoder.stop();
+
+            new MicLevelTask().cancel(true);
+            //record_ok.setVisibility(View.VISIBLE);
         }
     }
 
@@ -108,6 +124,7 @@ public class IssueVoiceRecord extends Activity {
     private class MicLevelTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... args) {
+
             while (isRecording) {
                 publishProgress();
 
@@ -119,12 +136,18 @@ public class IssueVoiceRecord extends Activity {
                 }
             }
 
+            if (isRecording) {
+                this.cancel(true);
+            }
+
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Void... values) {
             record_volumn.setProgress((int) myRecoder.getAmplitudeEMA());
+
+            Log.d("RecordActivity", String.valueOf(myRecoder.getAmplitudeEMA()));
         }
 
     }
@@ -200,6 +223,7 @@ public class IssueVoiceRecord extends Activity {
                 recorder.stop();
                 // 清除錄音資源
                 recorder.release();
+
                 recorder = null;
             }
         }

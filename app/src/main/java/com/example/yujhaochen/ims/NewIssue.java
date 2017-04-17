@@ -25,6 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -41,14 +42,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+//import com.nguyenhoanglam.imagepicker.activity.ImagePicker;
+//import com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity;
 
 
 import org.json.JSONArray;
@@ -72,7 +80,7 @@ import java.util.Map;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 
-public class NewIssue extends Activity {
+public class NewIssue extends AppCompatActivity {
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
 
@@ -109,6 +117,10 @@ public class NewIssue extends Activity {
 
     private int FileProcessCount = 0;
 
+    private RequestQueue mQueue;
+
+    //private ArrayList<com.nguyenhoanglam.imagepicker.model.Image> SelectImages =  new ArrayList<>();;
+
     private void initData() {
 
         Bundle Bundle = this.getIntent().getExtras();
@@ -118,9 +130,11 @@ public class NewIssue extends Activity {
         ModelName = Bundle.getString("ModelName");
 
 
+        final ImageView Img_IssueAuthor = (ImageView) findViewById(R.id.Img_IssueAuthor);
+
         TextView txt_NewIssue_Author = (TextView) findViewById(R.id.txt_NewIssue_Author);
 
-        TextView txt_NewIssue_ModelName = (TextView) findViewById(R.id.txt_NewIssue_ModelName);
+        //TextView txt_NewIssue_ModelName = (TextView) findViewById(R.id.txt_NewIssue_ModelName);
 
         EditText txt_NewIssue_Subjectv = (EditText) findViewById(R.id.txt_NewIssue_Subject);
 
@@ -128,9 +142,30 @@ public class NewIssue extends Activity {
             txt_NewIssue_Subjectv.setText(Bundle.getString("Subject"));
         }
 
+        Glide
+                .with(NewIssue.this)
+                .load(GetServiceData.ServicePath + "/Get_File?FileName=" + "//172.16.111.114/File/SDQA/Code/Admin/" + UserData.WorkID + ".jpg")
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.mipmap.progress_image)
+                .into(new SimpleTarget<Bitmap>(100, 100) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+
+                        Img_IssueAuthor.setImageBitmap(resource);
+
+                    }
+                });
+
         txt_NewIssue_Author.setText(UserData.EName);
 
-        txt_NewIssue_ModelName.setText(ModelName);
+        //txt_NewIssue_ModelName.setText(ModelName);
+
+        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle(ModelName);
+
+        //setTitle(ModelName);
         //取得新的一筆newissue 序號
         Issue_Init(UserData.WorkID);
 
@@ -247,8 +282,7 @@ public class NewIssue extends Activity {
         Lnl_Photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // 建立 "選擇檔案 Action" 的 Intent
+// 建立 "選擇檔案 Action" 的 Intent
                 Intent intent = new Intent( Intent.ACTION_PICK );
 
                 // 過濾檔案格式
@@ -401,7 +435,9 @@ public class NewIssue extends Activity {
 
 
     private void Issue_Init(String WorkID) {
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Issue_Init?F_Keyin=" + WorkID;
         System.out.println(WorkID);
@@ -443,17 +479,25 @@ public class NewIssue extends Activity {
 
         String WorkID = UserData.WorkID;
 
-        String Subject = txt_NewIssue_Subject.getText().toString();
+        String Subject = txt_NewIssue_Subject.getText().toString().trim();
 
 
 
         if (!TextUtils.isEmpty(Subject)) {
 
+            final TextView txt_NewIssue_Finish = (TextView) findViewById(R.id.txt_NewIssue_Finish);
+
+            txt_NewIssue_Finish.setVisibility(View.GONE);
+
             pDialog.setMessage("Uploading...");
 
             pDialog.show();
 
-            RequestQueue mQueue = Volley.newRequestQueue(this);
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(this);
+            }
+
+            Log.w("Subject", Subject);
 
             Map<String, String> map = new HashMap<String, String>();
             map.put("F_SeqNo", IssueID);
@@ -469,7 +513,12 @@ public class NewIssue extends Activity {
 
                     UpdateIssueFile(UserData.WorkID, IssueID);  //更新附件
 
+                    //txt_NewIssue_Finish.setVisibility(View.VISIBLE);
+                }
 
+                @Override
+                public void onSendRequestError(String result) {
+                    //txt_NewIssue_Finish.setVisibility(View.VISIBLE);
                 }
 
             }, map);
@@ -517,8 +566,9 @@ public class NewIssue extends Activity {
     private void UpdateIssueFile(String F_Keyin, String F_Master_ID) {
 
 
-
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         NewIssueFile_List = mListAdapter.getAllitem();
 
@@ -538,12 +588,12 @@ public class NewIssue extends Activity {
 
                 File _IssueFile;
 
-
+                //Toast.makeText(NewIssue.this,String.valueOf(NewIssueFile_List.size()) , Toast.LENGTH_SHORT).show();
 
                 switch (FileItem.GetFileType()) {
                     case Image:
 
-                        Log.w("FileType",FileItem.GetFileType().toString());
+                        //Log.w("FileType",FileItem.GetFileType().toString());
                         Upload_Issue_File(F_Keyin, F_Master_ID, FileItem.GetImageName());
 
                         _IssueFile = new File(FileItem.GetImagePath());
@@ -585,7 +635,16 @@ public class NewIssue extends Activity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        FileProcessCount++;
 
+                        Log.w("FileProcessCount", String.valueOf(FileProcessCount));
+
+                        Log.w("mListAdapter", String.valueOf(mListAdapter.getCount()));
+                        if (FileProcessCount == mListAdapter.getCount()) {
+                            pDialog.hide();
+
+                            GoIssueInfo(IssueID);
+                        }
                     }
 
 
@@ -615,7 +674,9 @@ public class NewIssue extends Activity {
 
     private void Upload_Issue_File(String F_Keyin, String F_Master_ID, String File) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Upload_Issue_File?F_Keyin=" + F_Keyin + "&F_Master_ID=" + F_Master_ID + "&F_Master_Table=C_Issue&File=" + File;
 
@@ -625,6 +686,11 @@ public class NewIssue extends Activity {
             public void onSendRequestSuccess(String result) {
 
 
+            }
+
+            @Override
+            public void onSendRequestError(String result) {
+                //Log.w("NotificationSuccess",result);
             }
 
         });
@@ -777,7 +843,7 @@ public class NewIssue extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-        System.out.println(requestCode);
+
 
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
 
@@ -814,7 +880,7 @@ public class NewIssue extends Activity {
         }
         else if (requestCode == REQUEST_Voice_CAPTURE && resultCode == RESULT_OK) {
 
-            System.out.println("Voice Request" + requestCode);
+
             if (VoiceFile.exists()) {
 
                 AddVoiceItem(VoiceFile.getAbsolutePath());
@@ -913,7 +979,9 @@ public class NewIssue extends Activity {
             }
         });
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         mQueue.add(PostUploadRequest);
 

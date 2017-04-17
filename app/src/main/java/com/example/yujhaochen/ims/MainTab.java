@@ -2,6 +2,8 @@ package com.example.yujhaochen.ims;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
@@ -39,6 +41,7 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureActivity;
@@ -56,6 +59,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.support.v4.app.NotificationCompat;
 
 public class MainTab extends AppCompatActivity {
 
@@ -106,6 +111,8 @@ public class MainTab extends AppCompatActivity {
             R.mipmap.btn_tab_set_nor
     };
 
+    private RequestQueue mQueue;
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         // TODO Auto-generated method stub
@@ -120,7 +127,38 @@ public class MainTab extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main_tab);
+
+
+//        // 取得NotificationManager物件
+//        NotificationManager manager = (NotificationManager)
+//                getSystemService(Context.NOTIFICATION_SERVICE);
+//// 建立NotificationCompat.Builder物件
+//        NotificationCompat.Builder builder =
+//                new NotificationCompat.Builder(this);
+//
+//// 設定小圖示、大圖示、狀態列文字、時間、內容標題、內容訊息和內容額外資訊
+//        builder.setSmallIcon(R.drawable.jc_backward_icon)
+//                .setWhen(System.currentTimeMillis())
+//                .setContentTitle("Basic Notification")
+//                .setContentText("Demo for basic notification control.")
+//                .setContentInfo("3");
+//
+//// 建立通知物件
+//        Notification notification = builder.build();
+//// 使用BASIC_ID為編號發出通知
+//        manager.notify(1, notification);
+//
+//// 建立新的通知物件
+//        Notification notificationNew = builder.build();
+//// 更新BASIC_ID編號的通知
+//        manager.notify(1, notificationNew);
+//
+//// 清除BASIC_ID編號的通知
+//        //manager.cancel(1);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -290,6 +328,42 @@ public class MainTab extends AppCompatActivity {
                 QR_Code_Scan_Start();
             }
         });
+
+        final String token = FirebaseInstanceId.getInstance().getToken();
+
+        if (token != null && !TextUtils.isEmpty(UserData.WorkID)) {
+            Insert_Device_Token(UserData.WorkID, token);
+        }
+
+    }
+
+    private void Insert_Device_Token(String WorkID, String Token) {
+
+        if (!TextUtils.isEmpty(WorkID) && !TextUtils.isEmpty(Token)) {
+
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(this);
+            }
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("WorkID", WorkID);
+            map.put("Token", Token);
+
+            String Path = GetServiceData.ServicePath + "/InsertUserToken";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+                }
+
+                @Override
+                public void onSendRequestError(String result) {
+
+                }
+
+            }, map);
+        }
     }
 
     private View prepareTabView(String text, int resId) {
@@ -362,7 +436,11 @@ public class MainTab extends AppCompatActivity {
         if (QR_Content.contains("Subject")) {
             Go_To_New_Issue(QR_Content);
         } else {
-            RequestQueue mQueue = Volley.newRequestQueue(this);
+
+
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(this);
+            }
 
             String Path = GetServiceData.ServicePath + "/Find_Project_List_Search?ModelName=" + QR_Content;
 
@@ -530,7 +608,7 @@ public class MainTab extends AppCompatActivity {
 
 
             if (!TextUtils.isEmpty(bundleAccount.getString("FilePath"))) {
-                Log.w("FilePath", bundleAccount.getString("FilePath"));
+
 
                 Bitmap photo = FileUtil.FilePathGetBitMap(bundleAccount.getString("FilePath"));
 
@@ -667,8 +745,8 @@ public class MainTab extends AppCompatActivity {
 
         if (tab == 0)
             getMenuInflater().inflate(R.menu.menu_project_tab, menu);
-        else
-            getMenuInflater().inflate(R.menu.menu_main_tab, menu);
+//        else
+//            getMenuInflater().inflate(R.menu.menu_main_tab, menu);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -843,8 +921,8 @@ public class MainTab extends AppCompatActivity {
                     MyIssue MyIssue = new MyIssue();
                     return MyIssue.newInstance("0", "0");
                 case 2:
-                    Notification Notification = new Notification();
-                    return Notification.newInstance("0", "0");
+                    NotificationContent NotificationContent = new NotificationContent();
+                    return NotificationContent.newInstance("0", "0");
                 case 3:
                     Setting Setting = new Setting();
                     return Setting.newInstance("0", "0");

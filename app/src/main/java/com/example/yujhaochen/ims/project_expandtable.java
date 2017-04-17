@@ -87,6 +87,7 @@ public class project_expandtable extends Fragment {
 
     private boolean Lsv_Collspan = false;
 
+    private RequestQueue mQueue;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,8 +269,10 @@ public class project_expandtable extends Fragment {
 //
 //        pDialog.show();
 
-        RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(ProjectContext);
+        }
         String Path = "";
 
         if (SortType == 0)
@@ -300,8 +303,9 @@ public class project_expandtable extends Fragment {
         //Toast.makeText(getContext(),"Load More",1).show();
 
 
-
-        RequestQueue mQueue = Volley.newRequestQueue(ProjectContext);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(ProjectContext);
+        }
 
         String Path = "";
 
@@ -603,8 +607,10 @@ public class project_expandtable extends Fragment {
 
         private void Insert_Forcus_Data(String F_Keyin, String F_Owner, String F_PM_ID) {
 
-            RequestQueue mQueue = Volley.newRequestQueue(context);
 
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(context);
+            }
             String Path = GetServiceData.ServicePath + "/Insert_Focus_Model" + "?F_Keyin=" + F_Keyin + "&F_Owner=" + F_Owner + "&F_PM_ID=" + F_PM_ID;
 
             GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {

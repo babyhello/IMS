@@ -41,6 +41,7 @@ public class ProjectInfo extends Activity {
 
     public static Project_Item Project_Item;
 
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,14 +81,20 @@ public class ProjectInfo extends Activity {
                     FavoritClick(UserData.WorkID,"",Project_Item.ModelID);
 
 
-                    if (Img_Star.getDrawable().getConstantState() == getResources().getDrawable( R.mipmap.btn_star_nor).getConstantState())
+                    if (Img_Star.getDrawable().getConstantState() != null)
                     {
-                        Img_Star.setImageResource(R.mipmap.btn_star_sel);
+                        if (Img_Star.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.btn_star_nor).getConstantState()) {
+                            Img_Star.setImageResource(R.mipmap.btn_star_sel);
+                        } else {
+                            Img_Star.setImageResource(R.mipmap.btn_star_nor);
+                        }
                     }
                     else
                     {
                         Img_Star.setImageResource(R.mipmap.btn_star_nor);
                     }
+
+
                 }
             }
         });
@@ -129,7 +136,10 @@ public class ProjectInfo extends Activity {
 
     private void Get_Model_Detail(String ModelID,String WorkID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Find_Model_Detail?ModelID=" + ModelID + "&WorkID=" + WorkID;
 
@@ -272,7 +282,10 @@ public class ProjectInfo extends Activity {
 
     private void FavoritClick(String F_Keyin,String F_Owner,String F_PM_ID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(ProjectInfo.this);
+
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Insert_Favorit_Model" + "?F_Keyin=" + F_Keyin + "&F_Owner=" + F_Owner + "&F_PM_ID=" + F_PM_ID;
 
@@ -324,7 +337,10 @@ public class ProjectInfo extends Activity {
 
     private void Find_Model_Detail(String ModelID,String WorkID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Find_Model_Detail?ModelID=" + ModelID + "&WorkID=" + WorkID;
 

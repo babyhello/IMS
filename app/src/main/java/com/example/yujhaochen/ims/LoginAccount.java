@@ -95,49 +95,6 @@ public class LoginAccount extends Activity {
 
     }
 
-    public void uploadImg(List<UploadImage> File_List){
-
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.memberlist_ic_phone) ;
-
-        PostUploadRequest PostUploadRequest = new  PostUploadRequest(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart",File_List,new Response.Listener<String>() {
-            @Override
-            public void onResponse(String jsonObject) {
-                //listener.onResponse(jsonObject);
-                System.out.println(jsonObject);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                //listener.onErrorResponse(volleyError);
-                System.out.println(volleyError);
-            }
-        }) ;
-
-        RequestQueue mQueue = Volley.newRequestQueue(this);
-
-        mQueue.add(PostUploadRequest);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-
-
-//            Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-//            File file = configFileName("P", ".jpg");
-
-                // 如果照片檔案存在
-
-                    RequestQueue mQueue = Volley.newRequestQueue(this);
-
-                    GetServiceData.uploadImage(GetServiceData.ServicePath + "/Upload_Issue_File_MultiPart",mQueue,ImageFile,"");
-
-
-
-
-        }
-    }
-
     private void TestUpload()
     {
 

@@ -71,7 +71,7 @@ public class AsyncTaskForPostFile extends AsyncTask<String, Void, Void>{
             dataOutputStream.close();
 
         } catch (Exception ex) {
-            Log.d(TAG, ex.getMessage());
+            //Log.d(TAG, ex.getMessage());
         }
 
         return null;

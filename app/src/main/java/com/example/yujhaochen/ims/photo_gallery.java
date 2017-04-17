@@ -34,6 +34,7 @@ public class photo_gallery extends FragmentActivity {
     private GalleryAdapter mAdapter;
     private RecyclerView recyclerView;
     private String IssueID;
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,8 +131,10 @@ public class photo_gallery extends FragmentActivity {
         pDialog.setMessage("Downloading Photo...");
         pDialog.show();
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
         String Path = GetServiceData.ServicePath + "/Issue_File_List?F_SeqNo=" + Issue_ID;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {

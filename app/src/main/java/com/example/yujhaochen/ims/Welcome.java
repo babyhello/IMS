@@ -30,8 +30,6 @@ public class Welcome extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("FCM", "Token:"+token);
 
         FirebaseMessaging.getInstance().subscribeToTopic("dogs");
         //這裡來檢測版本是否需要更新

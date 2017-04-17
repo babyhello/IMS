@@ -47,7 +47,7 @@ public class MyIssue extends Fragment {
     private String mParam2;
     List<Issue_Item> Issue_List = new ArrayList<Issue_Item>();
     private OnFragmentInteractionListener mListener;
-
+    private RequestQueue mQueue;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -177,8 +177,10 @@ public class MyIssue extends Fragment {
 //    }
 
     private void Find_My_Issue(String WorkID, String DateRange) {
-        RequestQueue mQueue = Volley.newRequestQueue(getActivity());
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(getActivity());
+        }
         String Path = GetServiceData.ServicePath + "/Find_My_Issue_List?F_Keyin=" + WorkID + "&DateRange=" + DateRange;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
@@ -219,6 +221,8 @@ public class MyIssue extends Fragment {
                 String F_Owner = String.valueOf(ModelData.getString("F_Owner"));
 
                 String Status_Display = String.valueOf(ModelData.getString("Status_Display"));
+
+                F_Subject = F_Subject.replace("\n", "");
 
                 Issue_List.add(i, new Issue_Item(F_SeqNo, Model, F_Subject, F_CreateDate, F_Priority, CommentRead, Read, F_Owner, Status_Display));
 

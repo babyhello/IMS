@@ -80,7 +80,7 @@ public class IssueVoicePlay extends RelativeLayout {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     //mp.stop();
-                    btn_Play.setImageResource(R.mipmap.newissue_btn_play);
+                    btn_Play.setBackgroundResource(R.mipmap.newissue_btn_play);
                     Log.w("Stop","AutoStop");
                 }
             });
@@ -98,7 +98,7 @@ public class IssueVoicePlay extends RelativeLayout {
 
         final ImageView btn_Play = (ImageView) v.findViewById(R.id.btn_Play);
 
-        btn_Play.setImageResource(R.mipmap.newissue_btn_play);
+        btn_Play.setBackgroundResource(R.mipmap.newissue_btn_play);
 
         btn_Play.setOnClickListener(new OnClickListener() {
             @Override
@@ -108,17 +108,21 @@ public class IssueVoicePlay extends RelativeLayout {
                 {
                     clickPlay();
 
-                    btn_Play.setImageResource(R.mipmap.newissue_btn_stop);
+                    //btn_Play.setImageResource();
 
-                    Log.w("Play","Playing");
+                    btn_Play.setBackgroundResource(R.mipmap.newissue_btn_stop);
+
+
                 }
                 else
                 {
                     clickStop();
 
-                    btn_Play.setImageResource(R.mipmap.newissue_btn_play);
+                    //btn_Play.setImageResource(R.mipmap.newissue_btn_play);
 
-                    Log.w("Stop","Stoping");
+                    btn_Play.setBackgroundResource(R.mipmap.newissue_btn_play);
+
+
                 }
             }
         });

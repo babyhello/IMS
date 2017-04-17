@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,8 @@ public class SendNotification extends Activity {
     private TextView btn_Message_Send;
 
     private ProgressDialog pDialog;
+
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +69,10 @@ public class SendNotification extends Activity {
             map.put("Title", Title);
             map.put("Message", "Message");
 
-            RequestQueue mQueue = Volley.newRequestQueue(this);
 
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(this);
+            }
             String Path = GetServiceData.ServicePath + "/SendPushNotificationWTSC";
 
 
@@ -81,6 +86,10 @@ public class SendNotification extends Activity {
                     pDialog.hide();
                 }
 
+                @Override
+                public void onSendRequestError(String result) {
+                    //Log.w("NotificationSuccess",result);
+                }
 
             }, map);
 

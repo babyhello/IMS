@@ -32,7 +32,7 @@ import java.util.List;
  * Use the {@link Notification#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Notification extends Fragment {
+public class NotificationContent extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -52,8 +52,9 @@ public class Notification extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private View mView;
+    private RequestQueue mQueue;
 
-    public Notification() {
+    public NotificationContent() {
         // Required empty public constructor
     }
 
@@ -66,8 +67,8 @@ public class Notification extends Fragment {
      * @return A new instance of fragment Notification.
      */
     // TODO: Rename and change types and number of parameters
-    public static Notification newInstance(String param1, String param2) {
-        Notification fragment = new Notification();
+    public static NotificationContent newInstance(String param1, String param2) {
+        NotificationContent fragment = new NotificationContent();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -124,8 +125,10 @@ public class Notification extends Fragment {
     }
 
     private void Find_Notification(String WorkID) {
-        RequestQueue mQueue = Volley.newRequestQueue(getActivity());
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(getActivity());
+        }
         String Path = GetServiceData.ServicePath + "/Find_MobileSystemMessage";
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {

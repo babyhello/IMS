@@ -63,7 +63,7 @@ public class Project extends Fragment {
     private ProgressDialog pDialog;
 
     private OnFragmentInteractionListener mListener;
-
+    private RequestQueue mQueue;
     public Project() {
         // Required empty public constructor
     }
@@ -124,8 +124,9 @@ public class Project extends Fragment {
 
     private void Insert_Forcus_Data(String F_Keyin,String F_Owner,String F_PM_ID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(getActivity());
-
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(getActivity());
+        }
         String Path = GetServiceData.ServicePath + "/Insert_Focus_Model" + "?F_Keyin=" + F_Keyin + "&F_Owner=" + F_Owner + "&F_PM_ID=" + F_PM_ID;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
@@ -259,7 +260,9 @@ public class Project extends Fragment {
 
     private void GetPM_Data(String WorkID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(getActivity());
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(getActivity());
+        }
 
         String Path = GetServiceData.ServicePath + "/Find_Project_List?WorkID=" + WorkID;
 

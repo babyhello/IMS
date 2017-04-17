@@ -31,7 +31,7 @@ public class Project_Member extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     String ModelName;
-
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +73,10 @@ public class Project_Member extends AppCompatActivity {
 
         pDialog.show();
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
         String Path = GetServiceData.ServicePath + "/Find_Model_Member_List?PM_ID=" + PM_ID;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
@@ -94,30 +96,36 @@ public class Project_Member extends AppCompatActivity {
 
             JSONArray UserArray = new JSONArray(result.getString("Key"));
 
-            for (int i = 0; i < UserArray.length(); i++) {
-                JSONObject ModelData = UserArray.getJSONObject(i);
 
-                String MemberName = ModelData.getString("MemberName");
+            if (UserArray.length() > 0) {
 
-                String Header = ModelData.getString("Header");
+                for (int i = 0; i < UserArray.length(); i++) {
+                    JSONObject ModelData = UserArray.getJSONObject(i);
 
-                String F_Tel = ModelData.getString("F_Tel");
+                    String MemberName = ModelData.getString("MemberName");
 
-                String WorkID = ModelData.getString("WorkID");
+                    String Header = ModelData.getString("Header");
 
-                Member_List.add(i, new Member_Item(Header, MemberName, "", F_Tel, WorkID, false));
+                    String F_Tel = ModelData.getString("F_Tel");
+
+                    String WorkID = ModelData.getString("WorkID");
+
+                    Member_List.add(i, new Member_Item(Header, MemberName, "", F_Tel, WorkID, false));
+                }
+
+                GroupItem = GroupItem();
+
+
+                mListAdapter = new MemberAdapter(this, Mappingitem());
+
+                //設定 ListView 的 Adapter
+                lsv_main.setAdapter(mListAdapter);
+
+                lsv_main.setEmptyView(findViewById(R.id.emptyview));
+
+            } else {
+                lsv_main.setEmptyView(findViewById(R.id.empty));
             }
-
-            GroupItem = GroupItem();
-
-
-
-            mListAdapter = new MemberAdapter(this, Mappingitem());
-
-            //設定 ListView 的 Adapter
-            lsv_main.setAdapter(mListAdapter);
-
-            lsv_main.setEmptyView(findViewById(R.id.emptyview));
         } catch (JSONException ex) {
 
         }

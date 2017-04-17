@@ -57,6 +57,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by yujhaochen on 2016/10/24.
@@ -68,6 +70,18 @@ public class GetServiceData {
 
     //測試機
     //public static String ServicePath = "http://172.16.111.111:200/IMS_App_Service.asmx";
+
+    public static String getUrlFromImgTag(String imgTag) {
+        String url = null;
+
+        Pattern p = Pattern.compile("src='[^']*'", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(imgTag);
+        if (m.find()) {
+            url = imgTag.substring(m.start() + 5, m.end() - 1);
+        }
+
+        return url;
+    }
 
     public static void getString(String Url, RequestQueue mQueue, final VolleyCallback callback) {
 
@@ -82,15 +96,15 @@ public class GetServiceData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("TestJsonObj");
-                        System.out.println(error);
+
                     }
                 }
         );
 
         int socketTimeout = 30000;
 
-        getRequest.setRetryPolicy(new DefaultRetryPolicy(socketTimeout,
+        getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -108,7 +122,9 @@ public class GetServiceData {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
+                callback.onSendRequestError(error.getMessage());
+
             }
         }) {
             @Override
@@ -119,6 +135,11 @@ public class GetServiceData {
                 return map;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(stringRequest);
     }
@@ -135,6 +156,9 @@ public class GetServiceData {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                callback.onSendRequestError(error.getMessage());
+
                 Log.e("TAG", error.getMessage(), error);
             }
         });
@@ -244,30 +268,6 @@ public class GetServiceData {
             Url = "http:" + Url;
 
         }
-
-//        try
-//        {
-//
-//            String ReplaceURL = Url.substring(Url.lastIndexOf('/') + 1,Url.length());
-//
-//            String EncodeURL = "";
-//
-//            if (ReplaceURL != "")
-//            {
-//                EncodeURL = URLEncoder.encode(ReplaceURL,"utf-8");
-//            }
-//
-//            Url = Url.replace(ReplaceURL,EncodeURL);
-//
-//
-//        }
-//        catch (IOException e)
-//        {
-//            System.out.print(e);
-//        }
-
-
-
         RequestQueue mQueue = AppController.getInstance().getRequestQueue();
 
         ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache() {
@@ -316,6 +316,8 @@ public class GetServiceData {
     public interface VolleyStringCallback {
 
         void onSendRequestSuccess(String response);
+
+        void onSendRequestError(String response);
     }
 
     public static void uploadImage(String UPLOAD_URL, RequestQueue mQueue, File file, String stringPart){
@@ -324,8 +326,7 @@ public class GetServiceData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("TestJsonObj");
-                        System.out.println(error);
+
                     }
 
 

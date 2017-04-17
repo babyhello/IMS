@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.jsibbold.zoomage.ZoomageView;
+
 
 public class imageZoom extends Activity {
 
@@ -18,6 +21,7 @@ public class imageZoom extends Activity {
     //public static Bitmap ImageSource = null;
     private ProgressDialog pDialog;
     public static String ImagePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -25,12 +29,12 @@ public class imageZoom extends Activity {
         pDialog = new ProgressDialog(imageZoom.this);
         setContentView(R.layout.activity_image_zoom);
 
-        final MyZoomImageView Img_WorkNote = (MyZoomImageView)findViewById(R.id.ImageViewZoom);
+        final ZoomageView Img_WorkNote = (ZoomageView) findViewById(R.id.ImageViewZoom);
 
-        pDialog.setTitle("Loading...");
-
-        pDialog.show();
-
+//        pDialog.setTitle("Loading...");
+//
+//        pDialog.show();
+        //Log.w("ImagePath:",ImagePath);
         Glide
                 .with(imageZoom.this)
                 .load(ImagePath)
@@ -41,7 +45,7 @@ public class imageZoom extends Activity {
 
                         Img_WorkNote.setImageBitmap(resource);
 
-                        pDialog.hide();
+                        //pDialog.hide();
                     }
                 });
 

@@ -1,7 +1,9 @@
 package com.example.yujhaochen.ims;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,8 @@ public class NewIssueFileAdapter extends BaseAdapter {
 
         ImageView Img_Issue_File = (ImageView) v.findViewById(R.id.Img_Issue_File);
 
+        final String VideoPath = NewIssueFile_List.get(position).GetVideoPath();
+
         switch (NewIssueFile_List.get(position).GetFileType()) {
             case Image:
 
@@ -77,31 +81,52 @@ public class NewIssueFileAdapter extends BaseAdapter {
 
                 break;
             case Video:
+
                  v = mLayInf.inflate(R.layout.newissuefilevideo_item, parent, false);
 
-                VideoView Vdo_Issue_File = (VideoView) v.findViewById(R.id.Vdo_Issue_File);
+//                VideoView Vdo_Issue_File = (VideoView) v.findViewById(R.id.Vdo_Issue_File);
+//
+//                Uri uri = Uri.parse(NewIssueFile_List.get(position).GetVideoPath());
+//
+//                Vdo_Issue_File.setMediaController(new MediaController(parent.getContext()));
+//                Vdo_Issue_File.setVideoURI(uri);
+//                Vdo_Issue_File.start();
+//                Vdo_Issue_File.requestFocus();
+//
+//
+//                Vdo_Issue_File.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View arg0) {
+//
+//                        VideoView VideoView = (VideoView) arg0;
+//
+//                        VideoView.start();
+//
+//                        System.out.println("Start Video");
+//
+//                    }
+//                });
 
-                Uri uri = Uri.parse(NewIssueFile_List.get(position).GetVideoPath());
+                IssueVideoPlay mIssueVideoPlay = (IssueVideoPlay) v.findViewById(R.id.IssueVideoPlay);
 
-                Vdo_Issue_File.setMediaController(new MediaController(parent.getContext()));
-                Vdo_Issue_File.setVideoURI(uri);
-                Vdo_Issue_File.start();
-                Vdo_Issue_File.requestFocus();
+                mIssueVideoPlay.setVisibility(View.VISIBLE);
 
+                mIssueVideoPlay.SetVideoPath(VideoPath);
+                mIssueVideoPlay.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
 
-                Vdo_Issue_File.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
+                        Intent intent = new Intent(mContext, play_video.class);
 
-                        VideoView VideoView = (VideoView) arg0;
+                        Bundle intentBundle = new Bundle();
 
-                        VideoView.start();
+                        intentBundle.putString("VideoUrl", VideoPath);
 
-                        System.out.println("Start Video");
+                        intent.putExtras(intentBundle);
+
+                        mContext.startActivity(intent);
 
                     }
                 });
-
 
 
                 break;

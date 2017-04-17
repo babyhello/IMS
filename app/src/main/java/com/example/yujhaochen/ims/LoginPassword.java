@@ -6,22 +6,30 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginPassword extends Activity {
 
     private ProgressDialog pDialog;
     UserData UserDataClass = new UserData();
+
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +74,12 @@ public class LoginPassword extends Activity {
 
         pDialog.show();
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(this);
+        }
 
         String Path = GetServiceData.ServicePath + "/AuthenticateWTSC?OutlookID=" + Account + "&OutlookPassword=" + Password;
+
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
             @Override
@@ -79,6 +90,7 @@ public class LoginPassword extends Activity {
                     UserDB UserDB = new UserDB(getApplicationContext());
 
                     UserDB.insert(UserDataClass);
+
 
                     Intent intent = new Intent(getBaseContext(), MainTab.class);
 
@@ -96,6 +108,7 @@ public class LoginPassword extends Activity {
         });
 
     }
+
 
     private Boolean SetUserData(JSONObject UserResult) {
 

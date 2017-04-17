@@ -72,6 +72,7 @@ public class SpeedNewIssue extends AppCompatActivity {
 
     private ViewGroup mViewGroup;
 
+    private RequestQueue mQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,8 +179,10 @@ public class SpeedNewIssue extends AppCompatActivity {
 
     private void Insert_Forcus_Data(String F_Keyin,String F_Owner,String F_PM_ID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
 
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
+        }
         String Path = GetServiceData.ServicePath + "/Insert_Focus_Model" + "?F_Keyin=" + F_Keyin + "&F_Owner=" + F_Owner + "&F_PM_ID=" + F_PM_ID;
 
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
@@ -203,7 +206,9 @@ public class SpeedNewIssue extends AppCompatActivity {
         if (Subject != "") {
 
 
-            RequestQueue mQueue = Volley.newRequestQueue(this);
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
+            }
 
             Map<String, String> map = new HashMap<String, String>();
             map.put("F_SeqNo", IssueID);
@@ -221,6 +226,10 @@ public class SpeedNewIssue extends AppCompatActivity {
 
                 }
 
+                @Override
+                public void onSendRequestError(String result) {
+                    //Log.w("NotificationSuccess",result);
+                }
             }, map);
 
 
@@ -234,7 +243,9 @@ public class SpeedNewIssue extends AppCompatActivity {
     private void UpdateIssueFile(final String F_Keyin, final String F_Master_ID) {
 
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
+        }
 
         int i = 0;
 
@@ -297,7 +308,9 @@ public class SpeedNewIssue extends AppCompatActivity {
 
     private void Upload_Issue_File(String F_Keyin, String F_Master_ID, String File) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Upload_Issue_File?F_Keyin=" + F_Keyin + "&F_Master_ID=" + F_Master_ID + "&F_Master_Table=C_Issue&File=" + File;
 
@@ -322,6 +335,11 @@ public class SpeedNewIssue extends AppCompatActivity {
                 }
 
 
+            }
+
+            @Override
+            public void onSendRequestError(String result) {
+                //Log.w("NotificationSuccess",result);
             }
 
         });
@@ -349,7 +367,9 @@ public class SpeedNewIssue extends AppCompatActivity {
     }
 
     private void Issue_Init(String WorkID) {
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Issue_Init?F_Keyin=" + WorkID;
 
@@ -382,7 +402,9 @@ public class SpeedNewIssue extends AppCompatActivity {
 
     private void GetPM_Data(String WorkID) {
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(SpeedNewIssue.this);
+        }
 
         String Path = GetServiceData.ServicePath + "/Find_Project_List?WorkID=" + WorkID;
 

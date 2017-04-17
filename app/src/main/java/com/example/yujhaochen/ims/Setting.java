@@ -113,6 +113,61 @@ public class Setting extends Fragment implements SeekBar.OnSeekBarChangeListener
 
         String VersionExplain =
 
+                "(Ver 36.0) 20170415 Update \n" + " 1.Close Issue Info Alert Dialog" +
+                        "\n 2.New Issue VideoViewer Change" +
+                        "\n 3.New Issue Add Multi Select Photo Function" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 35.0) 20170413 Update \n" + " 1.Fix IssueInfo Send Message and Mail Loop Issue" +
+                        "\n 2.Issue List Word Break Issue" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 34.0) 20170411 Update \n" + " 1.Fix IssueInfo Send Message and Mail Loop Issue" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 33.0) 20170411 Update \n" + " 1.Fix New Issue Microphone Not Show Progress" +
+                        "\n 2.Issue Info Picture Used Thumbnail Picture" +
+                        "\n 3.Issue Info VideoFile Set AutoPlay" +
+                        "\n 4.Issue List IssueNo Remove 00" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 32.0) 20170410 Update \n" + " 1.Issue info photo set zoom in and zoom out function" +
+                        "\n " +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 31.0) 20170410 Update \n" + " 1.Fix Issue Info Send WorkNote Error" +
+                        "\n 2.Fix Project Spec and Member NoData Issue" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 30.0) 20170410 Update \n" + " 1.Fix Issue Info Scroll Crash Issue" +
+                        "\n 2. Change New Issue Subject bottom border" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 29.0) 20170407 Update \n" + " 1.Fix Title Font Size Issue " +
+                        "\n 2. Change Priority Add Reason Function" +
+                        "\n 3. Change Owner Add Reason Function" +
+                        "\n 4. Notification Beta Online" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 28.0) 20170406 Update \n" + " 1.Fix Issue Info WorkNote Avatar Not Visible Issue " +
+                        "\n 2. Fix Issue Info Video Play Issue" +
+                        "\n 3. Fix Issue Info Crash Issue" +
+                        "\n" +
+                        "\n" +
+
+
+                        "(Ver 27.0) 2017405 Update \n" + " 1.Fix Outof Memory Crash Issue " +
+                        "\n" +
+                        "\n" +
+
                 "(Ver 26.0) 20170327 Update \n" + " 1.Fix Issue Info Crash Issue " +
                         "\n" +
                         "\n" +

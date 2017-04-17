@@ -17,14 +17,22 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yujhaochen on 2016/10/25.
@@ -199,4 +207,61 @@ public class AppClass {
         return result;
     }
 
+    public static void Send_Notification(String WorkID, String Title, String Tag, String Key, String Value, String Message, Context mContext) {
+
+        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("WorkID", WorkID);
+        map.put("Title", Title);
+        map.put("Message", Message);
+        map.put("Tag", Tag);
+        map.put("Key", Key);
+        map.put("Value", Value);
+        String Path = GetServiceData.ServicePath + "/SendPushNotificationDeviceByWorkID";
+
+        GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+            @Override
+            public void onSendRequestSuccess(String result) {
+
+            }
+
+            @Override
+            public void onSendRequestError(String result) {
+
+            }
+        }, map);
+    }
+
+    public static void Send_Notification(List<String> WorkID_List, String Title, String Message, String Tag, String Key, String Value, final Context mContext) {
+
+        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+
+        for (String WorkID : WorkID_List) {
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("WorkID", WorkID);
+            map.put("Title", Title);
+            map.put("Message", Message);
+            map.put("Tag", Tag);
+            map.put("Key", Key);
+            map.put("Value", Value);
+            String Path = GetServiceData.ServicePath + "/SendPushNotificationDeviceByWorkID";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+
+                }
+
+                @Override
+                public void onSendRequestError(String result) {
+
+                }
+            }, map);
+        }
+
+
+    }
 }

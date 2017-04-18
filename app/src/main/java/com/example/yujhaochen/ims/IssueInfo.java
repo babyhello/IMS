@@ -469,7 +469,6 @@ public class IssueInfo extends AppCompatActivity {
     private void C_Comment_Insert(String Comment) {
 
 
-
         String WorkID = UserData.WorkID;
 
         if (!TextUtils.isEmpty(Comment)) {
@@ -962,11 +961,13 @@ public class IssueInfo extends AppCompatActivity {
 
         mMenu = menu;
 
-
         if (!Status_Display.equals("3") && Author.equals(UserData.WorkID)) {
             getMenuInflater().inflate(R.menu.menu_issue, menu);
         }
 
+        if (Status_Display.equals("1") && !Author.equals(UserData.WorkID)) {
+            getMenuInflater().inflate(R.menu.menu_issue_owner, menu);
+        }
 
         return true;
     }
@@ -979,38 +980,101 @@ public class IssueInfo extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.CloseIssue) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(
-                    mContext);
-            alert.setTitle("Close Issue!!");
-            alert.setMessage("Are you sure to close issue");
-            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    Log.w("IssueID", IssueID);
-
-                    Close_Issue(IssueID);
-
-                }
-            });
-            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.dismiss();
-                }
-            });
-
-            alert.show();
+            Close_Issue_Fun();
         } else if (id == R.id.IssueOwner) {
             IssueOwnerChange(ModelID);
         } else if (id == R.id.IssuePriotiry) {
             IssuePriorityChange();
+        } else if (id == R.id.Verify_Issue) {
+            Verify_Issue_Fun();
+        } else if (id == R.id.Reject_Verify_Issue) {
+            Reject_Issue_Fun();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Close_Issue_Fun() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(
+                mContext);
+        alert.setTitle("Close Issue!!");
+        alert.setMessage("Are you sure to close issue");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                Close_Issue(IssueID, UserData.WorkID);
+
+            }
+        });
+        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+
+
+    }
+
+    private void Verify_Issue_Fun() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(
+                mContext);
+        alert.setTitle("Close Issue!!");
+        alert.setMessage("Are you sure to verify issue");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                Close_Issue(IssueID, UserData.WorkID);
+
+            }
+        });
+        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+    }
+
+    private void Reject_Issue_Fun() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(
+                mContext);
+        alert.setTitle("Issue Fail!!");
+        alert.setMessage("Are you sure to update issue");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                Reject_Verify_Issue(IssueID, UserData.WorkID);
+
+            }
+        });
+        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
     }
 
     private void Change_Issue_Owner(final String IssueID, final String WorkID) {
@@ -1093,7 +1157,7 @@ public class IssueInfo extends AppCompatActivity {
 
     }
 
-    private void Close_Issue(final String IssueID) {
+    private void Verify_Issue(final String IssueID, final String WorkID) {
 
 
         if (!TextUtils.isEmpty(IssueID)) {
@@ -1105,6 +1169,82 @@ public class IssueInfo extends AppCompatActivity {
 
             Map<String, String> map = new HashMap<String, String>();
             map.put("IssueNo", IssueID);
+            map.put("WorkID", WorkID);
+
+            String Path = GetServiceData.ServicePath + "/Verify_Issue";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+                    AppClass.AlertMessage("Verify Issue Success", mContext);
+                }
+
+                @Override
+                public void onSendRequestError(String result) {
+                    Log.w("NotificationSuccess", result);
+                }
+
+            }, map);
+
+
+        } else {
+            AppClass.AlertMessage("Close Issue Error", mContext);
+        }
+
+
+    }
+
+    private void Reject_Verify_Issue(final String IssueID, final String WorkID) {
+
+
+        if (!TextUtils.isEmpty(IssueID)) {
+
+
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(mContext);
+            }
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("IssueNo", IssueID);
+            map.put("WorkID", WorkID);
+            String Path = GetServiceData.ServicePath + "/Reject_Verify_Issue";
+
+            GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+                @Override
+                public void onSendRequestSuccess(String result) {
+
+                    AppClass.AlertMessage("Update Issue Success", mContext);
+                }
+
+                @Override
+                public void onSendRequestError(String result) {
+                    Log.w("NotificationSuccess", result);
+                }
+
+            }, map);
+
+
+        } else {
+            AppClass.AlertMessage("Close Issue Error", mContext);
+        }
+
+
+    }
+
+    private void Close_Issue(final String IssueID, final String WorkID) {
+
+
+        if (!TextUtils.isEmpty(IssueID)) {
+
+
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(mContext);
+            }
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("IssueNo", IssueID);
+            map.put("WorkID", WorkID);
 
             String Path = GetServiceData.ServicePath + "/Close_Issue";
 
@@ -1128,6 +1268,34 @@ public class IssueInfo extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem RejectMenu = menu.findItem(R.id.Reject_Verify_Issue);
+
+        MenuItem CloseMenu = menu.findItem(R.id.CloseIssue);
+
+        if (!Status_Display.equals("3") && Owner.equals(Author)) {
+
+            if (RejectMenu != null) {
+                RejectMenu.setVisible(false);
+            }
+
+        }
+        if (Status_Display.equals("1") && !Owner.equals(Author)) {
+
+            if (RejectMenu != null) {
+                RejectMenu.setVisible(false);
+            }
+
+            if (CloseMenu != null) {
+                CloseMenu.setVisible(false);
+            }
+        }
+
+        return true;
     }
 
 }

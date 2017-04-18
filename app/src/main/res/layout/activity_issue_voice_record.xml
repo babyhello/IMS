@@ -45,6 +45,7 @@
                 android:id="@+id/record_ok"
                 android:text="submit"
                 android:onClick="onSubmit" />
+
         </TableRow>
     </TableLayout>
 

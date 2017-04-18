@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.yujhaochen.ims"
-    android:versionCode="26"
-    android:versionName="26">
+    android:versionCode="38"
+    android:versionName="38">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -26,9 +26,8 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
+        android:name=".IMSApplication"
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@mipmap/ims_app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -54,7 +53,19 @@
         <!-- <category android:name="com.tom.stock" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
+        <activity android:name=".play_video">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <!--<activity android:name="com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:label="IMS"-->
+        <!--tools:replace="android:label">-->
+
+        <!--</activity>-->
         <service
             android:name=".IMS_VpnService"
             android:permission="android.permission.BIND_VPN_SERVICE">
@@ -94,8 +105,10 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Main2Activity" />
-        <activity android:name=".Welcome">
-            <intent-filter>
+        <activity
+            android:name=".Welcome"
+            android:label="@string/app_name">
+            <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -106,13 +119,13 @@
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".CaptureActivityPortrait"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".MainDefault"
             android:windowSoftInputMode="adjustPan" />
@@ -197,7 +210,13 @@
         <activity
             android:name=".IssueInfo"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY_1" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginPassword"
@@ -246,7 +265,10 @@
 
 
         <!-- <activity android:name=".CustomSacnnerActivity"></activity> -->
-        <activity android:name=".Alert_Search_Dialog"></activity>
+        <!--<activity android:name=".Alert_Search_Dialog" />-->
+        <activity
+            android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

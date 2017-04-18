@@ -294,6 +294,7 @@ public class NewIssue extends AppCompatActivity {
                 // 切換到檔案選擇器 (它的處理結果, 會觸發 onActivityResult 事件)
                 startActivityForResult( destIntent, REQUEST_Photo_CAPTURE );
 
+
             }
         });
 

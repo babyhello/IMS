@@ -18,13 +18,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary">
 
-            <TextView
-                android:id="@+id/txt_NewIssue_ModelName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/Banner_Font"
-                android:textSize="30sp"></TextView>
+            <!--<TextView-->
+            <!--android:id="@+id/txt_NewIssue_ModelName"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:textColor="@color/Banner_Font"-->
+            <!--android:textSize="@dimen/text_size_large"></TextView>-->
 
             <TextView
                 android:id="@+id/txt_NewIssue_Finish"
@@ -42,9 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
-        android:orientation="vertical"
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,6 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/bottom_border"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -114,10 +113,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:background="@null"
+                    android:background="@drawable/bottom_border"
+                    android:elevation="24dp"
                     android:gravity="left|top"
                     android:hint="Please enter a issue subject"
                     android:maxLength="80"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
                     android:textColorHint="@color/NewISsue_Subject"
                     android:textSize="@dimen/text_size_large" />
 
@@ -147,6 +149,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/NewIssue_Attachment_Background"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <LinearLayout

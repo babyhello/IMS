@@ -8,6 +8,10 @@
         android:title="Close Issue" />
 
     <item
+        android:id="@+id/Reject_Verify_Issue"
+        android:title="Fail" />
+
+    <item
         android:id="@+id/IssueOwner"
         android:title="Change Owner" />
 

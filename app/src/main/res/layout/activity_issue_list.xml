@@ -19,13 +19,14 @@
             android:background="?attr/colorPrimary"
             android:paddingRight="12dp"
             >
+
             <TextView
+                android:id="@+id/txt_IssueList_ModelName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textColor="@color/Banner_Font"
                 android:layout_gravity="left"
-                android:id="@+id/txt_IssueList_ModelName"></TextView>
+                android:textColor="@color/Banner_Font"
+                android:textSize="@dimen/text_size_large"></TextView>
 
             <ImageView
                 android:layout_width="21dp"

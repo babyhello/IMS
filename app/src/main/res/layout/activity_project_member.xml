@@ -14,7 +14,14 @@
         android:id="@+id/listView"
         android:layout_gravity="left|top" />
 
-    <include
-        android:id="@+id/emptyview"
-        layout="@layout/listview_empty_item"/>
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="No Data"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
 </RelativeLayout>

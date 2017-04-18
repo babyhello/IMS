@@ -15,11 +15,39 @@
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content" />-->
 
-    <Spinner
-        android:id="@+id/spinner1"
+    <LinearLayout
+        android:id="@+id/Lnl_ChooseProject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_Choose_Project"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Choose Project"
+            android:textSize="@dimen/text_size_title" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/Lnl_Spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/Lnl_ChooseProject">
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+
+            />
+    </LinearLayout>
 
 
     <ImageView
@@ -59,13 +87,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner1"
+        android:layout_below="@+id/Lnl_Spinner"
         android:gravity="center"
         android:hint="Please Key In Subject"
         android:maxLength="80"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/text_size_title" />
 
 
 </RelativeLayout>

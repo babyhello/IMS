@@ -94,185 +94,175 @@
             <!--android:paddingLeft="10dp"-->
             <!--android:textColor="@color/IssueInfo_Banner"></TextView>-->
         <!--</LinearLayout>-->
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/IssueInfo_Top_AppBar"
-        android:layout_above="@+id/IssueInfo_Bottom_Layout"
-        >
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:paddingLeft="7dp"
-            android:paddingRight="7dp"
-
-            android:id="@+id/IssueInfo_Content"
-            android:background="@drawable/linear_border_color"
-
+            android:layout_below="@+id/IssueInfo_Top_AppBar"
+            android:layout_above="@+id/IssueInfo_Bottom_Layout"
             >
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+
+                android:id="@+id/IssueInfo_Content"
+                android:background="@drawable/linear_border_color"
+
                 >
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingLeft="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            >
-
-                            <TextView
-                                android:id="@+id/txt_IssueInfo_Author"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textColor="@color/IssueInfo_Author"
-                                android:textSize="@dimen/text_size_small" />
-
-                            <ImageView
-                                android:layout_width="17dp"
-                                android:layout_height="12dp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:src="@mipmap/newissue_ic_assign_arrow" />
-
-                            <TextView
-                                android:id="@+id/txt_IssueInfo_Owner"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textColor="@color/IssueInfo_Owner"
-                                android:textSize="@dimen/text_size_small" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/txt_IssueInfo_No"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingRight="5dp"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textColor="@color/IssueInfo_Project"
-                                android:textSize="@dimen/text_size_small" />
-
-                            <TextView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:width="2dp"
-                                android:height="2dp"
-                                android:background="@color/IssueInfo_Banner"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                            <ImageView
-                                android:id="@+id/Img_IssuePriority"
-                                android:layout_width="26dp"
-                                android:layout_height="13dp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:src="@mipmap/newissue_priority_ic_combox_p1" />
-
-                            <TextView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:width="2dp"
-                                android:height="2dp"
-                                android:background="@color/IssueInfo_Banner"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                            <TextView
-                                android:id="@+id/txt_IssueInfo_Date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textColor="@color/IssueInfo_Date"
-                                android:textSize="@dimen/text_size_small" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:id="@+id/Img_IssueAuthor"
-                            android:src="@mipmap/avatar_man" />
-                    </LinearLayout>
-                </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
-                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     >
-
-
-                    <ScrollView
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingTop="5dp">
 
-                        <TextView
-                            android:id="@+id/txt_IssueInfo_Subject"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingLeft="7dp"
-                            android:paddingRight="7dp"
-                            android:scrollbars="vertical"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textColor="@color/IssueInfo_Content"
-                            android:textSize="@dimen/text_size_medium" />
-                    </ScrollView>
-                </LinearLayout>
-            </LinearLayout>
+                            android:orientation="vertical"
+                            android:paddingLeft="10dp">
 
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="7dp"
-            android:paddingRight="7dp"
-            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/txt_IssueInfo_Author"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@color/IssueInfo_Author"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <ImageView
+                                    android:layout_width="17dp"
+                                    android:layout_height="12dp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:src="@mipmap/newissue_ic_assign_arrow" />
+
+                                <TextView
+                                    android:id="@+id/txt_IssueInfo_Owner"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@color/IssueInfo_Owner"
+                                    android:textSize="@dimen/text_size_small" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/txt_IssueInfo_No"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingRight="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@color/IssueInfo_Project"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <TextView
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:width="2dp"
+                                    android:height="2dp"
+                                    android:background="@color/IssueInfo_Banner"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                                <ImageView
+                                    android:id="@+id/Img_IssuePriority"
+                                    android:layout_width="26dp"
+                                    android:layout_height="13dp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:src="@mipmap/newissue_priority_ic_combox_p1" />
+
+                                <TextView
+                                    android:layout_width="5dp"
+                                    android:layout_height="5dp"
+                                    android:width="2dp"
+                                    android:height="2dp"
+                                    android:background="@color/IssueInfo_Banner"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                                <TextView
+                                    android:id="@+id/txt_IssueInfo_Date"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@color/IssueInfo_Date"
+                                    android:textSize="@dimen/text_size_small" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:id="@+id/Img_IssueAuthor"
+                                android:src="@mipmap/avatar_man" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/txt_IssueInfo_Subject"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:scrollbars="vertical"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textColor="@color/IssueInfo_Content"
+                                android:textSize="@dimen/text_size_medium" />
+                        </ScrollView>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -280,51 +270,59 @@
                 android:layout_weight="1"
                 android:paddingLeft="7dp"
                 android:paddingRight="7dp"
-                android:id="@+id/Lie_IssueFile"
                 >
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/Rcy_IssueFile"
+
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_centerVertical="true"
-                    android:scrollbars="horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    ></android.support.v7.widget.RecyclerView>
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:id="@+id/Lie_IssueFile">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/Rcy_IssueFile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_centerVertical="true"
+                        android:scrollbars="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"></android.support.v7.widget.RecyclerView>
                 </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                >
-                <android.support.v4.widget.SwipeRefreshLayout
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/refresh_layout">
+                    android:layout_weight="1"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp">
+
+                    <android.support.v4.widget.SwipeRefreshLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/refresh_layout">
                     <ListView
+                        android:id="@+id/listView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listView"
                         android:layout_gravity="left|top" />
-                </android.support.v4.widget.SwipeRefreshLayout>
+                    </android.support.v4.widget.SwipeRefreshLayout>
                 </LinearLayout>
 
 
-
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
     <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+            android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/IssueInfo_Bottom_Layout"
-        >
+            android:layout_alignParentBottom="true"
+        android:id="@+id/IssueInfo_Bottom_Layout">
+
         <ImageView
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -333,7 +331,7 @@
             android:id="@+id/Img_IssueInfo_AddPhoto"
             android:src="@mipmap/workingnote_btn_camera"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
         <EditText
             android:layout_width="match_parent"
@@ -341,7 +339,7 @@
             android:id="@+id/txt_Comment"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/Img_IssueInfo_AddPhoto"
-            android:layout_toLeftOf="@+id/Img_IssueInfo_Send"/>
+            android:layout_toLeftOf="@+id/Img_IssueInfo_Send" />
 
         <ImageView
             android:paddingLeft="5dp"
@@ -350,10 +348,11 @@
             android:layout_height="65dp"
             android:id="@+id/Img_IssueInfo_Send"
             android:src="@mipmap/workingnote_btn_msg_send"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true" />
 
 
     </RelativeLayout>
+
 
     <!--<ImageView-->
         <!--android:id="@+id/expanded_image"-->

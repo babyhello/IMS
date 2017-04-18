@@ -52,7 +52,7 @@ public class ProjectInfo extends Activity {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
 
-        int screenWidth = (int) (metrics.widthPixels * 0.8);
+        int screenWidth = (int) (metrics.widthPixels * 0.9);
 
         int screenHeight = (int) (metrics.heightPixels * 0.78);
 

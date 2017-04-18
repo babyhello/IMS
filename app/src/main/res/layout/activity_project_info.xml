@@ -170,7 +170,7 @@
                         android:text="Stage"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/ProjectInfo_TextColor"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_xsmall" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -212,7 +212,7 @@
                         android:text="Close Rate"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/ProjectInfo_TextColor"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_xsmall" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -252,7 +252,7 @@
                         android:text="P1"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/ProjectInfo_TextColor"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_xsmall" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -378,7 +378,7 @@
                     android:text="Member"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/ProjectInfo_Font"
-                    android:textSize="@dimen/text_size_xsmall" />
+                    android:textSize="@dimen/text_size_xxsmall" />
             </LinearLayout>
         </LinearLayout>
 

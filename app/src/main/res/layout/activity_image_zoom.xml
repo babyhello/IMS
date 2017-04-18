@@ -3,13 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.yujhaochen.ims.imageZoom">
 
 
-    <com.example.yujhaochen.ims.MyZoomImageView
-        android:id="@+id/ImageViewZoom"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        </com.example.yujhaochen.ims.MyZoomImageView>
+    <!--<com.example.yujhaochen.ims.MyZoomImageView-->
+    <!--android:id="@+id/ImageViewZoom"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent">-->
+    <!--</com.example.yujhaochen.ims.MyZoomImageView>-->
 
+    <!--<com.github.chrisbanes.photoview.PhotoView-->
+    <!--android:id="@+id/ImageViewZoom"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/ImageViewZoom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
 </RelativeLayout>

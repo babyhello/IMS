@@ -3,11 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:gravity="center">
 
-    <VideoView
+    <!--<VideoView-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:id="@+id/Vdo_Issue_File"/>-->
+
+    <com.example.yujhaochen.ims.IssueVideoPlay
+        android:id="@+id/IssueVideoPlay"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:id="@+id/Vdo_Issue_File"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop" />
 
 </LinearLayout>

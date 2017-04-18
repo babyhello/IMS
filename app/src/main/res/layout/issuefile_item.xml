@@ -10,17 +10,17 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/photo" />
+        android:scaleType="centerCrop" />
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
-        android:id="@+id/Video_IssueFile"
+    <com.example.yujhaochen.ims.IssueVideoPlay
+        android:id="@+id/IssueVideoPlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"/>
+
 
     <com.example.yujhaochen.ims.IssueVoicePlay
     android:id="@+id/IssueVoicePlay"

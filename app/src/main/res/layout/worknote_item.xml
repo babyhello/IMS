@@ -15,8 +15,7 @@
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:id="@+id/Img_WorkNote_Author"
-            android:src="@mipmap/avatar_man" />
+            android:id="@+id/Img_WorkNote_Author" />
 
 
     </LinearLayout>

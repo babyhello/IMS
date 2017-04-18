@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "62869529198",
-    "firebase_url": "https://imsapp-256cd.firebaseio.com",
-    "project_id": "imsapp-256cd",
-    "storage_bucket": "imsapp-256cd.appspot.com"
+    "project_number": "595284756970",
+    "firebase_url": "https://imsapp-379fe.firebaseio.com",
+    "project_id": "imsapp-379fe",
+    "storage_bucket": "imsapp-379fe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:62869529198:android:5b5a0e00b4646ba2",
+        "mobilesdk_app_id": "1:595284756970:android:5b5a0e00b4646ba2",
         "android_client_info": {
           "package_name": "com.example.yujhaochen.ims"
         }
       },
       "oauth_client": [
         {
-          "client_id": "62869529198-1hnjsrvf4e5m2flqce0j9brk69e06618.apps.googleusercontent.com",
+          "client_id": "595284756970-ci1079tr2qvgqic5j0dljlnmp79m1tpr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.yujhaochen.ims",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "62869529198-g768941vadufpcf9hnm65p3jje75ma0f.apps.googleusercontent.com",
+          "client_id": "595284756970-veaekftgvsd206uhdu3dv36j0n0gr3l9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC68NnNdECkCtNkXO9AmzGToGnXc9sG82g"
+          "current_key": "AIzaSyA1AHX0XyxjS_lDrJcE97rc9eLnHwq9sDE"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "62869529198-g768941vadufpcf9hnm65p3jje75ma0f.apps.googleusercontent.com",
+              "client_id": "595284756970-veaekftgvsd206uhdu3dv36j0n0gr3l9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

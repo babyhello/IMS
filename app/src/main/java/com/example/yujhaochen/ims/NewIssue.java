@@ -90,6 +90,7 @@ public class NewIssue extends AppCompatActivity {
 
     static final int REQUEST_Photo_CAPTURE = 4;
 
+
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     private ProgressDialog pDialog;

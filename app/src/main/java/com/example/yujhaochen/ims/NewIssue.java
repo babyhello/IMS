@@ -55,6 +55,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.zfdang.multiple_images_selector.ImagesSelectorActivity;
+import com.zfdang.multiple_images_selector.SelectorSettings;
 //import com.nguyenhoanglam.imagepicker.activity.ImagePicker;
 //import com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity;
 
@@ -120,7 +122,7 @@ public class NewIssue extends AppCompatActivity {
 
     private RequestQueue mQueue;
 
-    //private ArrayList<com.nguyenhoanglam.imagepicker.model.Image> SelectImages =  new ArrayList<>();;
+    private ArrayList<String> mMultiPhotoPath = new ArrayList<>();
 
     private void initData() {
 
@@ -283,17 +285,33 @@ public class NewIssue extends AppCompatActivity {
         Lnl_Photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-// 建立 "選擇檔案 Action" 的 Intent
-                Intent intent = new Intent( Intent.ACTION_PICK );
 
-                // 過濾檔案格式
-                intent.setType( "image/*" );
 
-                // 建立 "檔案選擇器" 的 Intent  (第二個參數: 選擇器的標題)
-                Intent destIntent = Intent.createChooser( intent, "Choose Photo" );
+//// 建立 "選擇檔案 Action" 的 Intent
+//                Intent intent = new Intent( Intent.ACTION_PICK );
+//
+//                // 過濾檔案格式
+//                intent.setType( "image/*" );
+//
+//                // 建立 "檔案選擇器" 的 Intent  (第二個參數: 選擇器的標題)
+//                Intent destIntent = Intent.createChooser( intent, "Choose Photo" );
+//
+//                // 切換到檔案選擇器 (它的處理結果, 會觸發 onActivityResult 事件)
+//                startActivityForResult( destIntent, REQUEST_Photo_CAPTURE );
 
-                // 切換到檔案選擇器 (它的處理結果, 會觸發 onActivityResult 事件)
-                startActivityForResult( destIntent, REQUEST_Photo_CAPTURE );
+
+// start multiple photos selector
+                Intent intent = new Intent(NewIssue.this, ImagesSelectorActivity.class);
+// max number of images to be selected
+                intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 5);
+// min size of image which will be shown; to filter tiny images (mainly icons)
+                intent.putExtra(SelectorSettings.SELECTOR_MIN_IMAGE_SIZE, 100000);
+// show camera or not
+                intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false);
+// pass current selected images as the initial value
+//                intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mMultiPhotoPath);
+// start the selector
+                startActivityForResult(intent, REQUEST_Photo_CAPTURE);
 
 
             }
@@ -493,7 +511,11 @@ public class NewIssue extends AppCompatActivity {
 
             pDialog.setMessage("Uploading...");
 
-            pDialog.show();
+            if (!pDialog.isShowing()) {
+                pDialog.show();
+            }
+
+
 
             if (mQueue == null) {
                 mQueue = Volley.newRequestQueue(this);
@@ -639,9 +661,9 @@ public class NewIssue extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         FileProcessCount++;
 
-                        Log.w("FileProcessCount", String.valueOf(FileProcessCount));
-
-                        Log.w("mListAdapter", String.valueOf(mListAdapter.getCount()));
+//                        Log.w("FileProcessCount", String.valueOf(FileProcessCount));
+//
+//                        Log.w("mListAdapter", String.valueOf(mListAdapter.getCount()));
                         if (FileProcessCount == mListAdapter.getCount()) {
                             pDialog.hide();
 
@@ -657,9 +679,9 @@ public class NewIssue extends AppCompatActivity {
 
                 FileProcessCount ++;
 
-                Log.w("FileProcessCount",String.valueOf(FileProcessCount));
-
-                Log.w("mListAdapter",String.valueOf(mListAdapter.getCount()));
+//                Log.w("FileProcessCount",String.valueOf(FileProcessCount));
+//
+//                Log.w("mListAdapter",String.valueOf(mListAdapter.getCount()));
                 if (FileProcessCount == mListAdapter.getCount() )
                 {
                     pDialog.hide();
@@ -755,6 +777,20 @@ public class NewIssue extends AppCompatActivity {
     private void AddImageItem(Bitmap Image, String ImageName, String ImagePath) {
 
         mListAdapter.addItem(new NewIssueFile_Item(Image, ImageName, ImagePath, "", "", NewIssueFile_Item.FileType.Image));
+
+        mListAdapter.notifyDataSetChanged();
+
+    }
+
+    private void AddListImageItem(ArrayList<String> ImagePathList) {
+
+        for (String ImagePath : ImagePathList) {
+            Bitmap photo = FileUtil.FilePathGetBitMap(ImagePath);
+
+            Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
+
+            mListAdapter.addItem(new NewIssueFile_Item(minibm, ImagePath.substring(ImagePath.lastIndexOf("/") + 1), ImagePath, "", "", NewIssueFile_Item.FileType.Image));
+        }
 
         mListAdapter.notifyDataSetChanged();
 
@@ -895,53 +931,16 @@ public class NewIssue extends AppCompatActivity {
         else if (requestCode == REQUEST_Photo_CAPTURE && resultCode == RESULT_OK)
         {
 
-            Uri uri = data.getData();
-            //抽象資料的接口
-            ContentResolver cr = this.getContentResolver();
             try {
-                //由抽象資料接口轉換圖檔路徑為Bitmap
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-
-                File MyNewFile = configFileName("P", ".jpg");
 
 
+                mMultiPhotoPath = data.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS);
+                assert mMultiPhotoPath != null;
 
-                FileOutputStream out = null;
-
-                try {
-
-
-                    out = new FileOutputStream(MyNewFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out); // bmp is your Bitmap instance
-                    ImageFile = MyNewFile;
-
-                    if (ImageFile.exists()) {
-
-                        Log.w("HavePhtoto","HavePhtoto");
-
-                        Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
-
-                        Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
-
-                        AddImageItem(minibm, ImageFile.getName(), ImageFile.getAbsolutePath());
-
-                        ImageFile = null;
-                    }
+                AddListImageItem(mMultiPhotoPath);
 
 
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (out != null) {
-                            out.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 Log.e("Exception", e.getMessage(), e);
             }
         }

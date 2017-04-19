@@ -149,6 +149,7 @@
                                     android:textSize="@dimen/text_size_small" />
 
                                 <ImageView
+                                    android:id="@+id/Img_Issue_Status"
                                     android:layout_width="17dp"
                                     android:layout_height="12dp"
                                     android:paddingLeft="5dp"

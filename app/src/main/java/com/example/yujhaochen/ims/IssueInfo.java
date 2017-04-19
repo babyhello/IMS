@@ -708,6 +708,8 @@ public class IssueInfo extends AppCompatActivity {
 
                 TextView txt_Issue_Subject = (TextView) findViewById(R.id.txt_IssueInfo_Subject);
 
+                ImageView Img_Issue_Status = (ImageView) findViewById(R.id.Img_Issue_Status);
+
                 txt_IssueInfo_Author.setText(F_Owner_en);
 
                 if (Issue_OwnerEN == null || Issue_OwnerEN == "null") {
@@ -716,6 +718,11 @@ public class IssueInfo extends AppCompatActivity {
                     txt_IssueInfo_Owner.setText(Issue_OwnerEN);
                 }
 
+                if (Status_Display.equals("2")) {
+                    Img_Issue_Status.setImageResource(R.mipmap.ic_verify_arrow);
+                } else {
+                    Img_Issue_Status.setImageResource(R.mipmap.newissue_ic_assign_arrow);
+                }
 
                 txt_IssueInfo_Date.setText(F_CreateDate);
 
@@ -1026,7 +1033,7 @@ public class IssueInfo extends AppCompatActivity {
     private void Verify_Issue_Fun() {
         AlertDialog.Builder alert = new AlertDialog.Builder(
                 mContext);
-        alert.setTitle("Close Issue!!");
+        alert.setTitle("Verify Issue!!");
         alert.setMessage("Are you sure to verify issue");
         alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
@@ -1034,7 +1041,7 @@ public class IssueInfo extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
 
-                Close_Issue(IssueID, UserData.WorkID);
+                Verify_Issue(IssueID, UserData.WorkID);
 
             }
         });

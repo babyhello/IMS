@@ -39,7 +39,7 @@ public class imageZoom extends Activity {
                 .with(imageZoom.this)
                 .load(ImagePath)
                 .asBitmap()
-                .into(new SimpleTarget<Bitmap>(300,300) {
+                .into(new SimpleTarget<Bitmap>(1280, 800) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
 

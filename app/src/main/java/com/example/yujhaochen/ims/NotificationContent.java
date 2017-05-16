@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,23 +150,27 @@ public class NotificationContent extends Fragment {
 
             for (int i = 0; i < UserArray.length(); i++) {
 
-//                JSONObject ModelData = UserArray.getJSONObject(i);
-//
-//                String F_Owner = ModelData.getString("F_Owner");
-//
-//                String F_MsgType = ModelData.getString("Title");
-//
-//                String F_Subject = ModelData.getString("F_Content");
-//
-//                F_Subject = F_Subject.replace("<br />","\n");
-//
-//                String F_CreateDate = AppClass.ConvertDateString(ModelData.getString("F_CreateDate"));
-//
-//                //String F_Keyin = ModelData.getString("F_Keyin");
-//
-//                //String F_Master_ID = String.valueOf(ModelData.getInt("F_Master_ID"));
-//
-//                Notification_List.add(i, new Notification_Item("", F_Owner, F_CreateDate, F_MsgType, F_Subject, "",""));
+                JSONObject ModelData = UserArray.getJSONObject(i);
+
+                String F_Owner = ModelData.getString("F_Owner");
+
+                String F_MsgType = ModelData.getString("Title");
+
+                String F_Subject = ModelData.getString("F_Content");
+
+                F_Subject = F_Subject.replace("<br />", "\n");
+
+                String F_CreateDate = AppClass.ConvertDateString(ModelData.getString("F_CreateDate"));
+
+                String F_Desc = ModelData.getString("F_Desc");
+
+                F_Desc = Html.fromHtml(F_Desc).toString();
+
+                //String F_Keyin = ModelData.getString("F_Keyin");
+
+                //String F_Master_ID = String.valueOf(ModelData.getInt("F_Master_ID"));
+
+                Notification_List.add(i, new Notification_Item("", F_Owner, F_CreateDate, F_MsgType, F_Subject, F_Desc, "", ""));
             }
 
             if (Notification_List.size() > 0) {
@@ -203,11 +208,11 @@ public class NotificationContent extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            NotificationAdapter NotificationAdapter = (NotificationAdapter)parent.getAdapter();
-
-            Notification_Item Notification_Item = (Notification_Item)NotificationAdapter.getItem(position);
-
-            GoIssueInfo(Notification_Item.Get_F_Master_ID());
+//            NotificationAdapter NotificationAdapter = (NotificationAdapter)parent.getAdapter();
+//
+//            Notification_Item Notification_Item = (Notification_Item)NotificationAdapter.getItem(position);
+//
+//            GoIssueInfo(Notification_Item.Get_F_Master_ID());
 
         }
     };

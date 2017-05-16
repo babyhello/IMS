@@ -115,7 +115,7 @@ public class IssueAdapter extends BaseAdapter {
         LinearLayout IssueList_Background = (LinearLayout) v.findViewById(R.id.IssueList_Background);
 
         if (Issue_List.get(position).GetIssueStatus().equals("3")) {
-            IssueList_Background.setBackgroundColor(mContext.getResources().getColor(R.color.Issue_Status));
+            IssueList_Background.setBackgroundColor(mContext.getResources().getColor(R.color.Issue_Status_Close));
         }
 
         return v;

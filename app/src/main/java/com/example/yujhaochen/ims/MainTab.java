@@ -100,14 +100,14 @@ public class MainTab extends AppCompatActivity {
     private int[] SelectIcon = {
             R.mipmap.btn_tab_projec_sel,
             R.mipmap.btn_tab_issue_sel,
-            R.mipmap.btn_tab_notification_sel,
+            R.mipmap.tab_btn_notification_sel,
             R.mipmap.btn_tab_set_sel
     };
 
     private int[] UnSelectIcon = {
             R.mipmap.btn_tab_projec_nor,
             R.mipmap.btn_tab_issue_nor,
-            R.mipmap.btn_tab_notification_nor,
+            R.mipmap.tab_btn_notification_nor,
             R.mipmap.btn_tab_set_nor
     };
 
@@ -128,37 +128,7 @@ public class MainTab extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_main_tab);
-
-
-//        // 取得NotificationManager物件
-//        NotificationManager manager = (NotificationManager)
-//                getSystemService(Context.NOTIFICATION_SERVICE);
-//// 建立NotificationCompat.Builder物件
-//        NotificationCompat.Builder builder =
-//                new NotificationCompat.Builder(this);
-//
-//// 設定小圖示、大圖示、狀態列文字、時間、內容標題、內容訊息和內容額外資訊
-//        builder.setSmallIcon(R.drawable.jc_backward_icon)
-//                .setWhen(System.currentTimeMillis())
-//                .setContentTitle("Basic Notification")
-//                .setContentText("Demo for basic notification control.")
-//                .setContentInfo("3");
-//
-//// 建立通知物件
-//        Notification notification = builder.build();
-//// 使用BASIC_ID為編號發出通知
-//        manager.notify(1, notification);
-//
-//// 建立新的通知物件
-//        Notification notificationNew = builder.build();
-//// 更新BASIC_ID編號的通知
-//        manager.notify(1, notificationNew);
-//
-//// 清除BASIC_ID編號的通知
-//        //manager.cancel(1);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -277,7 +247,7 @@ public class MainTab extends AppCompatActivity {
 
         View TabView = tabLayout.getTabAt(LastTab).getCustomView();
 
-        prepareTabView(TabView, "1", SelectIcon[LastTab]);
+        prepareTabView(TabView, "0", SelectIcon[LastTab]);
 
         tabLayout.getTabAt(LastTab).select();
 
@@ -301,7 +271,7 @@ public class MainTab extends AppCompatActivity {
 
                 View DefaultTabView = tabLayout.getTabAt(0).getCustomView();
 
-                prepareTabView(DefaultTabView, "1", SelectIcon[0]);
+                prepareTabView(DefaultTabView, "0", SelectIcon[0]);
         }
 
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -315,7 +285,7 @@ public class MainTab extends AppCompatActivity {
 
 
         } else {
-            GetServiceData.isUpdate(this);
+            GetServiceData.isUpdate(MainTab.this);
         }
 
 
@@ -885,7 +855,7 @@ public class MainTab extends AppCompatActivity {
         private int[] imageResId = {
                 R.mipmap.btn_tab_projec_nor,
                 R.mipmap.btn_tab_issue_nor,
-                R.mipmap.btn_tab_notification_nor,
+                R.mipmap.tab_btn_notification_nor,
                 R.mipmap.btn_tab_projec_nor
         };
 

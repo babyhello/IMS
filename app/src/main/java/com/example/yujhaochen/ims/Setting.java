@@ -113,6 +113,20 @@ public class Setting extends Fragment implements SeekBar.OnSeekBarChangeListener
 
         String VersionExplain =
 
+                "(Ver 42.0) 20170504 Update \n" + " 1.Fix Project List Wrong Text" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 41.0) 20170425 Update \n" + " 1.Issue Info Add Close Type & Reason" +
+                        "\n" +
+                        "\n" +
+
+                        "(Ver 40.0) 20170424 Update \n" + " 1.Issue Info Status Function" +
+                        "\n 2.New Issue VideoViewer Change" +
+                        "\n 3.Issue Info WorkNote Browser Photo Function" +
+                        "\n" +
+                        "\n" +
+
                 "(Ver 39.0) 20170419 Update \n" + " 1.Fix Verify Issue Error" +
                         "\n" +
                         "\n" +

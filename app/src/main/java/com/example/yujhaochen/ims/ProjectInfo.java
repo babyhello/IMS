@@ -78,13 +78,16 @@ public class ProjectInfo extends Activity {
                 {
                     project_expandtable.ResumeFlag = true;
 
-                    FavoritClick(UserData.WorkID,"",Project_Item.ModelID);
+                    FavoriteClick(UserData.WorkID, "", Project_Item.ModelID);
 
-
-                    if (Img_Star.getDrawable().getConstantState() != null)
+                    if (Img_Star.getDrawable() != null)
                     {
-                        if (Img_Star.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.btn_star_nor).getConstantState()) {
-                            Img_Star.setImageResource(R.mipmap.btn_star_sel);
+                        if (Img_Star.getDrawable().getConstantState() != null) {
+                            if (Img_Star.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.btn_star_nor).getConstantState()) {
+                                Img_Star.setImageResource(R.mipmap.btn_star_sel);
+                            } else {
+                                Img_Star.setImageResource(R.mipmap.btn_star_nor);
+                            }
                         } else {
                             Img_Star.setImageResource(R.mipmap.btn_star_nor);
                         }
@@ -93,8 +96,6 @@ public class ProjectInfo extends Activity {
                     {
                         Img_Star.setImageResource(R.mipmap.btn_star_nor);
                     }
-
-
                 }
             }
         });
@@ -262,7 +263,7 @@ public class ProjectInfo extends Activity {
                 }
                 catch(Exception ex)
                 {
-                    Log.w("PrintMessage", ex.toString());
+
                 }
 
 
@@ -270,17 +271,13 @@ public class ProjectInfo extends Activity {
             }
         } catch (JSONException ex) {
 
-            Log.e("CloseRate", String.valueOf("TestColse"));
-
-            Log.w("Exceptionxxxxxxxxxx",ex.toString());
 
         }
 
 
     }
 
-
-    private void FavoritClick(String F_Keyin,String F_Owner,String F_PM_ID) {
+    private void FavoriteClick(String F_Keyin, String F_Owner, String F_PM_ID) {
 
 
         if (mQueue == null) {
@@ -294,46 +291,29 @@ public class ProjectInfo extends Activity {
             public void onSuccess(JSONObject result) {
 
 
-                try {
-
-
-                    JSONArray UserArray = new JSONArray(result.getString("Key"));
-
-                    if (UserArray.length() > 0) {
-
-                        JSONObject IssueData = UserArray.getJSONObject(0);
-
-                        String Favorit_Model = String.valueOf(IssueData.getInt("Favorit_Model"));
-
-                        ImageView Img_Star = (ImageView) findViewById(R.id.Img_Star);
-
-//                        AppClass.makeTextAndShow(ProjectInfo.this,Favorit_Model,2);
+//                try {
 //
-//                        if (Favorit_Model.equals("0"))
-//                        {
-//                            Img_Star.setImageResource(R.mipmap.btn_star_nor);
-//                        }
-//                        else
 //
-//                        {
-//                            Img_Star.setImageResource(R.mipmap.btn_star_sel);
-//                        }
-
-
-                    }
-                } catch (JSONException ex) {
-
-                    Log.w("exception",ex.toString());
-                }
+//                    JSONArray UserArray = new JSONArray(result.getString("Key"));
+//
+//                    if (UserArray.length() > 0) {
+//
+//                        JSONObject IssueData = UserArray.getJSONObject(0);
+//
+//                        String Favorit_Model = String.valueOf(IssueData.getInt("Favorit_Model"));
+//
+//                        ImageView Img_Star = (ImageView) findViewById(R.id.Img_Star);
+//
+//                    }
+//                } catch (JSONException ex) {
+//
+//                    Log.w("exception",ex.toString());
+//                }
 
             }
         });
 
     }
-
-
-
-//    http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Find_Model_Detail
 
     private void Find_Model_Detail(String ModelID,String WorkID) {
 
@@ -355,7 +335,6 @@ public class ProjectInfo extends Activity {
         });
 
     }
-
 
     private void NewIssue() {
         Bundle bundle = new Bundle();

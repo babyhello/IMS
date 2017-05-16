@@ -56,6 +56,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.zfdang.multiple_images_selector.ImagesSelectorActivity;
+import com.zfdang.multiple_images_selector.SelectorSettings;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +68,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class IssueInfo extends AppCompatActivity {
     static final int REQUEST_VIDEO_CAPTURE = 1;
@@ -118,6 +121,8 @@ public class IssueInfo extends AppCompatActivity {
 
     private Context mContext;
 
+    private ArrayList<String> mMultiPhotoPath = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +131,7 @@ public class IssueInfo extends AppCompatActivity {
         setContentView(R.layout.activity_issue_info);
 
         mContext = IssueInfo.this;
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -151,23 +157,29 @@ public class IssueInfo extends AppCompatActivity {
             Intent startingIntent = getIntent();
             if (startingIntent != null) {
 
-                if (startingIntent.getStringExtra("key").contains("IssueInfo")) {
+                if (startingIntent.getStringExtra("key") != null) {
+                    if (startingIntent.getStringExtra("key").contains("IssueInfo")) {
 
-                    idOffer = startingIntent.getStringExtra("value"); // Retrieve the id
+                        idOffer = startingIntent.getStringExtra("value"); // Retrieve the id
 
 
-                    showRecordingNotification(idOffer);
+                        showRecordingNotification(idOffer);
+                    }
                 }
+
+
             }
 
             IssueID = idOffer;
         }
 
-        Issue_Get(IssueID);
+//        Issue_Get(IssueID);
+//
+//        Find_Issue_Comment(IssueID);
+//
+//        Issue_File_List(IssueID);
 
-        Find_Issue_Comment(IssueID);
-
-        Issue_File_List(IssueID);
+        GetIssue_Info(IssueID);
 
         String WorkID = UserData.WorkID;
 
@@ -203,6 +215,7 @@ public class IssueInfo extends AppCompatActivity {
         Img_IssueInfo_AddPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 GoCamera();
+
             }
         });
 
@@ -273,12 +286,17 @@ public class IssueInfo extends AppCompatActivity {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            if (ImageFile.exists()) {
+            mMultiPhotoPath = data.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS);
 
+            assert mMultiPhotoPath != null;
 
-                ImageView image = new ImageView(mContext);
+            ImageView image = new ImageView(mContext);
 
-                Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
+            if (mMultiPhotoPath.size() > 0) {
+
+                final String ImagePath = mMultiPhotoPath.get(0);
+
+                final Bitmap photo = FileUtil.FilePathGetBitMap(ImagePath);
 
                 Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
 
@@ -293,22 +311,15 @@ public class IssueInfo extends AppCompatActivity {
 
                                         String WorkID = UserData.WorkID;
 
-                                        Bitmap photo = FileUtil.FilePathGetBitMap(ImageFile.getAbsolutePath());
-
-
-                                        UpdateIssueFile(WorkID, IssueID, ImageFile.getAbsolutePath(), ImageFile.getName());
+                                        UpdateIssueFile(WorkID, IssueID, ImagePath, ImagePath.substring(ImagePath.lastIndexOf("/") + 1));
 
                                         Find_Issue_Comment(IssueID);
-
-                                        ImageFile = null;
 
                                         dialog.dismiss();
                                     }
                                 }).
                                 setView(image);
                 builder.create().show();
-
-
             }
 
 
@@ -393,21 +404,36 @@ public class IssueInfo extends AppCompatActivity {
                 );
 
             } else {
-                System.out.println("CAMERA");
+//                System.out.println("CAMERA");
+//
+//                Intent intentCamera =
+//                        new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//                // 照片檔案名稱
+//                File pictureFile = configFileName("P", ".jpg");
+//
+//                ImageFile = pictureFile;
+//
+//                Uri uri = Uri.fromFile(pictureFile);
+//                // 設定檔案名稱
+//                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//                // 啟動相機元件
+//                startActivityForResult(intentCamera, REQUEST_IMAGE_CAPTURE);
 
-                Intent intentCamera =
-                        new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                // 照片檔案名稱
-                File pictureFile = configFileName("P", ".jpg");
+// start multiple photos selector
+                Intent intent = new Intent(IssueInfo.this, ImagesSelectorActivity.class);
+// max number of images to be selected
+                intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1);
+// min size of image which will be shown; to filter tiny images (mainly icons)
+                intent.putExtra(SelectorSettings.SELECTOR_MIN_IMAGE_SIZE, 100000);
+// show camera or not
+                intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, true);
+// pass current selected images as the initial value
+//                intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mMultiPhotoPath);
+// start the selector
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
-                ImageFile = pictureFile;
-
-                Uri uri = Uri.fromFile(pictureFile);
-                // 設定檔案名稱
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                // 啟動相機元件
-                startActivityForResult(intentCamera, REQUEST_IMAGE_CAPTURE);
             }
         }
 
@@ -651,6 +677,40 @@ public class IssueInfo extends AppCompatActivity {
 
     }
 
+    private void GetIssue_Info(String Issue_ID) {
+
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(mContext);
+        }
+
+        String Path = GetServiceData.ServicePath + "/GetIssue_Info?IssueID=" + Issue_ID;
+
+        GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+
+                try {
+                    JSONArray UserArray = new JSONArray(result.getString("Key"));
+
+                    if (UserArray.length() > 0) {
+                        IssueInfoMapping(UserArray.getJSONObject(0));
+
+                        IssueCommentMapping(UserArray.getJSONObject(1));
+
+                        IssueInfoFile_ListMapping(UserArray.getJSONObject(2));
+                    }
+
+                } catch (Exception ex) {
+
+                }
+
+
+            }
+        });
+
+    }
+
 
     private void IssueInfoMapping(JSONObject result) {
         try {
@@ -783,44 +843,58 @@ public class IssueInfo extends AppCompatActivity {
     }
 
     public void IssuePriorityChange() {
-        List<List_Item> PriorityList = new ArrayList<List_Item>();
 
-        PriorityList.add(0, new List_Item("Critical (P1)", "1"));
+        Go_Issue_Change_Priority("Priority", IssueID);
 
-        PriorityList.add(1, new List_Item("Major (P2)", "2"));
+//        List<List_Item> PriorityList = new ArrayList<List_Item>();
+//
+//        PriorityList.add(0, new List_Item("Critical (P1)", "1"));
+//
+//        PriorityList.add(1, new List_Item("Major (P2)", "2"));
+//
+//        PriorityList.add(2, new List_Item("Minor (P3)", "3"));
 
-        PriorityList.add(2, new List_Item("Minor (P3)", "3"));
+        //IssueStatusChange._DataList = PriorityList;
 
-        final Alert_Search_Dialog DataDialog = new Alert_Search_Dialog(mContext, "Select Issue Priority", PriorityList);
+        //Go_Issue_Status_Change("Priority",IssueID);
 
-        DataDialog.SetOnDialog_Finish_Listener(new Alert_Search_Dialog.Dialog_Finish_Listener() {
-            @Override
-            public void Finished() {
-
-                if (!TextUtils.isEmpty(DataDialog.SelectValue)) {
-
-                    Change_Issue_Priority(IssueID, DataDialog.SelectValue);
-
-                    String CommentTitle = "@Issue Priority Change";
-
-                    String CommentText = "◎Issue Priority Change： 『" + PriorityConvert(Issue_Priotity) + "』change to 『" + PriorityConvert(DataDialog.SelectValue) + "』";
-
-                    CommentText += "Reason: 『" + DataDialog.GetReason() + "』\n";
-
-                    C_Comment_Insert(CommentText);
-
-                    List<String> WorkID_List = new ArrayList<String>();
-
-                    WorkID_List.add(0, Author);
-
-                    AppClass.Send_Notification(WorkID_List, CommentTitle, CommentText, "IssueInfo", "IssueInfo", IssueID, mContext);
-
-                }
-            }
-        });
-
-
-        DataDialog.show();
+//        final Alert_Search_Dialog DataDialog = new Alert_Search_Dialog(mContext, "Select Issue Priority", PriorityList);
+//
+//        DataDialog.SetOnDialog_Finish_Listener(new Alert_Search_Dialog.Dialog_Finish_Listener() {
+//            @Override
+//            public void Finished() {
+//
+//                if (!TextUtils.isEmpty(DataDialog.SelectValue)) {
+//
+//                    Change_Issue_Priority(IssueID, DataDialog.SelectValue);
+//
+//                    String CommentTitle = "@Issue Priority Change";
+//
+//                    String CommentText = "◎Issue Priority Change： 『" + PriorityConvert(Issue_Priotity) + "』change to 『" + PriorityConvert(DataDialog.SelectValue) + "』";
+//
+//                    CommentText += "Reason: 『" + DataDialog.GetReason() + "』\n";
+//
+//                    C_Comment_Insert(CommentText);
+//
+//                    List<String> WorkID_List = new ArrayList<String>();
+//
+//                    WorkID_List.add(0, Author);
+//
+//                    AppClass.Send_Notification(WorkID_List, CommentTitle, CommentText, "IssueInfo", "IssueInfo", IssueID, mContext);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void Cancel() {
+//
+//            }
+//
+//        });
+//
+//        DataDialog.setCancelable(false);
+//
+//        DataDialog.show();
     }
 
     public void IssueOwnerChange(String PM_ID) {
@@ -877,7 +951,14 @@ public class IssueInfo extends AppCompatActivity {
                                 AppClass.Send_Notification(WorkID_List, CommentTitle, CommentText, "IssueInfo", "IssueInfo", IssueID, mContext);
                             }
                         }
+
+                        @Override
+                        public void Cancel() {
+
+                        }
                     });
+
+                    DataDialog.setCancelable(false);
 
                     DataDialog.show();
 
@@ -1002,32 +1083,91 @@ public class IssueInfo extends AppCompatActivity {
     }
 
     private void Close_Issue_Fun() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(
-                mContext);
-        alert.setTitle("Close Issue!!");
-        alert.setMessage("Are you sure to close issue");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        List<List_Item> CloseList = new ArrayList<List_Item>();
 
+        CloseList.add(0, new List_Item("Limitation", "1"));
 
-                Close_Issue(IssueID, UserData.WorkID);
+        CloseList.add(1, new List_Item("Fixed", "2"));
 
-            }
-        });
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        CloseList.add(2, new List_Item("Waive", "5"));
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        IssueClose._DataList = CloseList;
 
-                dialog.dismiss();
-            }
-        });
+        Go_Issue_Close("Close", IssueID);
 
-        alert.show();
+//        final Alert_Search_Dialog DataDialog = new Alert_Search_Dialog(mContext, "Select Close Type", CloseList);
+//
+//        DataDialog.SetOnDialog_Finish_Listener(new Alert_Search_Dialog.Dialog_Finish_Listener() {
+//            @Override
+//            public void Finished() {
+//
+//                if (!TextUtils.isEmpty(DataDialog.SelectValue)) {
+//
+//                    String Reason = DataDialog.GetReason();
+//
+//                    Close_Issue(IssueID, UserData.WorkID, DataDialog.SelectValue);
+//
+//                    C_Comment_Insert("Issue Close  " + Reason);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void Cancel() {
+//
+//            }
+//
+//        });
+//
+//        DataDialog.setCancelable(false);
+//
+//        DataDialog.show();
 
+    }
 
+    private void Go_Issue_Close(String Type, String IssueID) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("IssueID", IssueID);
+
+        bundle.putString("StatusType", Type);
+
+        bundle.putString("Priority", Issue_Priotity);
+
+        bundle.putString("Author", Author);
+
+        //bundle.putString("Owner", );
+        // 建立啟動另一個Activity元件需要的Intent物件
+        // 建構式的第一個參數：「this」
+        // 建構式的第二個參數：「Activity元件類別名稱.class」
+        Intent intent = new Intent(this, IssueClose.class);
+
+        intent.putExtras(bundle);
+        // 呼叫「startActivity」，參數為一個建立好的Intent物件
+        // 這行敘述執行以後，如果沒有任何錯誤，就會啟動指定的元件
+        startActivity(intent);
+    }
+
+    private void Go_Issue_Change_Priority(String Type, String IssueID) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("IssueID", IssueID);
+
+        bundle.putString("StatusType", Type);
+
+        bundle.putString("Priority", Issue_Priotity);
+
+        //bundle.putString("Owner", );
+        // 建立啟動另一個Activity元件需要的Intent物件
+        // 建構式的第一個參數：「this」
+        // 建構式的第二個參數：「Activity元件類別名稱.class」
+        Intent intent = new Intent(this, IssueChangePriority.class);
+
+        intent.putExtras(bundle);
+        // 呼叫「startActivity」，參數為一個建立好的Intent物件
+        // 這行敘述執行以後，如果沒有任何錯誤，就會啟動指定的元件
+        startActivity(intent);
     }
 
     private void Verify_Issue_Fun() {
@@ -1185,6 +1325,9 @@ public class IssueInfo extends AppCompatActivity {
                 public void onSendRequestSuccess(String result) {
 
                     AppClass.AlertMessage("Verify Issue Success", mContext);
+
+                    Issue_Get(IssueID);
+                    Issue_Get(IssueID);
                 }
 
                 @Override
@@ -1239,7 +1382,7 @@ public class IssueInfo extends AppCompatActivity {
 
     }
 
-    private void Close_Issue(final String IssueID, final String WorkID) {
+    private void Close_Issue(final String IssueID, final String WorkID, final String CloseType) {
 
 
         if (!TextUtils.isEmpty(IssueID)) {
@@ -1252,6 +1395,7 @@ public class IssueInfo extends AppCompatActivity {
             Map<String, String> map = new HashMap<String, String>();
             map.put("IssueNo", IssueID);
             map.put("WorkID", WorkID);
+            map.put("CloseType", CloseType);
 
             String Path = GetServiceData.ServicePath + "/Close_Issue";
 
@@ -1260,6 +1404,8 @@ public class IssueInfo extends AppCompatActivity {
                 public void onSendRequestSuccess(String result) {
 
                     AppClass.AlertMessage("Close Issue Success", mContext);
+
+                    Issue_Get(IssueID);
                 }
 
                 @Override

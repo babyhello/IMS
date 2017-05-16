@@ -407,10 +407,10 @@ public class project_expandtable extends Fragment {
                 if (e.GetFocusType().equals("Favorit")) {
                     Focus_Project_List.add(e);
                 }
-                else if(e.GetFocusType().equals("Default"))
-                {
-                    Top_Project_List.add(e);
-                }
+//                else if(e.GetFocusType().equals("Default"))
+//                {
+//                    Top_Project_List.add(e);
+//                }
                 else {
                     NotFocus_Project_List.add(e);
                 }
@@ -418,15 +418,15 @@ public class project_expandtable extends Fragment {
 
             Log.w("NotFocus_Project_List", String.valueOf(NotFocus_Project_List.size()));
 
-            ProjectGroup_List.add(Top_Project_List);
+            //ProjectGroup_List.add(Top_Project_List);
 
             ProjectGroup_List.add(Focus_Project_List);
 
             ProjectGroup_List.add(NotFocus_Project_List);
 
-            GroupItem.add("Top");
+            //GroupItem.add("Top");
 
-            GroupItem.add("Favorit");
+            GroupItem.add("Favorite");
 
             GroupItem.add("Project");
 

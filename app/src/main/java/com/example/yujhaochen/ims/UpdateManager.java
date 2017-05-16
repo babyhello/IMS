@@ -118,6 +118,9 @@ public class UpdateManager extends Activity{
             }
         });
         noticeDialog = builder.create();
+
+        noticeDialog.setCancelable(false);
+
         noticeDialog.show();
     }
 

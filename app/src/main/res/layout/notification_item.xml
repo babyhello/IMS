@@ -2,117 +2,114 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp"
+    android:background="@drawable/linear_border_color"
+    android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:background="@drawable/linear_border_color">
+    android:paddingTop="10dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|top"
+        android:orientation="horizontal"
         android:paddingLeft="14dp">
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
             android:layout_width="56dp"
-            android:paddingTop="8dp"
             android:layout_height="match_parent"
-            android:gravity="top|left">
+            android:gravity="top|left"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
 
 
             <ImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
                 android:id="@+id/Img_Notification_Author"
-                android:src="@mipmap/avatar_man" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_notification_msitoday" />
 
 
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
+            android:orientation="vertical"
             android:paddingLeft="5dp">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical" android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical">
+
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="30sp"
                     android:id="@+id/txt_Notification_AuthorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_horizontal"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/Notification_Author"
-                    android:layout_gravity="center_horizontal" />
-
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical" android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="left|center_vertical"
-                >
+                    android:textSize="30sp" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="19sp"
                     android:id="@+id/txt_Notification_Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_horizontal"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/Notification_Date"
-                    android:layout_gravity="center_horizontal" />
-
-            </LinearLayout>
+                    android:paddingRight="5dp"
+                    android:textSize="19sp" />
+            </RelativeLayout>
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="left|center_vertical"
+        android:orientation="horizontal"
         android:paddingLeft="14dp">
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:paddingLeft="17dp"
             android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            android:gravity="left">
+            android:gravity="left"
+            android:orientation="vertical"
+            android:paddingLeft="17dp"
+            android:paddingTop="10dp">
 
             <TextView
+                android:id="@+id/txt_Notification_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="26sp"
-                android:id="@+id/txt_Notification_Title"
                 android:textColor="@color/Notification_Title_Red"
-                android:layout_gravity="center_horizontal" />
+                android:textSize="26sp" />
 
             <TextView
+                android:id="@+id/txt_Notification_Content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
                 android:paddingTop="3dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="26sp"
-                android:id="@+id/txt_Notification_Content"
                 android:textColor="@color/Notification_Content"
-                android:layout_gravity="center_horizontal" />
+                android:textSize="26sp" />
 
         </LinearLayout>
-
-
-
 
 
     </LinearLayout>

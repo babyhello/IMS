@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.yujhaochen.ims"
-    android:versionCode="39"
-    android:versionName="39">
+    package="com.apps.ims"
+    android:versionCode="45"
+    android:versionName="45">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -21,12 +21,12 @@
     <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
     <uses-feature android:name="android.hardware.location.gps" />
 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name=".IMSApplication"
+        android:name="com.apps.ims.IMSApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ims_app_icon"
         android:label="@string/app_name"
@@ -34,7 +34,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="com.apps.android.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -53,38 +53,41 @@
         <!-- <category android:name="com.tom.stock" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <activity android:name=".play_video">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name="com.apps.ims.play_video">
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <!--<activity android:name="com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:label="IMS"-->
-        <!--tools:replace="android:label">-->
+        <!-- <activity android:name="com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:label="apps" -->
+        <!-- tools:replace="android:label"> -->
 
-        <!--</activity>-->
+
+        <!-- </activity> -->
         <service
-            android:name=".IMS_VpnService"
+            android:name="com.apps.ims.IMS_VpnService"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
             </intent-filter>
         </service>
-        <service android:name=".MyInstanceIDService">
+        <service android:name="com.apps.ims.MyInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name="com.apps.ims.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".SendNotification">
+        <activity android:name="com.apps.ims.SendNotification">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -94,7 +97,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".IssueVoiceRecord"
+            android:name="com.apps.ims.IssueVoiceRecord"
             android:theme="@android:style/Theme.Dialog">
 
             <!-- <intent-filter> -->
@@ -104,9 +107,45 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Main2Activity" />
+        <activity android:name="com.apps.ims.Main2Activity" />
+        <activity android:name="com.apps.ims.Test">
+
+            <!-- <intent-filter android:label="@string/app_name"> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name="com.apps.ims.IssueClose">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
         <activity
-            android:name=".Welcome"
+            android:name="com.apps.ims.IssueChangePriority"
+            android:windowSoftInputMode="adjustResize">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name="com.apps.ims.IssueChangeOwner"
+            android:windowSoftInputMode="adjustResize">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.apps.ims.Welcome"
             android:label="@string/app_name">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
@@ -115,22 +154,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CustomScannerActivity"
+            android:name="com.apps.ims.CustomScannerActivity"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".CaptureActivityPortrait"
+            android:name="com.apps.ims.CaptureActivityPortrait"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".MainDefault"
+            android:name="com.apps.ims.MainDefault"
             android:windowSoftInputMode="adjustPan" />
+
+
         <activity
-            android:name=".SpeedNewIssue"
+            android:name="com.apps.ims.ShareToNewIssue"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -169,10 +210,10 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".VPN" />
-        <activity android:name=".photo_gallery" />
+        <activity android:name="com.apps.ims.VPN" />
+        <activity android:name="com.apps.ims.photo_gallery" />
         <activity
-            android:name=".MainTab"
+            android:name="com.apps.ims.MainTab"
             android:label="@string/title_activity_main_tab"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -185,8 +226,8 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".testview" />
-        <activity android:name=".LoginAccount">
+        <activity android:name="com.apps.ims.testview" />
+        <activity android:name="com.apps.ims.LoginAccount">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -195,20 +236,20 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".IssueGallery" />
+        <activity android:name="com.apps.ims.IssueGallery" />
         <activity
-            android:name=".ProjectInfo"
+            android:name="com.apps.ims.ProjectInfo"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialog"
             android:windowActionBar="false" />
         <activity
-            android:name=".ProjectSpec"
+            android:name="com.apps.ims.ProjectSpec"
             android:theme="@style/AppThemeTitle" />
         <activity
-            android:name=".Project_Member"
+            android:name="com.apps.ims.Project_Member"
             android:theme="@style/AppThemeTitle" />
         <activity
-            android:name=".IssueInfo"
+            android:name="com.apps.ims.IssueInfo"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -217,16 +258,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.apps.ims.MainActivity" />
         <activity
-            android:name=".LoginPassword"
+            android:name="com.apps.ims.LoginPassword"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".IssueList" />
+        <activity android:name="com.apps.ims.IssueList" />
         <activity
-            android:name=".NewIssue"
+            android:name="com.apps.ims.NewIssue"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".DefaultDemo">
+        <activity android:name="com.apps.ims.DefaultDemo">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -235,10 +276,10 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".VideoView" />
-        <activity android:name=".imageZoom" />
-        <activity android:name=".PhotoShare" />
-        <activity android:name=".TakePictureAndCamera" />
+        <activity android:name="com.apps.ims.VideoView" />
+        <activity android:name="com.apps.ims.imageZoom" />
+        <activity android:name="com.apps.ims.PhotoShare" />
+        <activity android:name="com.apps.ims.TakePictureAndCamera" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -249,10 +290,10 @@
         <!-- android:name="com.google.android.gms.version" -->
         <!-- android:value="@integer/google_play_services_version" /> -->
         <activity
-            android:name=".VideoRecord"
+            android:name="com.apps.ims.VideoRecord"
             android:screenOrientation="portrait" />
         <!-- <activity android:name=".IssueVoicePlay" /> -->
-        <activity android:name=".Main3Activity">
+        <activity android:name="com.apps.ims.Main3Activity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -265,10 +306,11 @@
 
 
         <!-- <activity android:name=".CustomSacnnerActivity"></activity> -->
-        <!--<activity android:name=".Alert_Search_Dialog" />-->
+        <!-- <activity android:name=".Alert_Search_Dialog" /> -->
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
             android:configChanges="orientation|screenSize" />
+
     </application>
 
 </manifest>

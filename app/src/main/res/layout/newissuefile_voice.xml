@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <com.example.yujhaochen.ims.IssueVoicePlay
+
+    <com.apps.ims.IssueVoicePlay
         android:id="@+id/IssueVoicePlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:scaleType="centerCrop">
-    </com.example.yujhaochen.ims.IssueVoicePlay>
+        android:scaleType="centerCrop"></com.apps.ims.IssueVoicePlay>
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.yujhaochen.ims.MainTab">
+    tools:context="com.apps.ims.MainTab">
     <!--<item android:id="@+id/New_Issue"-->
         <!--android:title="New Issue" />-->
     <!--<item android:id="@+id/GallyToNewIssue"-->

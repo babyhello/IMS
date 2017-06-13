@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.yujhaochen.ims.IssueInfo"
+    tools:context="com.apps.ims.IssueInfo"
     android:background="@color/IssueInfo_Background_Grey">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/IssueInfo_Top_AppBar"

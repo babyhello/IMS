@@ -7,7 +7,7 @@
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.example.yujhaochen.ims.MainTab">
+    tools:context="com.apps.ims.MainTab">
 
 
     <android.support.design.widget.AppBarLayout

@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.yujhaochen.ims.imageZoom">
+    tools:context="com.apps.ims.imageZoom">
 
 
-    <!--<com.example.yujhaochen.ims.MyZoomImageView-->
+    <!--<MyZoomImageView-->
     <!--android:id="@+id/ImageViewZoom"-->
     <!--android:layout_width="fill_parent"-->
     <!--android:layout_height="fill_parent">-->
-    <!--</com.example.yujhaochen.ims.MyZoomImageView>-->
+    <!--</MyZoomImageView>-->
 
     <!--<com.github.chrisbanes.photoview.PhotoView-->
     <!--android:id="@+id/ImageViewZoom"-->

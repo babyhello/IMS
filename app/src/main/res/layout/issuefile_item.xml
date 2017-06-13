@@ -12,7 +12,7 @@
         android:layout_margin="5dp"
         android:scaleType="centerCrop" />
 
-    <com.example.yujhaochen.ims.IssueVideoPlay
+    <com.apps.ims.IssueVideoPlay
         android:id="@+id/IssueVideoPlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
         android:scaleType="centerCrop"/>
 
 
-    <com.example.yujhaochen.ims.IssueVoicePlay
+    <com.apps.ims.IssueVoicePlay
     android:id="@+id/IssueVoicePlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,5 +31,5 @@
     android:layout_margin="5dp"
     android:scaleType="centerCrop">
 
-</com.example.yujhaochen.ims.IssueVoicePlay>
+    </com.apps.ims.IssueVoicePlay>
 </RelativeLayout>

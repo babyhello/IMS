@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.yujhaochen.ims.SpeedNewIssue">
+    tools:context="com.apps.ims.SpeedNewIssue">
 
     <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
 
@@ -60,7 +60,17 @@
         android:layout_below="@+id/txt_Subject"
         android:layout_above="@+id/btn_Save"/>
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    <!--<fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard-->
+    <!--android:id="@+id/videoplayer"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_below="@+id/txt_Subject"-->
+    <!--android:layout_above="@+id/btn_Save"/>-->
+
+    <com.apps.ims.IssueVideoPlay
         android:id="@+id/videoplayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,6 +79,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/txt_Subject"
         android:layout_above="@+id/btn_Save"/>
+
 
     <Button
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/ProjectInfo_Backgound"
     android:orientation="vertical"
-    tools:context="com.example.yujhaochen.ims.ProjectInfo"
+    tools:context="com.apps.ims.ProjectInfo"
     android:gravity="top">
 
     <LinearLayout

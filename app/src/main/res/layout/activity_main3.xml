@@ -8,9 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.yujhaochen.ims.Main3Activity">
+    tools:context="com.apps.ims.Main3Activity">
 
-    <com.example.yujhaochen.ims.IssueVoicePlay
+    <com.apps.ims.IssueVoicePlay
         android:id="@+id/IssueVoicePlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,6 +19,6 @@
         android:layout_margin="5dp"
         android:scaleType="centerCrop">
 
-    </com.example.yujhaochen.ims.IssueVoicePlay>
+    </com.apps.ims.IssueVoicePlay>
 
 </RelativeLayout>

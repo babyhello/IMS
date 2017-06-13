@@ -23,7 +23,7 @@
     <color name="Issue_Subject">#898a8e</color>
     <color name="Issue_Count">#ffffff</color>
     <color name="Issue_Status">#a7abb7</color>
-
+    <color name="Issue_Status_Close">#e4e7e9</color>
     <!--Notification-->
     <color name="Notification_Background">#f9f9f9</color>
     <color name="Notification_ItemColor">#ffffff</color>
@@ -55,7 +55,8 @@
     <color name="IssueInfo_Project">#2196f3</color>
     <color name="IssueInfo_Date">#adb3ba</color>
     <color name="IssueInfo_Content">#3b4048</color>
-
+    <color name="IssueInfo_Status_Title">#858591</color>
+    <color name="IssueInfo_Status_Reason">#a7abb7</color>
     <!--WorkNoteList-->
 
     <color name="WorkNote_Author">#212121</color>

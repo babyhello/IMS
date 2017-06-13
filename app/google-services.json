@@ -1,35 +1,66 @@
 {
   "project_info": {
-    "project_number": "595284756970",
-    "firebase_url": "https://imsapp-379fe.firebaseio.com",
-    "project_id": "imsapp-379fe",
-    "storage_bucket": "imsapp-379fe.appspot.com"
+    "project_number": "892719928868",
+    "firebase_url": "https://imsapp-f855e.firebaseio.com",
+    "project_id": "imsapp-f855e",
+    "storage_bucket": "imsapp-f855e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:595284756970:android:5b5a0e00b4646ba2",
+        "mobilesdk_app_id": "1:892719928868:android:5b5a0e00b4646ba2",
         "android_client_info": {
           "package_name": "com.example.yujhaochen.ims"
         }
       },
       "oauth_client": [
         {
-          "client_id": "595284756970-ci1079tr2qvgqic5j0dljlnmp79m1tpr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.yujhaochen.ims",
-            "certificate_hash": "226da324931729bde7f27fd83d196357b150b2d8"
-          }
-        },
-        {
-          "client_id": "595284756970-veaekftgvsd206uhdu3dv36j0n0gr3l9.apps.googleusercontent.com",
+          "client_id": "892719928868-gh4kj6825fv8nugo6g7ff1oh59n5mdfc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA1AHX0XyxjS_lDrJcE97rc9eLnHwq9sDE"
+          "current_key": "AIzaSyAmyDhCRpndCqTpFKJlWMRV6WUMvwQD79g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892719928868:android:25af03e695671bb6",
+        "android_client_info": {
+          "package_name": "com.apps.ims"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892719928868-scl64o3g0dgrbe2pp7m11un79dm06o3e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apps.ims",
+            "certificate_hash": "226da324931729bde7f27fd83d196357b150b2d8"
+          }
+        },
+        {
+          "client_id": "892719928868-gh4kj6825fv8nugo6g7ff1oh59n5mdfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmyDhCRpndCqTpFKJlWMRV6WUMvwQD79g"
         }
       ],
       "services": {
@@ -40,7 +71,14 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "595284756970-veaekftgvsd206uhdu3dv36j0n0gr3l9.apps.googleusercontent.com",
+              "client_id": "892719928868-i5aajnhbcvi82obro5h6tq3u8bebqck1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.msi.IMS"
+              }
+            },
+            {
+              "client_id": "892719928868-gh4kj6825fv8nugo6g7ff1oh59n5mdfc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

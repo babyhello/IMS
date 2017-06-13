@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yujhaochen.ims.Notification"
+    tools:context="com.apps.ims.NotificationContent"
     android:background="@android:color/transparent">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -26,9 +26,9 @@
             layout="@layout/listview_empty_item"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:text="Coming Soon Under Construction."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5" />
+    <!--<TextView-->
+    <!--android:text="Coming Soon Under Construction."-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/textView5" />-->
 </FrameLayout>

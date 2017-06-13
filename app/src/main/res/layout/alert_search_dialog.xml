@@ -8,7 +8,7 @@
 
 
     <LinearLayout
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -35,23 +35,36 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/appbar_padding_top"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/txt_Reason"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="left"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/appbar_padding_top"
+                android:orientation="vertical">
 
-                android:hint="Reason"></EditText>
+                <EditText
+                    android:id="@+id/txt_Reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:hint="Reason"></EditText>
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/Rcy_WorkNoteFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
 
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,12 +73,166 @@
             android:orientation="vertical">
 
 
-            <Button
-                android:id="@+id/Btn_Finish"
+            <LinearLayout
+                android:id="@+id/NewIssue_Attachment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/ActionBar_Background"
-                android:text="Send" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:background="@color/NewIssue_Attachment_Background"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/Lnl_Picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/Img_IssueInfo_AddPhoto"
+                        android:layout_width="45dp"
+                        android:layout_height="40dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@mipmap/workingnote_btn_camera">
+
+                    </ImageView>
+
+
+                    <TextView
+                        android:id="@+id/txt_Pictire"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Picture" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Lnl_Camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/Img_IssueInfo_AddCamera"
+                        android:layout_width="45dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@mipmap/video_camera" />
+
+                    <TextView
+                        android:id="@+id/txt_Camera"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Camera" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Lnl_Photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/Img_NewIssueByPhoto"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@mipmap/btn_newissue_photoupload" />
+
+                    <TextView
+                        android:id="@+id/txt_NewIssueByPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Photo" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Lnl_Microphone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/Img_IssueInfo_AddVoice"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@mipmap/btn_microphone_gray" />
+
+                    <TextView
+                        android:id="@+id/txt_Microphone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Microphone" />
+                </LinearLayout>
+
+
+                />
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:paddingLeft="13dp"-->
+                <!--android:layout_toRightOf="@+id/Img_IssueInfo_AddPhoto"-->
+                <!--android:layout_toLeftOf="@+id/Img_IssueInfo_Send"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:textSize="45sp"-->
+                <!--android:text="Photo"-->
+                <!--android:textColor="@color/NewIssue_Attachment"-->
+                <!--/>-->
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/Btn_Finish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/ActionBar_Background"
+                    android:text="Send" />
+
+                <Button
+                    android:id="@+id/Btn_Cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/ActionBar_Background"
+                    android:text="Cancel" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 

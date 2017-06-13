@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    tools:context="com.example.yujhaochen.ims.MainDefault">
+    tools:context="com.apps.ims.MainDefault">
 
 
     <Button

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.example.yujhaochen.ims.VideoRecord">
+    tools:context="com.apps.ims.VideoRecord">
     >
     <FrameLayout
         android:id="@+id/camera_preview"
@@ -12,12 +12,12 @@
         android:layout_height="fill_parent"
         android:layout_weight="1">
 
-        <com.example.yujhaochen.ims.VideoPreview
+        <com.apps.ims.VideoPreview
             android:id="@+id/videorecordview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </com.example.yujhaochen.ims.VideoPreview>
+        </com.apps.ims.VideoPreview>
 
         <Button
             android:id="@+id/switch_camera"

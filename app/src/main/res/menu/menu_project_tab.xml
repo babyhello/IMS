@@ -5,4 +5,8 @@
 
     <item android:id="@+id/ProjectSort"
         android:title="Project Sort" />
+
+    <item
+        android:id="@+id/Contact"
+        android:title="Help Desk" />
 </menu>

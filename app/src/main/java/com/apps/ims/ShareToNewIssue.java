@@ -65,6 +65,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 //import com.nguyenhoanglam.imagepicker.activity.ImagePicker;
 //import com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity;
 
@@ -123,11 +124,12 @@ public class ShareToNewIssue extends AppCompatActivity {
 
         Bundle Bundle = this.getIntent().getExtras();
 
-
         EditText txt_NewIssue_Subjectv = (EditText) findViewById(R.id.txt_NewIssue_Subject);
 
-        if (Bundle.getString("Subject") != null) {
-            txt_NewIssue_Subjectv.setText(Bundle.getString("Subject"));
+        if (Bundle != null) {
+            if (Bundle.getString("Subject") != null) {
+                txt_NewIssue_Subjectv.setText(Bundle.getString("Subject"));
+            }
         }
 
 
@@ -171,7 +173,17 @@ public class ShareToNewIssue extends AppCompatActivity {
     public void onResume() {
 
 
+        // TODO Auto-generated method stub
         super.onResume();
+
+//        answer_et.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                InputMethodManager imm = (InputMethodManager)getSystemService(
+//                        Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+//            }
+//        }, 100);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -200,16 +212,43 @@ public class ShareToNewIssue extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        UserDB UserDB = new UserDB(ShareToNewIssue.this);
+
+        //如果進來程式有資料的話就不用再登入
+        if (UserDB.getCount() > 0) {
+
+            UserData UserData = new UserData();
+
+            UserData = UserDB.getAll().get(0);
+
+        } else {
+            Intent intent = new Intent(ShareToNewIssue.this, LoginAccount.class);
+            startActivity(intent);
+            ShareToNewIssue.this.finish();
+        }
+
         setContentView(R.layout.activity_share_newissue);
 
         pDialog = new ProgressDialog(this);
 
+        View view = this.getCurrentFocus();
+
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+
+        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle("Select Project");
 
         LinearLayout Lnl_Picture = (LinearLayout) findViewById(R.id.Lnl_Picture);
         LinearLayout Lnl_Camera = (LinearLayout) findViewById(R.id.Lnl_Camera);
         LinearLayout Lnl_Microphone = (LinearLayout) findViewById(R.id.Lnl_Microphone);
         LinearLayout Lnl_Photo = (LinearLayout) findViewById(R.id.Lnl_Photo);
-
+        LinearLayout Lnl_Contact = (LinearLayout) findViewById(R.id.Lnl_Contact);
+        final LinearLayout Lnl_Model = (LinearLayout) findViewById(R.id.Lnl_Model);
 
         Lnl_Picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +319,17 @@ public class ShareToNewIssue extends AppCompatActivity {
             }
         });
 
+        //HelpDeskFunction();
+
+        Lnl_Contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                HelpDeskFunction();
+
+
+            }
+        });
 
         TextView txt_NewIssue_Finish = (TextView) findViewById(R.id.txt_NewIssue_Finish);
 
@@ -345,6 +395,7 @@ public class ShareToNewIssue extends AppCompatActivity {
         // Get intent, action and MIME type
         Intent intent = getIntent();
 
+
         if (intent != null) {
             String action = intent.getAction();
 
@@ -366,10 +417,26 @@ public class ShareToNewIssue extends AppCompatActivity {
                 }
             } else {
                 ImageView Img_ViewIssuePhoto = (ImageView) findViewById(com.apps.ims.R.id.Img_ViewIssuePhoto);
-                Img_ViewIssuePhoto.setImageBitmap(AppClass.loadBitmap(ImagePath));
+
+                if (ImagePath != null) {
+                    Img_ViewIssuePhoto.setImageBitmap(AppClass.loadBitmap(ImagePath));
+                }
+
             }
         }
 
+    }
+
+    private void HelpDeskFunction() {
+        final LinearLayout Lnl_Model = (LinearLayout) findViewById(R.id.Lnl_Model);
+
+        ModelID = "12895";
+
+        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle("Help Desk");
+
+        Lnl_Model.setVisibility(View.GONE);
     }
 
     private void GetPM_Data(String WorkID) {
@@ -430,12 +497,6 @@ public class ShareToNewIssue extends AppCompatActivity {
 
                         ModelID = Project_List.get(position).GetModelID();
 
-                        ModelName = Project_List.get(position).GetName();
-
-                        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
-                        setSupportActionBar(mActionBarToolbar);
-                        getSupportActionBar().setTitle(ModelName);
-
                     }
 
                     @Override
@@ -470,14 +531,15 @@ public class ShareToNewIssue extends AppCompatActivity {
             ContentResolver cr = this.getContentResolver();
             try {
 
+                ImagePath = getRealPathFromURI(this, uri);
 
-                ImagePath = uri.getPath();
+                String filename = ImagePath.substring(ImagePath.lastIndexOf("/") + 1);
 
                 Bitmap photo = FileUtil.FilePathGetBitMap(ImagePath);
 
                 Bitmap minibm = ThumbnailUtils.extractThumbnail(photo, 1024, 800);
 
-                AddImageItem(minibm, ImageFile.getName(), ImageFile.getAbsolutePath());
+                AddImageItem(minibm, filename, ImagePath);
 
             } catch (Exception e) {
                 Log.e("Exception", e.getMessage(), e);
@@ -522,7 +584,7 @@ public class ShareToNewIssue extends AppCompatActivity {
         }
 
         String Path = GetServiceData.ServicePath + "/Issue_Init?F_Keyin=" + WorkID;
-        System.out.println(WorkID);
+
         GetServiceData.getString(Path, mQueue, new GetServiceData.VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {

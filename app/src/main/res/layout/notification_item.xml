@@ -28,7 +28,7 @@
                 android:id="@+id/Img_Notification_Author"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@mipmap/ic_notification_msitoday" />
+                android:src="@mipmap/ic_notif_msinews_logo" />
 
 
         </LinearLayout>

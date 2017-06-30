@@ -153,7 +153,7 @@ public class MainTab extends AppCompatActivity {
                         setTitle("Issue");
                         break;
                     case 2:
-                        setTitle("Notification");
+                        setTitle("msi News+");
                         break;
                     case 3:
 
@@ -254,7 +254,7 @@ public class MainTab extends AppCompatActivity {
                 setTitle("Issue");
                 break;
             case 2:
-                setTitle("Notification");
+                setTitle("msi News+");
                 break;
             case 3:
                 setTitle("Setting");
@@ -779,6 +779,15 @@ public class MainTab extends AppCompatActivity {
                 {
                     a.Project_Sort();
                 }
+            case com.apps.ims.R.id.Contact:
+
+                Intent intent = new Intent(this, ShareToNewIssue.class);
+
+                // 呼叫「startActivity」，參數為一個建立好的Intent物件
+                // 這行敘述執行以後，如果沒有任何錯誤，就會啟動指定的元件
+                startActivity(intent);
+
+
 
             default:
                 return false;

@@ -10,4 +10,7 @@
         android:title="QR Code"
         android:actionLayout="@mipmap/btn_photo" />
 
+    <item
+        android:id="@+id/Contact"
+        android:title="Help Desk" />
 </menu>

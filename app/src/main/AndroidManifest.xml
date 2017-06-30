@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.apps.ims"
-    android:versionCode="45"
-    android:versionName="45">
+    android:versionCode="46"
+    android:versionName="46">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -28,7 +28,7 @@
     <application
         android:name="com.apps.ims.IMSApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ims_app_icon"
+        android:icon="@mipmap/ims_appicon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -107,7 +107,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.apps.ims.Main2Activity" />
         <activity android:name="com.apps.ims.Test">
 
             <!-- <intent-filter android:label="@string/app_name"> -->
@@ -173,7 +172,9 @@
         <activity
             android:name="com.apps.ims.ShareToNewIssue"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait"
+            android:label="ShareToIMS"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -210,6 +211,48 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+        <!--<activity-->
+        <!--android:name="com.apps.ims.SpeedNewIssue"-->
+
+        <!--android:configChanges="orientation|screenSize|keyboardHidden"-->
+        <!--android:windowSoftInputMode="stateHidden|adjustResize"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@style/AppTheme">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.SEND_MULTIPLE" />-->
+
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+
+        <!--<data android:mimeType="application/*" />-->
+        <!--<data android:mimeType="audio/*" />-->
+        <!--<data android:mimeType="image/*" />-->
+        <!--<data android:mimeType="message/*" />-->
+        <!--<data android:mimeType="multipart/*" />-->
+        <!--<data android:mimeType="text/*" />-->
+        <!--<data android:mimeType="video/*" />-->
+        <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.SEND" />-->
+
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+
+        <!--<data android:mimeType="text/plain" />-->
+        <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.SEND_MULTIPLE" />-->
+
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+
+        <!--<data android:mimeType="image/*" />-->
+        <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.SEND_MULTIPLE" />-->
+
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+
+        <!--<data android:mimeType="video/*" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
         <activity android:name="com.apps.ims.VPN" />
         <activity android:name="com.apps.ims.photo_gallery" />
         <activity

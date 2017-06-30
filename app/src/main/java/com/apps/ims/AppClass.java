@@ -176,7 +176,7 @@ public class AppClass {
         return PriorityImage;
     }
 
-    
+
     public static Bitmap roundCornerImage(Bitmap raw, float round) {
         int width = raw.getWidth();
         int height = raw.getHeight();

@@ -81,7 +81,6 @@ public class LoginPassword extends Activity {
 
                     UserDB.insert(UserDataClass);
 
-
                     Intent intent = new Intent(getBaseContext(), MainTab.class);
 
                     startActivity(intent);

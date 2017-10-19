@@ -73,14 +73,13 @@
                         android:layout_toEndOf="@+id/Img_MSI_Logo" />
                 </RelativeLayout>
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_gravity="center_horizontal"
                 android:text="Your Outlook ID"
-                android:textSize="@dimen/text_size_medium"
-                android:textColor="@color/Login_Outlook"
-                android:layout_gravity="center_horizontal" />
+                 />
 
 
         </LinearLayout>
@@ -95,24 +94,31 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
 
             <EditText
                 android:id="@+id/txt_Login_Account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:background="@null"
-                android:gravity="center"
+                android:ellipsize="end"
+                android:gravity="right|center"
                 android:hint="Enter the Outlook ID"
                 android:singleLine="true"
                 android:textColorHint="@color/Login_Outlook_Account"
                 android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text=" @msi.com" />
 
 
         </LinearLayout>

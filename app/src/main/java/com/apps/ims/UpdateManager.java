@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -207,25 +209,32 @@ public class UpdateManager extends Activity {
     }
 
     private void installApk() {
+
+
         File apkfile = new File(saveFileName);
         if (!apkfile.exists()) {
             return;
         }
-//        Intent i = new Intent(Intent.ACTION_VIEW);
-//
-//        //File UpdateFile = new File("file://" + apkfile.toString());
-//
-//        i.setDataAndType(Uri.fromFile(apkfile), "application/vnd.Android.package-archive");
-//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//        System.out.println(apkfile.toString());
-        //mContext.startActivity(i);
 
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setAction(android.content.Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(apkfile),
-                "application/vnd.android.package-archive");
+//        FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".my.package.name.provider", createImageFile());
+        ;
+
+        if(Build.VERSION.SDK_INT >=24) {
+            intent.setDataAndType(Uri.fromFile(apkfile),
+                    "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(FileProvider.getUriForFile(mContext,mContext.getApplicationContext().getPackageName()+ ".com.apps.ims.provider",apkfile),
+                    "application/vnd.android.package-archive");
+        }
+
         mContext.startActivity(intent);
+
+
+
+
     }
 }

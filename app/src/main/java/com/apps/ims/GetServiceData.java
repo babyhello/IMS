@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -463,7 +464,7 @@ public class GetServiceData {
 
                         String Version = String.valueOf(IssueData.getInt("Version"));
 
-                        String Path = String.valueOf(IssueData.getInt("Path"));
+                        String Path = String.valueOf(IssueData.getString("Path"));
 
                         if (Version != String.valueOf(versionCode)) {
                             mUpdateManager = new UpdateManager(context, Path);
@@ -473,7 +474,7 @@ public class GetServiceData {
 
                     }
                 } catch (JSONException ex) {
-
+                    Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }

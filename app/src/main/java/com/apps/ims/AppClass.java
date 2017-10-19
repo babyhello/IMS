@@ -11,14 +11,27 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Environment;
 import android.text.Html;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -256,4 +269,159 @@ public class AppClass {
 
 
     }
+
+    private static String SaveImageData(Bitmap finalBitmap) {
+
+        String FullPath = "";
+        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File myDir = new File(root + "/saved_images");
+
+        myDir.mkdirs();
+
+        String fname = java.util.UUID.randomUUID().toString() +".jpg";
+        FullPath = myDir.getPath() + "/" + fname;
+
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return FullPath;
+    }
+
+    private static void SaveImage(final PhotoData PhotoDataItem,final LaunchPhoto LaunchPhoto,final Boolean UpdateType,Context mContext) {
+        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+
+
+        // Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(GetServiceData.ServicePath + "/Get_File?FileName=" + PhotoDataItem.photo_downloadPath,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        //mImageView.setImageBitmap(bitmap);
+
+                        String SaveImage = SaveImageData(bitmap);
+
+                        PhotoData.photo_path = SaveImage;
+
+                        if (UpdateType)
+                        {
+                            LaunchPhoto.update(PhotoDataItem);
+                        }
+                        else
+                        {
+                            LaunchPhoto.insert(PhotoDataItem);
+                        }
+
+
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        // mImageView.setImageResource(R.drawable.image_load_error);
+                    }
+                });
+                // Access the RequestQueue through your singleton class.
+        mQueue.add(request);
+
+    }
+
+    public static void Get_Server_All_Image(final Context mContext) {
+
+        RequestQueue mQueue = Volley.newRequestQueue(mContext);
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        String Path = GetServiceData.ServicePath + "/Get_Server_All_Image";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        String now = formatter.format(new Date());
+
+        final LaunchPhoto LaunchPhoto = new LaunchPhoto(mContext);
+
+        final List<PhotoData> WebPhotoList = new ArrayList<PhotoData>();
+
+        final List<PhotoData> LocalPhotoList = LaunchPhoto.getAll(now);
+
+        GetServiceData.SendPostRequest(Path, mQueue, new GetServiceData.VolleyStringCallback() {
+            @Override
+            public void onSendRequestSuccess(String result) {
+
+                try {
+
+                    JSONObject obj = new JSONObject(result);
+
+                    JSONArray ImageArray = new JSONArray(obj.getString("Key"));
+
+                    for (int i = 0; i < ImageArray.length(); i++) {
+
+                        JSONObject ImageData = ImageArray.getJSONObject(i);
+
+                        String Update = ImageData.getString("Update");
+
+                        String Downdate = ImageData.getString("Downdate");
+
+                        String F_AppDownloadFilePath = ImageData.getString("F_AppDownloadFilePath");
+
+                        String Item = String.valueOf(ImageData.getInt("Item"));
+
+                        WebPhotoList.add(new PhotoData(" ", Downdate.replace("T",""), Update.replace("T",""), "", "", F_AppDownloadFilePath, Item));
+
+                    }
+
+                } catch (JSONException ex) {
+
+                }
+
+                boolean CheckAdd = false;
+
+                for (PhotoData PhotoDataItem:WebPhotoList) {
+                    CheckAdd = false;
+
+                    for (PhotoData LocalItem:LocalPhotoList) {
+
+                        if (PhotoDataItem.photo_item == LocalItem.photo_downloadPath)
+                        {
+                            CheckAdd = true;
+
+                            if (PhotoDataItem.photo_downloadPath != LocalItem.photo_downloadPath)
+                            {
+                                LocalItem.photo_downloadPath = PhotoDataItem.photo_downloadPath;
+
+                                SaveImage(LocalItem,LaunchPhoto,true,mContext);
+                            }
+                        }
+                    }
+
+                    if (!CheckAdd)
+                    {
+                        SaveImage(PhotoDataItem,LaunchPhoto,true,mContext);
+                    }
+
+                }
+
+               // PhotoData PhotoDataItem =  new PhotoData(" ", Downdate, Update, "", "", F_AppDownloadFilePath, Item);
+            }
+
+            @Override
+            public void onSendRequestError(String result) {
+
+            }
+        }, map);
+
+
+
+        Log.w("eeeeeeeeeeeeeeeeee",String.valueOf(WebPhotoList.size()));
+        Log.w("eeeeeeeeeeeeeeeeee",String.valueOf(WebPhotoList.size()));
+    }
+
 }

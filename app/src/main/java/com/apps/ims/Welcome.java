@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -19,8 +21,7 @@ public class Welcome extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(com.apps.ims.R.layout.activity_welcome);
 
-
-//        test
+//        AppClass.Get_Server_All_Image(this);
 
         FirebaseMessaging.getInstance().subscribeToTopic("dogs");
         //這裡來檢測版本是否需要更新

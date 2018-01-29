@@ -224,7 +224,8 @@ public class UpdateManager extends Activity {
         ;
 
         if(Build.VERSION.SDK_INT >=24) {
-            intent.setDataAndType(Uri.fromFile(apkfile),
+
+            intent.setDataAndType(AppClass.GetFileURI(mContext,apkfile,intent),
                     "application/vnd.android.package-archive");
         } else {
             intent.setDataAndType(FileProvider.getUriForFile(mContext,mContext.getApplicationContext().getPackageName()+ ".com.apps.ims.provider",apkfile),

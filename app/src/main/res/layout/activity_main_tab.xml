@@ -33,7 +33,6 @@
                 android:paddingRight="10dp"
                 android:src="@mipmap/btn_scan_qrcode" />
 
-
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

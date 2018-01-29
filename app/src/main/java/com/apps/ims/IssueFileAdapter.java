@@ -77,7 +77,7 @@ public class IssueFileAdapter extends RecyclerView.Adapter<IssueFileAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 
-        if (mDatas.get(i).GetImage().toLowerCase().contains(".mp4")) {
+        if (mDatas.get(i).GetImage().toLowerCase().contains(".mp4") || mDatas.get(i).GetImage().toLowerCase().contains(".mov")) {
 
             final String VideoPath = mDatas.get(i).GetImage();
 

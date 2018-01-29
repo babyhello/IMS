@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -58,12 +59,15 @@ public class MainDefault extends Activity {
 
     static boolean QR_Code_Checked = false;
 
+    private Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.apps.ims.R.layout.activity_main_default);
 
         ImageView IMG_Camera = (ImageView) findViewById(com.apps.ims.R.id.IMG_Camera);
+
+        mContext = this;
 
         IMG_Camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,7 +305,7 @@ public class MainDefault extends Activity {
 
                 ImageFile = pictureFile;
 
-                Uri uri = Uri.fromFile(pictureFile);
+                Uri uri =  AppClass.GetFileURI(mContext,pictureFile,intentCamera);
                 // 設定檔案名稱
                 intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 // 啟動相機元件

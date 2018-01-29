@@ -101,6 +101,9 @@ public class MyIssue extends Fragment {
 
         lsv_main.setOnItemClickListener(listViewOnItemClickListener);
 
+
+
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(com.apps.ims.R.id.refresh_layout);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -136,6 +139,8 @@ public class MyIssue extends Fragment {
             Issue_Item Issue_Item = (Issue_Item) IssueAdapter.getItem(position);
 
             GoIssueInfo(Issue_Item.GetID());
+
+
         }
     };
 

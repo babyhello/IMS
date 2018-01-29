@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -61,6 +63,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+
 
 public class NewIssue extends AppCompatActivity {
 
@@ -103,6 +107,8 @@ public class NewIssue extends AppCompatActivity {
     private RequestQueue mQueue;
 
     private ArrayList<String> mMultiPhotoPath = new ArrayList<>();
+
+    private Context mContext;
 
     private void initData() {
 
@@ -220,6 +226,8 @@ public class NewIssue extends AppCompatActivity {
         setContentView(com.apps.ims.R.layout.activity_new_issue);
 
         pDialog = new ProgressDialog(this);
+
+        mContext = this;
 
 //        RelativeLayout NewIssue_Attachment = (RelativeLayout) findViewById(R.id.NewIssue_Attachment);
 //
@@ -803,17 +811,19 @@ public class NewIssue extends AppCompatActivity {
                 );
 
             } else {
-                System.out.println("CAMERA");
+
 
                 Intent intentCamera =
                         new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
 
                 // 照片檔案名稱
                 File pictureFile = configFileName("P", ".jpg");
 
                 ImageFile = pictureFile;
 
-                Uri uri = Uri.fromFile(pictureFile);
+                Uri uri = AppClass.GetFileURI(mContext,pictureFile,intentCamera);
                 // 設定檔案名稱
                 intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 // 啟動相機元件
@@ -981,7 +991,7 @@ public class NewIssue extends AppCompatActivity {
 
                     VideoFile = _VideoFile;
 
-                    Uri uri = Uri.fromFile(_VideoFile);
+                    Uri uri =    AppClass.GetFileURI(mContext,_VideoFile,takeVideoIntent);
                     // 設定檔案名稱
                     takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 

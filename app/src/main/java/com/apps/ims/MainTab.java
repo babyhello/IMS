@@ -109,6 +109,7 @@ public class MainTab extends AppCompatActivity {
 
     private RequestQueue mQueue;
 
+    private Context mContext;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         // TODO Auto-generated method stub
@@ -126,6 +127,7 @@ public class MainTab extends AppCompatActivity {
 
         setContentView(com.apps.ims.R.layout.activity_main_tab);
 
+        mContext = this;
         Toolbar toolbar = (Toolbar) findViewById(com.apps.ims.R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -198,7 +200,7 @@ public class MainTab extends AppCompatActivity {
                     UserDB.UpdateLastTab(String.valueOf(tab.getPosition()), UserData.WorkID);
                 }
 
-                invalidateOptionsMenu();
+               supportInvalidateOptionsMenu();
             }
 
             @Override
@@ -524,7 +526,7 @@ public class MainTab extends AppCompatActivity {
 
                 ImageFile = pictureFile;
 
-                Uri uri = Uri.fromFile(pictureFile);
+                Uri uri =  AppClass.GetFileURI(mContext,pictureFile,intentCamera);
                 // 設定檔案名稱
                 intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 // 啟動相機元件
@@ -747,24 +749,6 @@ public class MainTab extends AppCompatActivity {
         int item_id = item.getItemId();
 
         switch (item_id) {
-//            case R.id.New_Issue:
-//
-//                Intent CameraIntent = new Intent(MainTab.this, VideoRecord.class);
-//
-//                Bundle bundle = new Bundle();
-//
-//                bundle.putString("FilePath", configFileName("P", ".jpg").getAbsolutePath());
-//
-//                CameraIntent.putExtras(bundle);
-//
-//                startActivityForResult(CameraIntent, REQUEST_IMAGE_CAPTURE);
-//
-//                break;
-//            case R.id.GallyToNewIssue:
-//                Intent i = new Intent(Intent.ACTION_PICK, null);
-//                i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//                startActivityForResult(i, PICK_FROM_GALLERY);
-//                break;
             case com.apps.ims.R.id.QRCode:
                 QR_Code_Scan_Start();
                 break;
@@ -782,6 +766,7 @@ public class MainTab extends AppCompatActivity {
                 {
                     a.Project_Sort();
                 }
+                break;
             case com.apps.ims.R.id.Contact:
 
                 Intent intent = new Intent(this, ShareToNewIssue.class);
@@ -791,7 +776,7 @@ public class MainTab extends AppCompatActivity {
                 startActivity(intent);
 
 
-
+                break;
             default:
                 return false;
         }

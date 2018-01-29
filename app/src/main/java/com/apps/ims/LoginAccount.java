@@ -29,12 +29,14 @@ public class LoginAccount extends Activity {
 
     private File ImageFile;
 
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.apps.ims.R.layout.activity_login_account);
 
+        mContext = this;
 
         Button button = (Button) findViewById(com.apps.ims.R.id.Btn_Login_Account);
         button.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +148,8 @@ public class LoginAccount extends Activity {
         File pictureFile = configFileName("P", ".jpg");
 
         ImageFile = pictureFile;
-        Uri uri = Uri.fromFile(pictureFile);
+
+        Uri uri = AppClass.GetFileURI(mContext,pictureFile,intentCamera);
         // 設定檔案名稱
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         // 啟動相機元件

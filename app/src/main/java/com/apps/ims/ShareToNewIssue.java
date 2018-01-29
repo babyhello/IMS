@@ -92,6 +92,7 @@ public class ShareToNewIssue extends AppCompatActivity {
     private Camera camera;
     List<NewIssueFile_Item> NewIssueFile_List = new ArrayList<NewIssueFile_Item>();
 
+    private Context mContext;
     private String IssueID;
 
     private String ModelID;
@@ -211,6 +212,8 @@ public class ShareToNewIssue extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        mContext = this;
 
         UserDB UserDB = new UserDB(ShareToNewIssue.this);
 
@@ -959,7 +962,7 @@ public class ShareToNewIssue extends AppCompatActivity {
 
                 ImageFile = pictureFile;
 
-                Uri uri = Uri.fromFile(pictureFile);
+                Uri uri = AppClass.GetFileURI(mContext,pictureFile,intentCamera);
                 // 設定檔案名稱
                 intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 // 啟動相機元件
@@ -1126,7 +1129,7 @@ public class ShareToNewIssue extends AppCompatActivity {
 
                     VideoFile = _VideoFile;
 
-                    Uri uri = Uri.fromFile(_VideoFile);
+                    Uri uri = AppClass.GetFileURI(mContext,_VideoFile,takeVideoIntent);
                     // 設定檔案名稱
                     takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 

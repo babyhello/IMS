@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.ims.Main2Activity">
+    <RelativeLayout
+        android:id="@+id/relativeScanLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dip" >
+
+    <FrameLayout
+        android:id="@+id/frame_scan"
+        android:layout_width="300dip"
+        android:layout_height="300dip"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" >
+
+        <include layout="@layout/zxing_capture" />
+
+        // Include the scanning area here
+
+    </FrameLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

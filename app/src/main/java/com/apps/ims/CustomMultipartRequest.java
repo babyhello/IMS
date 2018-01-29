@@ -3,6 +3,7 @@ package com.apps.ims;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
@@ -46,7 +47,7 @@ public class CustomMultipartRequest extends Request<JSONObject> {
     private Context mContext;
 
 
-    public CustomMultipartRequest(int method, Context mContext, String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener, Map<String, File> mFilePartData, Map<String, String> mStringPart, Map<String, String> mHeaderPart) {
+    public CustomMultipartRequest(int method, Context mContext, String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener, Map<String, File> mFilePartData, Map<String, String> mStringPart, Map<String, String> mHeaderPart,Intent intent) {
         super(method, url, errorListener);
         mListener = listener;
         this.mFilePartData = mFilePartData;
@@ -54,13 +55,14 @@ public class CustomMultipartRequest extends Request<JSONObject> {
         this.mHeaderPart = mHeaderPart;
         this.mContext = mContext;
         mEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        buildMultipartFileEntity();
+        buildMultipartFileEntity(intent);
         //buildMultipartTextEntity();
         mHttpEntity = mEntityBuilder.build();
     }
 
-    public static String getMimeType(Context context, String url) {
-        Uri uri = Uri.fromFile(new File(url));
+    public static String getMimeType(Context context, String url,Intent intent) {
+
+        Uri uri = AppClass.GetFileURI(context,new File(url),intent);
         String mimeType = null;
         if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
             ContentResolver cr = context.getContentResolver();
@@ -78,13 +80,13 @@ public class CustomMultipartRequest extends Request<JSONObject> {
 
     }
 
-    private void buildMultipartFileEntity() {
+    private void buildMultipartFileEntity(Intent intent) {
         for (Map.Entry<String, File> entry : mFilePartData.entrySet()) {
             try {
 
                 String key = entry.getKey();
                 File file = entry.getValue();
-                String mimeType = getMimeType(mContext, file.toString());
+                String mimeType = getMimeType(mContext, file.toString(),intent);
                 System.out.println(mimeType);
                 mEntityBuilder.addBinaryBody(key, file, ContentType.create(mimeType), file.getName());
 

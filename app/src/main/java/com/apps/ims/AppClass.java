@@ -2,6 +2,9 @@ package com.apps.ims;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,7 +14,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
@@ -114,6 +119,20 @@ public class AppClass {
 
     public static String stripHtml(String html) {
         return Html.fromHtml(html).toString();
+    }
+
+    public static Uri GetFileURI(Context mContext, File FileName,Intent intent)
+    {
+        Uri FilePath = FileProvider.getUriForFile(mContext,mContext.getApplicationContext().getPackageName() + ".com.apps.ims.provider",FileName);
+
+        //就是這段 花了我一整天的時間....
+        List<ResolveInfo> resInfoList = mContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            mContext.grantUriPermission(packageName, FilePath, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        return  FilePath;
     }
 
     public static String ConvertDateString(String Date) {
